@@ -1,7 +1,7 @@
 ---
-title: Pandas
-date: 2023-10-26
-external_link: https://github.com/pandas-dev/pandas
+title: HyperKKl
+date: 2024-07-18
+external_link: https://github.com/yehias21/HyperKKl
 tags:
   - Hugo
   - Wowchemy

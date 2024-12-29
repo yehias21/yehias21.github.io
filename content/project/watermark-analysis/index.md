@@ -1,7 +1,7 @@
 ---
-title: PyTorch
-date: 2023-10-26
-external_link: https://github.com/pytorch/pytorch
+title: Watermark Analysis
+date: 2024-11-21
+external_link: https://github.com/yehias21/watermark-analysis
 tags:
   - Hugo
   - Wowchemy

@@ -1,7 +1,7 @@
 ---
-title: scikit-learn
-date: 2023-10-26
-external_link: https://github.com/scikit-learn/scikit-learn
+title: flower
+date: 2024-02-01
+external_link: https://flower.ai/docs/baselines/fedpara.html
 tags:
   - Hugo
   - Wowchemy
