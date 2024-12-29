@@ -47,10 +47,10 @@ profiles:
   url: https://orcid.org/0009-0000-1031-6509
 
 interests:
-  - Natural Language Processing
   - Reinforcement Learning
   - Graph Learning
-
+  - Natural Language Processing
+  - Machine
 education:
   - area: MSc Machine Learning
     date_end: "2026-05-31"
@@ -176,6 +176,16 @@ languages:
 #   Only `title`, `awarder`, and `date` are required.
 #   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
 awards:
+  - awarder: McKinsey & Co.
+    date: "2024-12-17"
+    icon: medal
+    summary: |
+      - Developed Leadership Skills: Mastered the art of leading with influence, making strategic decisions, and inspiring teams through collaborative and adaptive leadership techniques.
+      - Enhanced Problem-Solving Abilities: Gained a structured approach to tackling complex challenges, leveraging critical thinking, and innovative solutions.
+      - Improved Communication Skills: Learned effective communication strategies, including active listening, persuasive storytelling, and engaging presentations.
+    title: Mckinsey Forward Program Certificate
+    url: https://www.mckinsey.com/forward/overview
+    certificate_url: https://www.credly.com/badges/c24264c8-956c-41fe-95e2-57fc22506423
   - awarder: InSilico Medicine
     date: "2024-03-15"
     icon: medal
@@ -211,15 +221,6 @@ awards:
       Ranked first in the Microsoft Azure ML ROV Challenge 2021.
     title: Microsoft Azure ML Challenge Winner
     url: https://azure.microsoft.com/
-
-  - title: 'Object-Oriented Programming in R'
-    url: https://www.datacamp.com/courses/object-oriented-programming-with-s3-and-r6-in-r
-    certificate_url: https://www.datacamp.com
-    date: '2023-01-21'
-    awarder: datacamp
-    icon: datacamp
-    summary: |
-      Object-oriented programming (OOP) lets you specify relationships between functions and the objects that they can act on, helping you manage complexity in your code. This is an intermediate level course, providing an introduction to OOP, using the S3 and R6 systems. S3 is a great day-to-day R programming tool that simplifies some of the functions that you write. R6 is especially useful for industry-specific analyses, working with web APIs, and building GUIs.
 ---
 
 ## About Me
