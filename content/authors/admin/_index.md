@@ -50,7 +50,7 @@ interests:
   - Reinforcement Learning
   - Graph Learning
   - Natural Language Processing
-  - Machine
+  - Machine Learning at scale
 education:
   - area: MSc Machine Learning
     date_end: "2026-05-31"

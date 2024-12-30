@@ -46,10 +46,11 @@ sections:
     id: research
     content:
       title: Current Work
+      count: 3
       filters:
         folders:
           - publication
-        featured_only: true
+        # featured_only: true
     design:
       view: article-grid
       columns: 3
@@ -57,6 +58,7 @@ sections:
   #   content:
   #     title: Recent Publications
   #     text: ""
+  #     count: 1
   #     filters:
   #       folders:
   #         - publication

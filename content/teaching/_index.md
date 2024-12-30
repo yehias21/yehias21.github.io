@@ -1,5 +1,5 @@
 ---
-title: Teaching
+title: Courses
 summary: My courses
 type: landing
 
@@ -11,9 +11,9 @@ cascade:
 
 sections:
   - block: collection
-    id: teaching
+    id: courses
     content:
-      title: Teaching
+      title: courses
       filters:
         folders:
           - teaching
