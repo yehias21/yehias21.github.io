@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flower Labs | Freudian Scientist</title>
+    <link>http://localhost:1313/tags/flower-labs/</link>
+      <atom:link href="http://localhost:1313/tags/flower-labs/index.xml" rel="self" type="application/rss+xml" />
+    <description>Flower Labs</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/media/icon_hu16098361411901325345.png</url>
+      <title>Flower Labs</title>
+      <link>http://localhost:1313/tags/flower-labs/</link>
+    </image>
+    
+    <item>
+      <title>Open Source Contribution - Fedpara</title>
+      <link>http://localhost:1313/project/flower/</link>
+      <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/flower/</guid>
+      <description>&lt;p&gt;scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

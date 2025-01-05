@@ -37,13 +37,16 @@ profiles:
   label: Linkedin profile
   url: https://www.linkedin.com/in/yehiasalah21/
 - icon: brands/x
+  label: Twitter
   url: https://x.com/SalaheldinYahia
 - icon: brands/github
   label: Github 
   url: https://github.com/yehias21
-- icon: /media/leetcode.svg
+- icon: custom/leetcode
+  label: Leetcode 
   url: https://leetcode.com/u/yehias21/
 - icon: academicons/orcid
+  label: Orcid
   url: https://orcid.org/0009-0000-1031-6509
 
 interests:
@@ -87,7 +90,7 @@ work:
   summary: |
     - Developed multi-spectral models for crop segmentation and DICOM pipelines for breast cancer screening.
     - Optimized deep learning models for deployment with pruning and quantization.
-- company_logo: "/path/to/logo.png"
+- company_logo: stacked-peaks
   company_name: Flower Labs
   company_url: https://flower.dev/
   date_end: "2023-10-31"
@@ -121,16 +124,16 @@ skills:
       - name: Python
         description: ''
         percent: 80
-        icon: code-bracket
-      - name: Data Science
+        icon: python
+      - name: Graph Learning
         description: ''
         percent: 100
         icon: chart-bar
-      - name: SQL
+      - name: Reinforcement Learning
         description: ''
         percent: 40
         icon: circle-stack
-  - name: Technical Skills
+  - name: 
     items:
       - name: Python
         description: ''
@@ -145,8 +148,6 @@ skills:
         percent: 40
         icon: circle-stack
   - name: Hobbies
-    color: '#eeac02'
-    color_border: '#f0bf23'
     items:
       - name: Boxing
         description: ''
@@ -156,20 +157,26 @@ skills:
         description: ''
         percent: 100
         icon: Kayaking
+  - name: 
+    items:
+      - name: Car Mechanic
+        description: ''
+        icon: camera
       - name: Photography
         description: ''
-        percent: 80
         icon: camera
-
+      - name: Chess
+        description: ''
+        icon: camera
 languages:
 - name: Arabic
-  percent: 100
+  percent: C2
 - name: English
-  percent: 100
+  percent: C1
 - name: French
-  percent: 80
+  percent: C1
 - name: German
-  percent: 20
+  percent: A2
 
 # Awards.
 #   Add/remove as many awards below as you like.
@@ -178,7 +185,7 @@ languages:
 awards:
   - awarder: McKinsey & Co.
     date: "2024-12-17"
-    icon: medal
+    icon: custom/leetcode
     summary: |
       - Developed Leadership Skills: Mastered the art of leading with influence, making strategic decisions, and inspiring teams through collaborative and adaptive leadership techniques.
       - Enhanced Problem-Solving Abilities: Gained a structured approach to tackling complex challenges, leveraging critical thinking, and innovative solutions.
@@ -225,5 +232,4 @@ awards:
 
 ## About Me
 
-Yahia Salaheldin Shaaban is an MSc student specializing in Machine Learning at MBZUAI. His research interests include NLP, Reinforcement Learning, and Graph Learning. He is passionate about building innovative AI solutions and connecting ideas and people to advance the field of machine learning.
-
+I am Yahia, a first year msc student at MBZUAI. I have 2 years working experience. My experience spans from startups to corporates spanning both research and industrial. I like developing and implementing new ideas, and meeting/connecting with people.

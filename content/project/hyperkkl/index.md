@@ -3,11 +3,9 @@ title: HyperKKl
 date: 2024-07-18
 external_link: https://github.com/yehias21/HyperKKl
 tags:
-  - Hugo
-  - Wowchemy
-  - Markdown
+  - MIT - Fatima Fellowship
 ---
 
-Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures.
+Supervised under Dr. Muhammed Umar Niazi. I developed a modular library for design KKL observers. I extended the library
 
 <!--more-->

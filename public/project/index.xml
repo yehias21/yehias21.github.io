@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects | Hugo Academic CV Theme</title>
+    <title>Projects | Freudian Scientist</title>
     <link>http://localhost:1313/project/</link>
       <atom:link href="http://localhost:1313/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 21 Nov 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:1313/media/icon_hu16098361411901325345.png</url>
       <title>Projects</title>
       <link>http://localhost:1313/project/</link>
     </image>
@@ -25,11 +25,11 @@
       <link>http://localhost:1313/project/hyperkkl/</link>
       <pubDate>Thu, 18 Jul 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/hyperkkl/</guid>
-      <description>&lt;p&gt;Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Supervised under Dr. Muhammed Umar Niazi. I developed a modular library for design KKL observers. I extended the library&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>flower</title>
+      <title>Open Source Contribution - Fedpara</title>
       <link>http://localhost:1313/project/flower/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/flower/</guid>

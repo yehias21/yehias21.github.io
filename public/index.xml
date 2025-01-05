@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo Academic CV Theme</title>
+    <title>Freudian Scientist</title>
     <link>http://localhost:1313/</link>
       <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <description>Hugo Academic CV Theme</description>
-    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Mon, 24 Oct 2022 00:00:00 +0000</lastBuildDate>
+    <description>Freudian Scientist</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
-      <title>Hugo Academic CV Theme</title>
+      <url>http://localhost:1313/media/icon_hu16098361411901325345.png</url>
+      <title>Freudian Scientist</title>
       <link>http://localhost:1313/</link>
     </image>
     
@@ -46,7 +46,7 @@
       <link>http://localhost:1313/project/hyperkkl/</link>
       <pubDate>Thu, 18 Jul 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/hyperkkl/</guid>
-      <description>&lt;p&gt;Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Supervised under Dr. Muhammed Umar Niazi. I developed a modular library for design KKL observers. I extended the library&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@
     </item>
     
     <item>
-      <title>flower</title>
+      <title>Open Source Contribution - Fedpara</title>
       <link>http://localhost:1313/project/flower/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/flower/</guid>
@@ -278,7 +278,7 @@
 
 
 
-&lt;div id=&#34;chart-716534892&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-672145893&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   async function fetchChartJSON() {
     console.debug(&#39;Hugo Blox fetching chart JSON...&#39;)
@@ -296,7 +296,7 @@
 
       fetchChartJSON().then(chart =&gt; {
         console.debug(&#39;Plotting chart...&#39;)
-        window.Plotly.newPlot(&#39;chart-716534892&#39;, chart.data, chart.layout, {responsive: true});
+        window.Plotly.newPlot(&#39;chart-672145893&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
