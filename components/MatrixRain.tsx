@@ -15,37 +15,73 @@ const MatrixRain: React.FC = () => {
     canvas.width = width;
     canvas.height = height;
 
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
-    const fontSize = 14;
+    // Matrix characters - mix of letters, numbers and symbols
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*(){}[]|;:<>?';
+    const fontSize = 16;
     const columns = Math.floor(width / fontSize);
+
+    // Array to track the y position of each column
     const drops: number[] = new Array(columns).fill(1);
 
+    // Random initial positions for more organic look
+    for (let i = 0; i < drops.length; i++) {
+      drops[i] = Math.random() * -100;
+    }
+
     const draw = () => {
-      // Black with slight opacity for trail effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Semi-transparent black to create fade effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.fillStyle = '#0F0'; // Green text
-      ctx.font = `${fontSize}px monospace`;
+      ctx.font = `${fontSize}px "Courier New", monospace`;
 
       for (let i = 0; i < drops.length; i++) {
         const text = characters.charAt(Math.floor(Math.random() * characters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
 
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+        // Create gradient effect - brighter at the head
+        const brightness = Math.random();
+        if (brightness > 0.98) {
+          // Bright white head of the rain
+          ctx.fillStyle = '#ffffff';
+        } else if (brightness > 0.9) {
+          // Bright green
+          ctx.fillStyle = '#00ff00';
+        } else if (brightness > 0.7) {
+          // Medium green
+          ctx.fillStyle = '#00cc00';
+        } else {
+          // Darker green for trail
+          ctx.fillStyle = '#008800';
+        }
+
+        ctx.fillText(text, x, y);
+
+        // Reset drop when it reaches bottom with some randomness
+        if (y > height && Math.random() > 0.975) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     };
 
-    const interval = setInterval(draw, 33);
+    const interval = setInterval(draw, 40);
 
     const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
+
+      // Recalculate columns
+      const newColumns = Math.floor(width / fontSize);
+      drops.length = newColumns;
+      for (let i = 0; i < newColumns; i++) {
+        if (drops[i] === undefined) {
+          drops[i] = Math.random() * -100;
+        }
+      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -59,8 +95,11 @@ const MatrixRain: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-20"
-      style={{ mixBlendMode: 'screen' }}
+      className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+      style={{
+        opacity: 0.35,
+        mixBlendMode: 'screen'
+      }}
     />
   );
 };
