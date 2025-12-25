@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Academic Portfolio</title>
+    <title>Yahia Shaaban | ML Researcher</title>
+    <meta name="description" content="Machine Learning Researcher specializing in Time Series, Large Language Models, and Reasoning. M.Sc. at MBZUAI.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -15,11 +16,6 @@
                 black: '#0D0208',
                 green: '#00FF41',
                 darkgreen: '#008F11',
-              },
-              academic: {
-                primary: '#2563eb', // blue-600
-                secondary: '#475569', // slate-600
-                bg: '#ffffff',
               }
             },
             fontFamily: {
@@ -31,20 +27,56 @@
       }
     </script>
     <style>
-      /* Custom Scrollbar for Matrix Feel */
+      /* Force dark background */
+      html, body {
+        background-color: #000000;
+      }
+
+      /* Custom Scrollbar with Matrix Feel */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: transparent;
+        background: #0a0a0a;
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
+        background: #008F11;
         border-radius: 4px;
       }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #008F11;
+      ::-webkit-scrollbar-thumb:hover {
+        background: #00FF41;
       }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Glitch text effect */
+      .glitch-text {
+        position: relative;
+        animation: glitch 2s infinite;
+      }
+
+      @keyframes glitch {
+        0%, 90%, 100% {
+          text-shadow: none;
+        }
+        92% {
+          text-shadow: 2px 0 #00ff00, -2px 0 #ff0000;
+        }
+        94% {
+          text-shadow: -2px 0 #00ff00, 2px 0 #ff0000;
+        }
+        96% {
+          text-shadow: 2px 0 #ff0000, -2px 0 #00ff00;
+        }
+        98% {
+          text-shadow: none;
+        }
+      }
+
+      /* Cursor blink animation */
       @keyframes blink {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
@@ -52,9 +84,25 @@
       .cursor-blink {
         animation: blink 1s step-end infinite;
       }
+
+      /* Fade in animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-in {
+        animation: fadeInUp 0.5s ease-out forwards;
+      }
     </style>
 </head>
-  <body class="bg-gray-50 text-slate-900 transition-colors duration-300">
+  <body class="bg-black text-white transition-colors duration-300">
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
