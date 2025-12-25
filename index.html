@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,23 +27,29 @@
       }
     </script>
     <style>
-      /* Force dark background */
-      html, body {
-        background-color: #000000;
-      }
-
-      /* Custom Scrollbar with Matrix Feel */
+      /* Custom Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #0a0a0a;
+        background: #f1f5f9;
       }
       ::-webkit-scrollbar-thumb {
-        background: #008F11;
+        background: #cbd5e1;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #008F11;
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
         background: #00FF41;
       }
 
@@ -52,7 +58,7 @@
         scroll-behavior: smooth;
       }
 
-      /* Glitch text effect */
+      /* Glitch text effect for matrix mode */
       .glitch-text {
         position: relative;
         animation: glitch 2s infinite;
@@ -102,7 +108,7 @@
       }
     </style>
 </head>
-  <body class="bg-black text-white transition-colors duration-300">
+  <body class="bg-gray-50 text-slate-900 transition-colors duration-300">
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
