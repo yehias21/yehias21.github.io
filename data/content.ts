@@ -6,7 +6,7 @@ export const PROFILE: Profile = {
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
-  image: "https://i.imgur.com/7J5y9Xh.jpeg", // Placeholder for the user uploaded image
+  image: "/profile_image.jpg", // Placeholder for the user uploaded image
   quotes: [
     "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
     "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
