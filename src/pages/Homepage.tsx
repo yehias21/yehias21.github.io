@@ -212,19 +212,29 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PROJECTS.slice(0, 3).map((proj) => (
-            <a
+            <div
               key={proj.id}
-              href={proj.github || proj.link || '#'}
-              target={proj.github || proj.link ? "_blank" : undefined}
-              rel="noreferrer"
-              className={`rounded-xl overflow-hidden border hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-green-800 hover:shadow-green-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+              className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-green-800 hover:shadow-green-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
             >
               <div className="h-40 overflow-hidden bg-gray-200 relative">
-                <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${isMatrix ? 'opacity-80 group-hover:opacity-100' : ''}`} />
+                <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover transition-transform duration-500 ${isMatrix ? 'opacity-80' : ''}`} />
                 <div className={`absolute inset-0 bg-gradient-to-t to-transparent ${isMatrix ? 'from-slate-900' : 'from-white/50'}`}></div>
               </div>
               <div className="p-5 flex flex-col flex-grow">
-                <h3 className={`text-lg font-bold mb-2 transition-colors ${isMatrix ? 'text-white group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>{proj.title}</h3>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{proj.title}</h3>
+                  {proj.github && (
+                    <a
+                      href={proj.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-green-400 hover:bg-green-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Github className="w-5 h-5" />
+                    </a>
+                  )}
+                </div>
                 <p className={`text-sm mb-4 line-clamp-2 flex-grow ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                   {proj.description}
                 </p>
@@ -236,7 +246,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                   ))}
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </section>
