@@ -6,7 +6,7 @@ export const PROFILE: Profile = {
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
-  image: "./src/assets/figures/profile_image.jpg",
+  image: "/src/assets/figures/profile_image.jpg",
   quotes: [
     "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
     "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
@@ -112,8 +112,10 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     abstract: "A comprehensive benchmark suite for evaluating stochastic vehicle routing algorithms, introducing realistic constraints and variability patterns derived from real-world logistics data.",
     tags: ["Optimization", "Benchmarks", "RL"],
-    link: "#",
-    pdf: "#"
+    link: "https://github.com/example/svrpbench",
+    pdf: "https://arxiv.org/abs/example",
+    bibtex: "https://github.com/example/svrpbench/blob/main/citation.bib",
+    comment: "Spotlight (2.6%)"
   },
   {
     id: "p2",
@@ -157,7 +159,7 @@ export const PROJECTS: Project[] = [
     description: "Implemented core components from scratch in C++/Python: multi-threaded HTTP/2 server, mini-blockchain ledger, distributed file system, and custom graph algorithms.",
     image: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&q=80&w=800",
     techStack: ["C++", "Python", "Systems"],
-    github: "#"
+    github: "https://github.com/yehias21/systems-core"
   },
   {
     id: "pr2",
@@ -165,7 +167,7 @@ export const PROJECTS: Project[] = [
     description: "Developed a transformer-based model to autoformalize natural language math problems into symbolic logic, integrating a Python-based theorem prover.",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
     techStack: ["Transformers", "Symbolic Logic", "Python"],
-    github: "#"
+    github: "https://github.com/yehias21/neuro-symbolic-solver"
   },
   {
     id: "pr3",
@@ -173,7 +175,7 @@ export const PROJECTS: Project[] = [
     description: "Designed a gradient-free optimization algorithm for black-box functions deployed on a Ray cluster (50+ nodes).",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
     techStack: ["Ray", "Optimization", "Distributed Systems"],
-    github: "#"
+    github: "https://github.com/yehias21/distributed-optimization"
   },
   {
     id: "pr4",
@@ -181,7 +183,7 @@ export const PROJECTS: Project[] = [
     description: "Built multi-granular text retrieval model for Arabic language; improved retrieval accuracy by 11% using hybrid dense-sparse vector search.",
     image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800",
     techStack: ["NLP", "Retrieval", "Arabic"],
-    github: "#"
+    github: "https://github.com/yehias21/arabic-retrieval"
   }
 ];
 
