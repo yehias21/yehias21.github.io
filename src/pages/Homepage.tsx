@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE } from '../data/content';
-import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, ChevronDown, GraduationCap, MapPin, ArrowRight, Mail, FileCode } from 'lucide-react';
+import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
 
 interface HomepageProps {
   theme: ThemeMode;
@@ -10,7 +10,6 @@ interface HomepageProps {
 
 const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const publicationsSectionRef = useRef<HTMLElement>(null);
   const isMatrix = theme === ThemeMode.MATRIX;
 
   // 'Q' key listener for quotes
@@ -23,10 +22,6 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
-  const scrollToPublications = () => {
-    publicationsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <div className="space-y-24 py-8">
@@ -98,19 +93,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </div>
       </section>
 
-      {/* Scroll indicator */}
-      <div className="flex justify-center">
-        <button
-          onClick={scrollToPublications}
-          className="animate-bounce cursor-pointer focus:outline-none"
-          aria-label="Scroll to publications"
-        >
-          <ChevronDown className={`w-8 h-8 ${isMatrix ? 'text-green-500/50 hover:text-green-500' : 'text-blue-500/50 hover:text-blue-500'}`} />
-        </button>
-      </div>
-
       {/* Publications Preview Section */}
-      <section ref={publicationsSectionRef} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
             <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
@@ -134,7 +118,14 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                 className={`group p-6 rounded-xl border transition-all duration-300 cursor-pointer ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-green-800 hover:shadow-lg hover:shadow-green-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}
                 onClick={() => setIsExpanded(!isExpanded)}
               >
-                <span className={`text-xs font-mono px-2 py-1 rounded mb-2 inline-block ${isMatrix ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
+                  {pub.comment && (
+                    <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-green-900/30 text-green-400 border border-green-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
+                      {pub.comment}
+                    </span>
+                  )}
+                </div>
                 <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
                   {pub.title}
                 </h3>
@@ -162,8 +153,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                   ))}
                 </div>
 
-                {/* Paper and Code Buttons */}
-                <div className="flex gap-3 mt-4 pt-4 border-t border-opacity-50" onClick={(e) => e.stopPropagation()}>
+                {/* Paper, Code, and BibTeX Buttons */}
+                <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-opacity-50" onClick={(e) => e.stopPropagation()}>
                   {pub.pdf && pub.pdf !== "#" && (
                     <a
                       href={pub.pdf}
@@ -184,6 +175,17 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                     >
                       <FileCode className="w-4 h-4" />
                       Code
+                    </a>
+                  )}
+                  {pub.bibtex && pub.bibtex !== "#" && (
+                    <a
+                      href={pub.bibtex}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
+                    >
+                      <BookText className="w-4 h-4" />
+                      BibTeX
                     </a>
                   )}
                 </div>
@@ -220,11 +222,6 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
               <div className="h-40 overflow-hidden bg-gray-200 relative">
                 <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${isMatrix ? 'opacity-80 group-hover:opacity-100' : ''}`} />
                 <div className={`absolute inset-0 bg-gradient-to-t to-transparent ${isMatrix ? 'from-slate-900' : 'from-white/50'}`}></div>
-                {(proj.github || proj.link) && (
-                  <div className="absolute top-2 right-2">
-                    <FileCode className={`w-5 h-5 ${isMatrix ? 'text-green-400' : 'text-blue-600'}`} />
-                  </div>
-                )}
               </div>
               <div className="p-5 flex flex-col flex-grow">
                 <h3 className={`text-lg font-bold mb-2 transition-colors ${isMatrix ? 'text-white group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>{proj.title}</h3>
