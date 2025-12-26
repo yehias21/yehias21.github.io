@@ -10,6 +10,7 @@ interface HomepageProps {
 
 const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const isMatrix = theme === ThemeMode.MATRIX;
 
   // 'Q' key listener for quotes
@@ -22,6 +23,16 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const copyBibtex = async (bibtex: string, pubId: string) => {
+    try {
+      await navigator.clipboard.writeText(bibtex);
+      setCopiedId(pubId);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   return (
     <div className="space-y-24 py-8">
@@ -178,15 +189,13 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                     </a>
                   )}
                   {pub.bibtex && pub.bibtex !== "#" && (
-                    <a
-                      href={pub.bibtex}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      onClick={() => copyBibtex(pub.bibtex!, pub.id)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
                     >
                       <BookText className="w-4 h-4" />
-                      BibTeX
-                    </a>
+                      {copiedId === pub.id ? 'Copied!' : 'BibTeX'}
+                    </button>
                   )}
                 </div>
               </div>
@@ -235,7 +244,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                     </a>
                   )}
                 </div>
-                <p className={`text-sm mb-4 line-clamp-2 flex-grow ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-sm mb-4 flex-grow overflow-auto max-h-16 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                   {proj.description}
                 </p>
                 <div className="flex flex-wrap gap-2">

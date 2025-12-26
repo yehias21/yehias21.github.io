@@ -6,7 +6,7 @@ export const PROFILE: Profile = {
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
-  image: "/src/assets/figures/profile_image.jpg",
+  image: "/profile_image.jpg",
   quotes: [
     "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
     "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
@@ -114,7 +114,12 @@ export const PUBLICATIONS: Publication[] = [
     tags: ["Optimization", "Benchmarks", "RL"],
     link: "https://github.com/example/svrpbench",
     pdf: "https://arxiv.org/abs/example",
-    bibtex: "https://github.com/example/svrpbench/blob/main/citation.bib",
+    bibtex: `@inproceedings{heakl2025svrpbench,
+  title={SVRPBench: A Realistic Benchmark for Stochastic Vehicle Routing Problem},
+  author={Heakl, Ahmed and Shaaban, Yahia Salaheldin and Lahlou, Salem and Takáč, Martin and Iklassov, Zangir},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2025}
+}`,
     comment: "Spotlight (2.6%)"
   },
   {
