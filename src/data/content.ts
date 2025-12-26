@@ -1,12 +1,12 @@
 import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem } from '../types';
-
+import profileImage from '../assets/figures/profile_image.jpg';
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
   role: "M.Sc. in Machine Learning",
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
-  image: "/profile_image.jpg",
+  image: profileImage,
   quotes: [
     "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
     "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
