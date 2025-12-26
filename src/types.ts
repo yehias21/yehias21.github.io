@@ -8,6 +8,8 @@ export interface Publication {
   tags: string[];
   link?: string;
   pdf?: string;
+  bibtex?: string;
+  comment?: string; // e.g., "Spotlight", "Oral Presentation"
 }
 
 export interface Project {
