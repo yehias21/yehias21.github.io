@@ -6,7 +6,7 @@ export const PROFILE: Profile = {
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
-  image: "./profile_image.jpg",
+  image: "/profile_image.jpg",
   quotes: [
     "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
     "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
@@ -14,11 +14,11 @@ export const PROFILE: Profile = {
     "\"It is not enough to have a good mind; the main thing is to use it well.\" — René Descartes"
   ],
   socials: {
-    github: "https://github.com/yahia-shaaban", // Inferred pattern
-    linkedin: "https://linkedin.com/in/yahia-shaaban", // Inferred pattern
-    scholar: "https://scholar.google.com",
+    github: "https://github.com/yehias21/",
+    linkedin: "https://www.linkedin.com/in/yehiasalah21/",
+    scholar: "https://scholar.google.com/citations?user=wRtW0zMAAAAJ&hl=en",
   },
-  meetingLink: "https://calendly.com/"
+  meetingLink: "https://calendly.com/yahia-abudhabi/30min"
 };
 
 export const EDUCATION: Education[] = [
