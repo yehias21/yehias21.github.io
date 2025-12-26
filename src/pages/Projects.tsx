@@ -40,7 +40,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                   </a>
                 )}
               </div>
-              <p className={`text-sm mb-4 line-clamp-3 flex-grow ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-sm mb-4 flex-grow overflow-auto max-h-20 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                 {proj.description}
               </p>
               <div className="flex flex-wrap gap-2">
