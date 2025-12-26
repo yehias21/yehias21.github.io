@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeMode } from '../types';
 import { PROJECTS } from '../data/content';
-import { Briefcase, Github, ExternalLink, FileCode } from 'lucide-react';
+import { Briefcase, Github, ExternalLink } from 'lucide-react';
 
 interface ProjectsProps {
   theme: ThemeMode;
@@ -25,11 +25,6 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
             <div className="h-48 overflow-hidden bg-gray-200 relative">
               <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${isMatrix ? 'opacity-80 group-hover:opacity-100' : ''}`} />
               <div className={`absolute inset-0 bg-gradient-to-t to-transparent ${isMatrix ? 'from-slate-900' : 'from-white/50'}`}></div>
-              {(proj.github || proj.link) && (
-                <div className="absolute top-3 right-3">
-                  <FileCode className={`w-6 h-6 ${isMatrix ? 'text-green-400' : 'text-blue-600'}`} />
-                </div>
-              )}
             </div>
             <div className="p-6 flex flex-col flex-grow">
               <h3 className={`text-lg font-bold mb-2 transition-colors ${isMatrix ? 'text-white group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>{proj.title}</h3>

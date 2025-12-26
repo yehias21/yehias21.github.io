@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ThemeMode } from '../types';
 import { PUBLICATIONS } from '../data/content';
-import { BookOpen, ChevronDown, ChevronUp, FileText, FileCode } from 'lucide-react';
+import { BookOpen, ChevronDown, ChevronUp, FileText, FileCode, BookText } from 'lucide-react';
 
 interface PublicationsProps {
   theme: ThemeMode;
@@ -28,7 +28,14 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
           <div key={pub.id} className={`group relative p-6 rounded-xl border transition-all duration-300 ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-green-800 hover:shadow-lg hover:shadow-green-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}>
             <div className="flex flex-col md:flex-row justify-between md:items-start gap-2">
               <div className="flex-1 cursor-pointer" onClick={() => setExpandedId(expandedId === pub.id ? null : pub.id)}>
-                <span className={`text-xs font-mono px-2 py-1 rounded mb-2 inline-block ${isMatrix ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
+                  {pub.comment && (
+                    <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-green-900/30 text-green-400 border border-green-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
+                      {pub.comment}
+                    </span>
+                  )}
+                </div>
                 <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
                   {pub.title}
                 </h3>
@@ -67,8 +74,8 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
               ))}
             </div>
 
-            {/* Paper and Code Buttons */}
-            <div className="flex gap-3 mt-4">
+            {/* Paper, Code, and BibTeX Buttons */}
+            <div className="flex flex-wrap gap-3 mt-4">
               {pub.pdf && pub.pdf !== "#" && (
                 <a
                   href={pub.pdf}
@@ -89,6 +96,17 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
                 >
                   <FileCode className="w-4 h-4" />
                   Code
+                </a>
+              )}
+              {pub.bibtex && pub.bibtex !== "#" && (
+                <a
+                  href={pub.bibtex}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
+                >
+                  <BookText className="w-4 h-4" />
+                  BibTeX
                 </a>
               )}
             </div>
