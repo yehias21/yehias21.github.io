@@ -9,7 +9,18 @@ interface PublicationsProps {
 
 const Publications: React.FC<PublicationsProps> = ({ theme }) => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const isMatrix = theme === ThemeMode.MATRIX;
+
+  const copyBibtex = async (bibtex: string, pubId: string) => {
+    try {
+      await navigator.clipboard.writeText(bibtex);
+      setCopiedId(pubId);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -99,15 +110,13 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
                 </a>
               )}
               {pub.bibtex && pub.bibtex !== "#" && (
-                <a
-                  href={pub.bibtex}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  onClick={() => copyBibtex(pub.bibtex!, pub.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
                 >
                   <BookText className="w-4 h-4" />
-                  BibTeX
-                </a>
+                  {copiedId === pub.id ? 'Copied!' : 'BibTeX'}
+                </button>
               )}
             </div>
           </div>
