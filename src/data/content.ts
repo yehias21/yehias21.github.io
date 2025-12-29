@@ -1,5 +1,6 @@
 import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
+import { quotes } from './quotes';
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
   role: "M.Sc. in Machine Learning",
@@ -7,12 +8,7 @@ export const PROFILE: Profile = {
   email: "yahia.shaaban@mbzuai.ac.ae",
   bio: "I am a researcher specializing in Time Series, Large Language Models, and Reasoning. My work bridges the gap between foundation models and complex, structured modalities like sensors and oil-well drilling data. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
   image: profileImage,
-  quotes: [
-    "\"The purpose of computation is insight, not numbers.\" — Richard Hamming",
-    "\"We can only see a short distance ahead, but we can see plenty there that needs to be done.\" — Alan Turing",
-    "\"Freedom is the freedom to say that two plus two make four. If that is granted, all else follows.\" — 1984",
-    "\"It is not enough to have a good mind; the main thing is to use it well.\" — René Descartes"
-  ],
+  quotes,
   socials: {
     github: "https://github.com/yehias21/",
     linkedin: "https://www.linkedin.com/in/yehiasalah21/",
