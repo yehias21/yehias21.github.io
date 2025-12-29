@@ -68,7 +68,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           </div>
 
           {/* Social Links & Contact */}
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-4">
             {PROFILE.socials.github && (
               <a href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <Github className="w-5 h-5" />
