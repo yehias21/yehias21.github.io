@@ -58,11 +58,11 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           </p>
 
           {/* Quote Section (Press Q) */}
-          <div className="h-24 w-full max-w-lg mb-4 relative group cursor-pointer" onClick={() => setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length)}>
+          <div className="min-h-24 w-full max-w-lg mb-8 relative group cursor-pointer" onClick={() => setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length)}>
             <p className={`text-md md:text-lg font-mono border-l-4 pl-4 italic transition-all duration-500 ease-in-out ${isMatrix ? 'text-green-400 border-green-500' : 'text-slate-500 border-blue-500'}`}>
               {PROFILE.quotes[quoteIndex]}
             </p>
-            <span className={`absolute -bottom-2 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-green-700' : 'text-slate-400'}`}>
+            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-green-700' : 'text-slate-400'}`}>
               Press 'Q' to change
             </span>
           </div>
