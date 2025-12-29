@@ -9,9 +9,21 @@ interface HomepageProps {
 }
 
 const Homepage: React.FC<HomepageProps> = ({ theme }) => {
-  const [quoteIndex, setQuoteIndex] = useState(0);
+  // Initialize with random quote
+  const [quoteIndex, setQuoteIndex] = useState(() =>
+    Math.floor(Math.random() * PROFILE.quotes.length)
+  );
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const isMatrix = theme === ThemeMode.MATRIX;
+
+  // Auto-rotate quotes every 8 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length);
+    }, 8000); // 8 seconds for optimal readability
+
+    return () => clearInterval(interval);
+  }, []);
 
   // 'Q' key listener for quotes
   useEffect(() => {
