@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeMode } from '../types';
-import { EDUCATION, EXPERIENCE, GALLERY } from '../data/content';
-import { User, GraduationCap, Briefcase, MapPin, Trophy } from 'lucide-react';
+import { EDUCATION, EXPERIENCE } from '../data/content';
+import { User, GraduationCap, Briefcase, MapPin, Target } from 'lucide-react';
 
 interface AboutProps {
   theme: ThemeMode;
@@ -70,30 +70,22 @@ const About: React.FC<AboutProps> = ({ theme }) => {
           </section>
         </div>
 
-        {/* Gallery & Skills Column */}
+        {/* My Vision Column */}
         <div className="space-y-8">
           <section>
             <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
-              <Trophy className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-500'}`} /> Activities & Awards
+              <Target className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-500'}`} /> My Vision
             </h3>
-            <div className="grid grid-cols-2 gap-2">
-              {GALLERY.map((item) => (
-                <div key={item.id} className="relative group overflow-hidden rounded-lg aspect-square">
-                  <img src={item.src} alt={item.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                    <span className="text-white text-xs font-bold">{item.caption}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={`mt-4 p-4 rounded-lg border ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
-              <h4 className={`font-bold text-sm mb-2 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>Achievements</h4>
-              <ul className={`text-xs space-y-2 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                <li>1st Place NeurIPS 2024 Watermark Challenge</li>
-                <li>Top 10% Graduate, Alexandria University</li>
-                <li>National Pro Swimmer (Egypt)</li>
-                <li>M.I.A Robotics Machine Learning Lead</li>
-              </ul>
+            <div className={`p-6 rounded-lg border ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+              <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
+                At my core, I am a curious scientist and a dedicated family man. I believe that everything becomes fascinating when you dig deep enough.
+              </p>
+              <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
+                My mission for this accelerated journey on earth is to leave a lasting positive imprint, starting from my daily interactions to building a legacy. I view research not just as a pursuit of pride, but as a path to provide security, goodness, and inspiration for my future family and community.
+              </p>
+              <p className={`text-xs italic mt-4 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
+                <small>(Inspired by Veritasium's philosophy on purpose and sustainability <a href="https://www.youtube.com/watch?v=piHGnG4LsmQ" target="_blank" rel="noopener noreferrer" className={`underline hover:no-underline ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>here</a>)</small>
+              </p>
             </div>
           </section>
         </div>
