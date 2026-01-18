@@ -3,6 +3,12 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { BLOG_POSTS } from '../data/content';
 import { FileText, ArrowLeft, Calendar, Clock } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
+import '../styles/markdown.css';
 
 interface BlogPostProps {
   theme: ThemeMode;
@@ -71,21 +77,20 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
           </div>
         </div>
 
-        <div className={`prose prose-lg max-w-none ${isMatrix ? 'prose-invert' : ''}`}>
-          <p className={`text-lg leading-relaxed mb-6 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
-            {post.excerpt}
-          </p>
-
-          <div className={`p-6 rounded-lg border ${isMatrix ? 'bg-slate-900/50 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
-            <p className={`italic ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-              Full blog content coming soon. This post is currently under development.
-            </p>
-          </div>
-
-          {/* Placeholder for full content */}
-          {post.content && post.content !== "..." && (
-            <div className={`mt-8 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
-              <p>{post.content}</p>
+        <div className={`prose prose-lg max-w-none ${isMatrix ? 'prose-invert prose-slate' : 'prose-slate'}`}>
+          {post.content && post.content !== "..." ? (
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              className={`${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}
+            >
+              {post.content}
+            </ReactMarkdown>
+          ) : (
+            <div className={`p-6 rounded-lg border ${isMatrix ? 'bg-slate-900/50 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+              <p className={`italic ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+                Full blog content coming soon. This post is currently under development.
+              </p>
             </div>
           )}
         </div>
