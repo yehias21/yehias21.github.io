@@ -83,9 +83,6 @@ const About: React.FC<AboutProps> = ({ theme }) => {
               <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
                 My drive is to leave a lasting positive imprint on the communities I am part of. I want my work to outlast me, to create opportunity for people who would otherwise not have it, and to turn hard problems into tools others can build on.
               </p>
-              <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
-                Concretely: I care about making ML work reliably on the messy, high-stakes signals that real industries and societies actually produce, and about sharing what I learn openly so the next researcher starts one step ahead.
-              </p>
               <p className={`text-xs italic mt-4 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
                 <small>(Inspired by Veritasium's philosophy on purpose and sustainability <a href="https://www.youtube.com/watch?v=piHGnG4LsmQ" target="_blank" rel="noopener noreferrer" className={`underline hover:no-underline ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>here</a>)</small>
               </p>
