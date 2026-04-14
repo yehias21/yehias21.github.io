@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
@@ -11,7 +11,15 @@ import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon } from 'lucide-react';
+import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home } from 'lucide-react';
+
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [pathname]);
+  return null;
+};
 
 // --- Layout & Navigation ---
 
@@ -21,7 +29,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   const isMatrix = theme === ThemeMode.MATRIX;
 
   const navLinks = [
-    { name: 'Home', path: '/', icon: <User className="w-4 h-4" /> },
+    { name: 'Home', path: '/', icon: <Home className="w-4 h-4" /> },
     { name: 'About', path: '/about', icon: <User className="w-4 h-4" /> },
     { name: 'Publications', path: '/publications', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'Projects', path: '/projects', icon: <Briefcase className="w-4 h-4" /> },
@@ -143,6 +151,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <Layout theme={theme} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<Homepage theme={theme} />} />

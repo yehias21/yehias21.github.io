@@ -206,7 +206,8 @@ export const PROJECTS: Project[] = [
     image: svrpPipelineImg,
     techStack: ["Optimization", "Benchmarks", "RL", "OR"],
     github: "https://github.com/yehias21/svrpbench",
-    link: "https://huggingface.co/datasets/Yahias21/vrp_benchmark"
+    link: "https://huggingface.co/datasets/Yahias21/vrp_benchmark",
+    linkLabel: "Benchmark"
   },
   {
     id: "hyperkkl",

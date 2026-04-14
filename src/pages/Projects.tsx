@@ -46,7 +46,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                   </a>
                 )}
               </div>
-              <p className={`text-sm mb-4 flex-grow overflow-auto max-h-20 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-sm mb-4 flex-grow line-clamp-5 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`} style={{ display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                 {proj.description}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -64,7 +64,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                     rel="noreferrer"
                     className={`flex items-center gap-1 text-sm transition-colors ${isMatrix ? 'text-slate-400 hover:text-green-400' : 'text-slate-500 hover:text-blue-600'}`}
                   >
-                    <ExternalLink className="w-4 h-4"/> Demo
+                    <ExternalLink className="w-4 h-4"/> {proj.linkLabel || 'Demo'}
                   </a>
                 </div>
               )}

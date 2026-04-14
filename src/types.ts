@@ -21,6 +21,7 @@ export interface Project {
   placeholderLabel?: string;
   techStack: string[];
   link?: string;
+  linkLabel?: string;
   github?: string;
 }
 
