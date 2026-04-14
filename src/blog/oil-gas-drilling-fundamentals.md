@@ -8,7 +8,7 @@
 
 ## Why drilling is one of the most data-intensive industrial processes on Earth
 
-![|right|small| A rotary rig. The eight sensor channels map one-to-one onto these surface components.](./blog/drilling.png)
+![A rotary rig. The eight sensor channels map one-to-one onto these surface components.](./blog/drilling.png)
 
 A single wellbore generates on average **700,000 sensor measurements per day**, recorded at up to 1 Hz across channels that monitor mechanical forces, hydraulic pressures, rotational speeds, and depth progression. Over a typical campaign spanning multiple wells and several years, this produces **billions of timestamped observations** encoding the full operational history of the rig.
 
@@ -121,7 +121,7 @@ Before any modeling, both modalities go through a multi-stage pipeline.
 
 The thesis asks a simple question: **can the multimodal recipes that bridged vision and language also bridge industrial sensor streams and natural language?**
 
-![|right|half| The four VLM architecture families that map one-to-one onto the time-series case: encoder-decoder, dual-encoder, cross-modal, and natively multimodal.](./blog/vlm_arch.png)
+![The four VLM architecture families that map one-to-one onto the time-series case: encoder-decoder, dual-encoder, cross-modal, and natively multimodal.](./blog/vlm_arch.png)
 
 The analogy to vision-language models is exact. CLIP-style dual encoders teach us how to share a semantic space between modalities. Flamingo teaches us how to bolt a new modality onto a frozen LLM through gated cross-attention. LLaVA teaches us how to inject visual tokens via a single linear projector. OpenTSLM (2026) already made the parallel explicit for healthcare time series. I carried the same patterns over to industrial drilling and measured what actually works.
 
@@ -152,7 +152,7 @@ Two architectures on identical data.
 
 **The Flamingo variant** uses *cross attention*. A Perceiver Resampler compresses the time-series patches into a small fixed set of latents, and gated cross-attention layers interleaved inside the frozen LLM attend to those latents during generation. Training follows OpenTSLM's two-stage curriculum, adapted to real drilling data instead of synthetic series: Stage 1 learns activity-code classification as encoder warmup; Stage 2 unlocks free-form DDR generation.
 
-![|wide| IndusTSLM Flamingo architecture. Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.](./blog/opentslm_flamingo.png)
+![IndusTSLM Flamingo architecture. Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.](./blog/opentslm_flamingo.png)
 
 **Evaluation is non-trivial.** Standard lexical metrics (BLEU, ROUGE) are useless here: DDRs are telegraphic, domain-specific, and shuffle order freely. I use **LLM-as-judge** with an eight-criterion rubric weighted by domain experts (primary operation match at 50%, depth match at 12.5%, conciseness / all-ops match / parameter match / hole size / BHA type / other details at 6.25% each). The protocol was validated against human expert ratings:
 
@@ -183,7 +183,7 @@ Combined with the segmentation bottleneck (CNN LSM at F1IoU = 0.510), the full s
 
 ### 3. DrillBench: a standardized benchmark
 
-![|right|half| DrillBench task taxonomy: seven tasks across four groups, with built-in knowledge decoupling.](./blog/tslm_survey.png)
+![DrillBench task taxonomy: seven tasks across four groups, with built-in knowledge decoupling.](./blog/tslm_survey.png)
 
 DrillBench is the first comprehensive benchmark for TSLMs in drilling. Seven task types across four groups (**classification, generation, physical reasoning, forecasting**), roughly 150,000 instances built from the public Volve Field and Utah FORGE datasets. Split at the well level to prevent leakage.
 

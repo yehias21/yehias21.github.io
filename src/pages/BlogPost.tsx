@@ -145,9 +145,9 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         />
       </div>
 
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-12">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-10">
         {/* Article */}
-        <div className="max-w-5xl mx-auto lg:mx-0 w-full">
+        <div className="max-w-3xl mx-auto lg:mx-0 w-full">
           <button
             onClick={() => navigate('/blog')}
             className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
@@ -198,35 +198,6 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                 components={{
                   h2: headingRenderer(2),
                   h3: headingRenderer(3),
-                  img: ({ src, alt }: any) => {
-                    // Alt-text layout markers: |right|, |left|, |half|, |small|, |wide|.
-                    // Example: ![|right|small| diagram caption](./blog/foo.png)
-                    const raw = alt || '';
-                    const match = /^(?:\|([a-z, ]+)\|)?\s*(.*)$/i.exec(raw);
-                    const tokens = (match?.[1] || '').toLowerCase().split(/[\s,|]+/).filter(Boolean);
-                    const caption = match?.[2] || '';
-                    const cls = ['blog-figure'];
-                    if (tokens.includes('right')) cls.push('float-right');
-                    if (tokens.includes('left')) cls.push('float-left');
-                    if (tokens.includes('small')) cls.push('size-small');
-                    else if (tokens.includes('half')) cls.push('size-half');
-                    else if (tokens.includes('wide')) cls.push('size-wide');
-                    else cls.push('size-default');
-                    return (
-                      <figure className={cls.join(' ')}>
-                        <img src={src} alt={caption} loading="lazy" />
-                        {caption && <figcaption>{caption}</figcaption>}
-                      </figure>
-                    );
-                  },
-                  // React-markdown wraps images in <p>. Unwrap so our <figure> is block-level.
-                  p: ({ children, ...props }: any) => {
-                    const kids = React.Children.toArray(children);
-                    const onlyFigure = kids.length === 1 &&
-                      (kids[0] as any)?.type === 'figure';
-                    if (onlyFigure) return <>{children}</>;
-                    return <p {...props}>{children}</p>;
-                  },
                 }}
               >
                 {bodyMd}

@@ -122,7 +122,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="flex-grow z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {children}
       </main>
 
