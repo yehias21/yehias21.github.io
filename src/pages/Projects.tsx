@@ -22,9 +22,15 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {PROJECTS.map((proj) => (
           <div key={proj.id} className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-green-800 hover:shadow-green-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}>
-            <div className="h-48 overflow-hidden bg-gray-200 relative">
-              <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover transition-transform duration-500 ${isMatrix ? 'opacity-80' : ''}`} />
-              <div className={`absolute inset-0 bg-gradient-to-t to-transparent ${isMatrix ? 'from-slate-900' : 'from-white/50'}`}></div>
+            <div className={`h-48 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
+              {proj.image && (
+                <img src={proj.image} alt={proj.title} className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] ${isMatrix ? 'opacity-90' : ''}`} />
+              )}
+              {!proj.image && proj.placeholderLabel && (
+                <span className="font-mono text-white/90 text-sm tracking-widest uppercase drop-shadow-md">
+                  {proj.placeholderLabel}
+                </span>
+              )}
             </div>
             <div className="p-6 flex flex-col flex-grow">
               <div className="flex items-start justify-between mb-2">

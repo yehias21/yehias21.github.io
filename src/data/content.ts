@@ -3,11 +3,11 @@ import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
 // Project images
-import industslmImg from '../assets/projects/industslm.png';
+import industslmImg from '../assets/projects/industslm_logo.gif';
 import drimmImg from '../assets/projects/drimm.png';
 import svrpPipelineImg from '../assets/projects/svrp_pipeline.png';
 import hyperkklImg from '../assets/projects/hyperkkl.png';
-import watermarkImg from '../assets/projects/watermark_leaderboard.png';
+import watermarkImg from '../assets/projects/watermark_teaser.png';
 import rlexploreImg from '../assets/projects/rlexplore.gif';
 import fedsecaggImg from '../assets/projects/fedsecagg.svg';
 import arabicColbertImg from '../assets/projects/arabic_colbert.png';
@@ -252,7 +252,8 @@ export const PROJECTS: Project[] = [
     id: "undergrad-archive",
     title: "Undergraduate Archive",
     description: "Consolidated archive of bachelor-era coursework imported as git subtrees (full commit history preserved): mini-blockchain, federated neural collaborative filtering, multi-threaded web server, Linux shell, Pthreads algorithms, page-replacement algorithms, SQL assignments, and more.",
-    image: hyperkklImg,
+    gradient: "linear-gradient(135deg, #1e3a8a 0%, #0f766e 55%, #134e4a 100%)",
+    placeholderLabel: "Undergraduate Archive",
     techStack: ["C++", "Python", "Systems", "SQL"],
     github: "https://github.com/yehias21/Bachelor-Assignments"
   }

@@ -17,6 +17,8 @@ export interface Project {
   title: string;
   description: string;
   image?: string;
+  gradient?: string;
+  placeholderLabel?: string;
   techStack: string[];
   link?: string;
   github?: string;
