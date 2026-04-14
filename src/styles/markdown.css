@@ -156,7 +156,7 @@
 
 .prose img {
   display: block;
-  margin: 1.75rem auto;
+  margin: 0 auto;
   max-width: 100%;
   height: auto;
   border-radius: 0.625rem;
@@ -165,13 +165,59 @@
   border: 1px solid rgba(100, 116, 139, 0.15);
 }
 
-.prose img + em,
-.prose p > img + em {
-  display: block;
+/* Figure + caption layout (rendered from markdown images). */
+.prose .blog-figure {
+  margin: 1.75rem auto;
+  padding: 0;
+}
+
+.prose .blog-figure figcaption {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   opacity: 0.7;
-  margin-top: -0.5rem;
+  margin-top: 0.6rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.prose .blog-figure.size-default { max-width: 100%; }
+.prose .blog-figure.size-wide { max-width: 100%; }
+.prose .blog-figure.size-half { max-width: 50%; }
+.prose .blog-figure.size-small { max-width: 40%; }
+
+/* Let large figures breathe outside the prose column on very wide desktops. */
+@media (min-width: 1400px) {
+  .prose .blog-figure.size-wide {
+    max-width: 112%;
+    margin-left: -6%;
+    margin-right: -6%;
+  }
+}
+
+/* Side-floating figures wrap text around them on desktop. */
+@media (min-width: 900px) {
+  .prose .blog-figure.float-right {
+    float: right;
+    margin: 0.4rem 0 1rem 1.5rem;
+  }
+  .prose .blog-figure.float-left {
+    float: left;
+    margin: 0.4rem 1.5rem 1rem 0;
+  }
+  /* Prevent the next H2 from being pulled next to a floated figure. */
+  .prose h2 { clear: both; }
+}
+
+/* On narrow screens, collapse to full-width and reset floats. */
+@media (max-width: 899px) {
+  .prose .blog-figure.float-right,
+  .prose .blog-figure.float-left,
+  .prose .blog-figure.size-small,
+  .prose .blog-figure.size-half {
+    float: none;
+    max-width: 100%;
+    margin: 1.25rem auto;
+  }
 }
 
 /* KaTeX math rendering */

@@ -1,18 +1,20 @@
 # Oil & Gas Drilling: From Bits to Bytes
 
-*A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models: drawn from my M.Sc. thesis work on IndusTSLM with AIQ Intelligence.*
+*A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models. Drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.*
 
-![IndusTSLM Flamingo architecture for drilling data](./blog/industslm.png)
+![IndusTSLM Flamingo architecture: a Perceiver Resampler compresses multivariate sensor patches into fixed latents that feed gated cross-attention inside a frozen LLM.](./blog/industslm.png)
 
 ---
 
 ## Why drilling is one of the most data-intensive industrial processes on Earth
 
+![|right|small| A rotary rig. The eight sensor channels map one-to-one onto these surface components.](./blog/drilling.png)
+
 A single wellbore generates on average **700,000 sensor measurements per day**, recorded at up to 1 Hz across channels that monitor mechanical forces, hydraulic pressures, rotational speeds, and depth progression. Over a typical campaign spanning multiple wells and several years, this produces **billions of timestamped observations** encoding the full operational history of the rig.
 
 Concurrently, drilling engineers produce **Daily Drilling Reports (DDRs)**: concise natural language summaries documenting the activities performed during each shift, the depths reached, the equipment used, and any anomalies encountered.
 
-Despite the richness of these paired data streams, the industry still relies heavily on manual interpretation. That is exactly where modern multimodal ML can help.
+Despite the richness of these paired data streams, the industry still relies heavily on manual interpretation. Experienced engineers read sensor traces, cross-reference them with operational logs, and compose DDR entries by hand. That is expensive, time-consuming, and dangerously slow during stuck-pipe incidents or unexpected pressure transients. It is also exactly where modern multimodal ML can help.
 
 ---
 
@@ -25,31 +27,15 @@ Drilling creates a borehole (a *wellbore*) that penetrates rock formations to ac
 3. **Directional drilling**: at angles to reach reserves not directly below the rig.
 4. **Horizontal drilling**: along the reservoir layer to maximize contact area.
 
-### Surface components at a glance
+### The drilling process in four phases
 
-![Drilling rig schematic](./blog/drilling.png)
+**Phase 1: Planning.** Geological surveys, seismic analysis, and environmental review feed a detailed well plan: target depth and trajectory, casing design, mud weight, expected formations, and safety procedures.
 
-Key surface components measured by the 8 channels discussed below: the **traveling block** (hook load, block position), the **rotary drive** (torque, rotary velocity), the **standpipe / mud pump** (standpipe pressure, flow rate), the **mud pit** (tank volume), and the drill bit (bit depth, hole depth).
+**Phase 2: Rig setup.** Derrick, drawworks, rotary table / top drive, mud pumps, and the blowout preventer (BOP).
 
----
+**Phase 3: Drilling.** This is the loop the sensors capture: *spud in* (first penetration), *drilling ahead* (monitored through ROP, WOB, RPM, torque, SPP), *tripping* (pulling the drill string out and back in for bit changes, casing runs, or logging), *casing and cementing* (successive steel casings, conductor → surface → intermediate → production, cemented to stabilize the well and isolate zones), *Total Depth* (target reached).
 
-## The drilling process
-
-### Phase 1: Planning
-Geological surveys, seismic analysis, and environmental review feed a detailed **well plan**: target depth and trajectory, casing design, mud weight, expected formations, and safety procedures.
-
-### Phase 2: Rig setup
-Derrick, drawworks, rotary table / top drive, mud pumps, blowout preventer (BOP).
-
-### Phase 3: Drilling
-- **Spud in** → first penetration.
-- **Drilling ahead** → monitored through ROP, WOB, RPM, torque, SPP.
-- **Tripping** → pulling the drill string out and back in for bit changes, casing runs, or logging.
-- **Casing and cementing** → successive steel casing strings (conductor → surface → intermediate → production) cemented to stabilize the well and isolate zones.
-- **Total Depth (TD)** → target reached, well ready for completion.
-
-### Phase 4: Completion
-Production tubing, perforation, packers, safety valves, well testing.
+**Phase 4: Completion.** Production tubing, perforation, packers, safety valves, well testing.
 
 ---
 
@@ -70,10 +56,9 @@ Operations are tracked with standardized **activity codes** that feed the DDR. A
 | `FISH` | Fishing operations | 3.4% |
 | `CMT` | Cementing | 2.9% |
 
-![Distribution of drilling activity labels across the dataset](./blog/activity_distribution.png)
-*Major activity codes (left) and top sub-codes (right). DRILL + TRIP alone account for nearly a third of all timesteps.*
+![Distribution of drilling activity labels across the dataset. Major codes on the left; top sub-codes on the right.](./blog/activity_distribution.png)
 
-The distribution is **heavily imbalanced**: DRILL + TRIP alone account for nearly a third of all timesteps, while many codes contribute less than 1%. About 12% of timesteps are unlabeled. The label space also contains spelling inconsistencies (`DRILL`/`DRIL`, `RIGMT`/`RGMT`/`RIGMNT`) that need canonicalization.
+The distribution is **heavily imbalanced**. DRILL + TRIP alone account for nearly a third of all timesteps, while many codes contribute less than 1%. About 12% of timesteps are unlabeled. The label space also contains spelling inconsistencies (`DRILL`/`DRIL`, `RIGMT`/`RGMT`/`RIGMNT`) that need canonicalization before any training can happen.
 
 ---
 
@@ -94,14 +79,9 @@ Modern rigs record far more than 8 channels, but for sensor-to-language alignmen
 
 ### Different activities have very different signatures
 
-![Eight sensor channels over a 3.3 hour window from well BB-1282](./blog/sensor_timeseries.png)
-*A real ~3.3 hour window from well BB-1282 (16" hole section). Shaded regions mark DRILL → TRIP → CIRC transitions. Each activity leaves a distinct fingerprint across the eight channels.*
+![A real ~3.3 hour window from well BB-1282 (16" hole section). Shaded regions mark DRILL → TRIP → CIRC transitions. Each activity leaves a distinct fingerprint across the eight channels.](./blog/sensor_timeseries.png)
 
-During **DRILL**: elevated WOB, active torque, high SPP and flow, steadily increasing bit depth.
-During **TRIP**: WOB drops to zero, hook load and block position exhibit a characteristic sawtooth as stands are handled.
-During **CIRC**: hydraulic system active but mechanical indicators near zero.
-
-This contrast is precisely what makes a learnable mapping between sensor trajectories and language possible.
+During **DRILL**, weight on bit stays elevated, surface torque is active, mud flow rate and standpipe pressure are high, and bit depth increases steadily. During **TRIP**, weight on bit drops to zero, and hook load and block position exhibit the sawtooth pattern associated with pipe handling. During **CIRC**, the hydraulic system remains active but all mechanical drilling indicators sit near zero. This contrast is precisely what makes a learnable mapping between sensor trajectories and language possible.
 
 ---
 
@@ -121,67 +101,113 @@ Telegraphic, numeric, acronym-heavy. This is the text side of the multimodal pro
 
 ### What end-to-end generation looks like
 
-![Reasoning trace: a 2-hour sensor window goes in, a DDR entry comes out](./blog/reasoning_trace.png)
-*A 2-hour window spanning CIRCM → PACKER → DISPL → MONITOR. IndusTSLM reads the eight sensor channels and generates the DDR entry at the bottom, evaluated along three dimensions: numeric fidelity, factual alignment, and completeness.*
+![A 2-hour window spanning CIRCM → PACKER → DISPL → MONITOR. IndusTSLM reads the eight sensor channels and generates the DDR entry at the bottom, evaluated along three dimensions: numeric fidelity, factual alignment, and completeness.](./blog/reasoning_trace.png)
 
 ---
 
 ## Data cleaning is half the work
 
-![DriMM contrastive alignment](./blog/drimm.png)
+Before any modeling, both modalities go through a multi-stage pipeline.
 
-Before any modeling, both modalities go through a multi-stage pipeline:
+**Sensor streams** get (1) gap interpolation for dropouts under 10 s, (2) negative-value correction (forward-fill physically impossible readings), (3) sanity checks against rated bounds, and (4) low-pass smoothing with unit standardization across wells and rigs.
 
-**Sensor streams**
-1. Gap interpolation for dropouts < 10 s.
-2. Negative-value correction (forward-fill physically impossible readings).
-3. Sanity checks against rated bounds; out-of-range samples flagged as missing.
-4. Low-pass smoothing and unit standardization across wells and rigs.
+**DDR text** gets (1) acronym expansion (`RIH` → Run In Hole, `BHA` → Bottom Hole Assembly), (2) sentence-structure and punctuation normalization, and (3) removal of entries without a sensor signature (safety meetings, crew changes).
 
-**DDR text**
-1. Acronym expansion (`RIH` → Run In Hole, `BHA` → Bottom Hole Assembly).
-2. Sentence-structure and punctuation normalization.
-3. Removal of entries without a sensor signature (safety meetings, crew changes).
-
-**Rig state inference**
-Per-timestep physics-based rules map four binary conditions (block direction, bit on bottom, pumps on, rotating) to **19 discrete rig states** at 1 Hz: a far finer temporal label than the 24-hour DDR.
+**Rig state inference.** Per-timestep physics-based rules map four binary conditions (block direction, bit on bottom, pumps on, rotating) to **19 discrete rig states** at 1 Hz. That is a much finer temporal label than the 24-hour DDR and serves as cheap supervision for segmentation.
 
 ---
 
-## From sensors to language: what I explored in my thesis
+## From sensors to language: what I built in the thesis
 
-The question my thesis asks is simple: **can the multimodal recipes that bridged vision and language also bridge industrial sensor streams and natural language?**
+The thesis asks a simple question: **can the multimodal recipes that bridged vision and language also bridge industrial sensor streams and natural language?**
 
-![VLM architecture families adapted to time series](./blog/vlm_arch.png)
+![|right|half| The four VLM architecture families that map one-to-one onto the time-series case: encoder-decoder, dual-encoder, cross-modal, and natively multimodal.](./blog/vlm_arch.png)
 
-I attacked it in three progressive stages:
+The analogy to vision-language models is exact. CLIP-style dual encoders teach us how to share a semantic space between modalities. Flamingo teaches us how to bolt a new modality onto a frozen LLM through gated cross-attention. LLaVA teaches us how to inject visual tokens via a single linear projector. OpenTSLM (2026) already made the parallel explicit for healthcare time series. I carried the same patterns over to industrial drilling and measured what actually works.
 
 ### 1. DriMM: dual-encoder contrastive alignment
 
-![DriMM contrastive training setup](./blog/drimm_teaser.png)
-*Sensor windows and DDR sentences are embedded independently, then pulled together in a shared 256-d space with a symmetric InfoNCE loss.*
+![DriMM contrastive training: sensor windows and DDR sentences embed independently, then get pulled together in a shared 256-d space with a symmetric InfoNCE loss.](./blog/drimm_teaser.png)
 
-A CLIP-style model where a time-series encoder (Moirai or MOMENT) and a domain-adapted RoBERTa map sensor windows and DDR text into a shared 256-d space. Training objective: symmetric InfoNCE with **hard negative mining** from semantically similar but operationally distinct DDR entries. Result: up to +30 pp on linear probing over the pretrained time-series checkpoint, and ~8% average gain from hard negatives on retrieval / zero-shot / linear probing.
+A CLIP-style model. A time-series encoder (Moirai or MOMENT, frozen pretrained) and a domain-adapted RoBERTa map sensor windows and DDR text into a shared 256-d space, then ℓ₂-normalize. Training is symmetric InfoNCE. I extended the baseline with **hard negative mining**: a small LLM (Phi-3.5 mini) scores all DDR pairs for semantic similarity, picks k=5 entries that are textually close but belong to a different activity code, and injects them into each training batch. The goal is to force the model to learn the sensor-level distinction between *RIH to 5,200 ft* and *POOH from 5,350 ft*, which share vocabulary but correspond to opposite tripping directions.
+
+**Results.** Three evaluation axes, 145,715 paired samples from 1,787 time series, 80/20 split by distinct wells to block leakage:
+
+| | Retrieval F1@10 | Zero-shot (9-class) | Linear probing (9-class) |
+|---|---|---|---|
+| Moirai-L + DriMM | 55.5% | 26.3% | 74.1% |
+| MOMENT-L + DriMM | 37.0% | 24.4% | **72.2% (+30.7 pp over init)** |
+| Moirai-L + hard negatives | 60.1% | 29.4% | 79.3% |
+| MOMENT-L + hard negatives | 40.2% | 27.5% | 77.4% |
+
+Two patterns stand out. First, multimodal pretraining dramatically improves representational quality: MOMENT-Large jumps from **41.5% → 72.2%** on 9-class linear probing (+30.7 pp) without the classifier ever seeing text. Second, hard negatives add another **+4 to +5 pp** on top across all axes. There is also a clear tradeoff: freezing the text encoder preserves pretrained priors and boosts zero-shot classification (up to 75.7% on 3 classes) at the cost of pair-level retrieval, while fine-tuning has the opposite effect.
 
 ### 2. IndusTSLM: generative time-series language models
 
-Two architectural paradigms on identical drilling data.
+Two architectures on identical data.
 
-**LiveDrill** (soft prompting): live activity segmentation triggers DDR generation through a frozen LLM.
+**LiveDrill** uses *soft prompting*. A lightweight CNN segmentation module watches the stream and marks boundaries; when a segment completes, a region-of-interest mask hands the encoded window to a frozen LLM as soft tokens that condition DDR generation.
 
-![LiveDrill multimodal text generation module](./blog/mtgm.png)
-*A binary region-of-interest mask marks the most recent completed segment. The multivariate window is encoded, projected, and handed to the frozen LLM as soft tokens that condition DDR generation.*
+![LiveDrill multimodal text generation module. A binary ROI mask marks the most recent completed segment. The multivariate window is encoded, projected, and passed to the frozen LLM as soft tokens.](./blog/mtgm.png)
 
-**Flamingo variant** (cross attention): gated cross-attention layers inject time-series latents into the frozen LLM via a Perceiver Resampler, trained with a two-stage curriculum (activity-code classification → DDR generation).
+**The Flamingo variant** uses *cross attention*. A Perceiver Resampler compresses the time-series patches into a small fixed set of latents, and gated cross-attention layers interleaved inside the frozen LLM attend to those latents during generation. Training follows OpenTSLM's two-stage curriculum, adapted to real drilling data instead of synthetic series: Stage 1 learns activity-code classification as encoder warmup; Stage 2 unlocks free-form DDR generation.
 
-![IndusTSLM Flamingo architecture adapted from OpenTSLM](./blog/opentslm_flamingo.png)
-*Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.*
+![|wide| IndusTSLM Flamingo architecture. Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.](./blog/opentslm_flamingo.png)
 
-Evaluation uses an **LLM-as-judge** rubric with eight weighted criteria, validated against human expert ratings (ICC up to 0.864 for Qwen-72B).
+**Evaluation is non-trivial.** Standard lexical metrics (BLEU, ROUGE) are useless here: DDRs are telegraphic, domain-specific, and shuffle order freely. I use **LLM-as-judge** with an eight-criterion rubric weighted by domain experts (primary operation match at 50%, depth match at 12.5%, conciseness / all-ops match / parameter match / hole size / BHA type / other details at 6.25% each). The protocol was validated against human expert ratings:
+
+| Judge | Prompt | ICC(2,1) | Pearson | MAE |
+|---|---|---|---|---|
+| Llama-3-8B | multi-criteria | 0.544 | 0.579 | 0.258 |
+| Llama-3-70B | multi-criteria | **0.769** | 0.781 | **0.174** |
+| Qwen-2.5-72B | multi-criteria | **0.864** | **0.866** | **0.117** |
+
+Externally-aggregated multi-criteria scoring is the most reliable protocol, but only at 70B+ scale. With smaller judges it amplifies noise (the 8B's ICC collapses from 0.72 under minimal prompts to 0.54 under structured rubrics). I settle on **Llama-3-70B-MC** as the standard throughout the thesis.
+
+### Head-to-head results
+
+Text generation scores (normalized 0–1, best per row **bold**):
+
+| Architecture | TS Encoder | LLM | CM | CMT | DRILL | TRIP | Avg |
+|---|---|---|---|---|---|---|---|
+| Soft Prompt | CNN | Phi-3 (frozen) | 0.226 | 0.321 | 0.517 | 0.315 | 0.367 |
+| Soft Prompt | MOMENT | Phi-3 (frozen) | 0.122 | 0.214 | 0.516 | 0.221 | 0.346 |
+| Cross-Attn | scratch | Phi-3 | 0.198 | 0.296 | 0.489 | 0.298 | 0.343 |
+| Cross-Attn | Chronos-2 | Phi-3 | **0.237** | **0.338** | **0.541** | **0.329** | **0.381** |
+
+Combined with the segmentation bottleneck (CNN LSM at F1IoU = 0.510), the full system peaks at **0.436** under the harmonic mean — just ahead of soft prompting at 0.427. Two observations survive the setup:
+
+**The encoder matters more than the fusion mechanism.** A lightweight CNN trained on drilling data beats the much larger MOMENT foundation model across both paradigms. Drilling dynamics (bit-depth progression, hook-load cycling, pressure transients) seem underrepresented in general-purpose TSFM pretraining corpora. Chronos-2 initialization on top of cross-attention adds a consistent +0.037, hinting that forecasting-pretrained encoders carry useful temporal primitives even when the domain adapter does the heavy lifting.
+
+**Cross-attention scales better but wins by a small margin.** The memory argument is real: soft prompting's token count grows with input length while the Perceiver latent count is fixed. But on this task the quality gap is only +0.014. The real bottleneck is elsewhere.
 
 ### 3. DrillBench: a standardized benchmark
-7 task types across 4 groups (classification, generation, physical reasoning, forecasting) built on public Volve Field and Utah FORGE data. Introduces a **knowledge-decoupling framework** that separates genuine sensor analysis from pretrained-knowledge recall: a real issue when commercial LLMs can answer drilling questions from memory without reading the signal.
+
+![|right|half| DrillBench task taxonomy: seven tasks across four groups, with built-in knowledge decoupling.](./blog/tslm_survey.png)
+
+DrillBench is the first comprehensive benchmark for TSLMs in drilling. Seven task types across four groups (**classification, generation, physical reasoning, forecasting**), roughly 150,000 instances built from the public Volve Field and Utah FORGE datasets. Split at the well level to prevent leakage.
+
+The distinctive piece is the **knowledge-decoupling framework**. Counterfactual-reasoning tasks come with a prompt-only baseline that strips the sensor data and keeps only the textual context; if a model's sensor-informed accuracy is not meaningfully above its prompt-only accuracy, the model is just recalling memorized drilling facts instead of reading the signal. Baseline numbers on the stratified evaluation subset show exactly this failure mode:
+
+| Model | Prompt-only | +Sensor | ∆ |
+|---|---|---|---|
+| Claude 3.5 Sonnet | 63.2 | 68.8 | +5.6 |
+| Gemini-3-Flash | 62.5 | 66.5 | +4.0 |
+| GPT-4o | 58.8 | 62.1 | +3.3 |
+| Qwen3-VL (30B, A3B) | 52.4 | 56.8 | +4.4 |
+| IndusTSLM (zero-shot) | 50.2 | 54.2 | +4.0 |
+| **IndusTSLM (SFT)** | 53.8 | **72.5** | **+18.7** |
+
+Commercial LLMs answer these questions mostly from prior knowledge (Δ below +6 pp, binary chance = 50%). Only after instruction tuning does IndusTSLM's gap widen to +18.7, which says the fine-tuned model is genuinely reading the sensor. The same picture holds on the full benchmark average: Claude leads zero-shot at 51.2%, but instruction-tuned IndusTSLM climbs to **70.8%**, with the largest gains on classification (+34 pp) and segmentation (+35 pp). Generation gains less because of the issue discussed next.
 
 ---
 
-*This post distills background material from my M.Sc. thesis *IndusTSLM: Exploring Time-Series Language Models for Drilling Data* (MBZUAI, 2026), supervised by Dr. Salem Lahlou and Dr. Martin Takáč, in collaboration with [AIQ Intelligence](https://aiqintelligence.ai). Code and figures: [github.com/yehias21/IndusTSLM](https://github.com/yehias21/IndusTSLM).*
+## The one gap that stays open
+
+Every architecture I tried reliably identifies the **type** of activity (primary-operation match between 0.52 and 0.65 zero-shot, 0.73 fine-tuned) but struggles with **numbers**. Depth-match accuracy stays below 0.06 zero-shot and 0.19 fine-tuned. Parameter fidelity stays below 0.04 zero-shot and 0.13 fine-tuned. The encoder learns the *shape* of what happened; the specific quantities get smeared through the patching, pooling, and projection pipeline, and the next-token objective treats all tokens equally so numeric tokens never get privileged.
+
+This is the real open problem in industrial TSLMs. Getting the model to confidently say *"drilled from 2,231 m to 2,243 m"* rather than *"drilled an interval"* likely requires one of: number-aware tokenization, auxiliary regression heads that predict key quantities alongside the LM loss, or retrieval-augmented generation that grounds numeric claims in the actual sensor window. I think that is the direction the next paper has to go.
+
+---
+
+*This post distills background material and the headline findings from my M.Sc. thesis *IndusTSLM: Exploring Time-Series Language Models for Drilling Data* (MBZUAI, 2026), supervised by Dr. Salem Lahlou and Dr. Martin Takáč, in collaboration with [AIQ Intelligence](https://aiqintelligence.ai). Code and figures: [github.com/yehias21/IndusTSLM](https://github.com/yehias21/IndusTSLM).*
