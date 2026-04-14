@@ -43,20 +43,13 @@ Drilling creates a borehole (a *wellbore*) that penetrates rock formations to ac
 
 Operations are tracked with standardized **activity codes** that feed the DDR. After consolidating notation variants, our proprietary ADNOC dataset contained **61 unique codes** and **491 sub-codes**. A short tour of the dominant ones:
 
-| Code | Meaning | Share |
-|---|---|---|
-| `DRILL` | Rotary or slide drilling | 16.5% |
-| `TRIP` | Run in / pull out of hole | 15.2% |
-| `CM` | Corrective maintenance | 8.8% |
-| `CSG` | Running / pulling casing | 6.5% |
-| `WAIT` | Waiting (weather, orders) | 4.1% |
-| `LOG` | Wireline or MWD logging | 4.1% |
-| `CIRC` | Circulating drilling fluid | 4.0% |
-| `BOP` | BOP operations | 3.6% |
-| `FISH` | Fishing operations | 3.4% |
-| `CMT` | Cementing | 2.9% |
-
-![Distribution of drilling activity labels across the dataset. Major codes on the left; top sub-codes on the right.](./blog/activity_distribution.png)
+| Code | Meaning | Share | | Code | Meaning | Share |
+|---|---|---|---|---|---|---|
+| `DRILL` | Rotary or slide drilling | 16.5% | | `LOG` | Wireline or MWD logging | 4.1% |
+| `TRIP` | Run in / pull out of hole | 15.2% | | `CIRC` | Circulating drilling fluid | 4.0% |
+| `CM` | Corrective maintenance | 8.8% | | `BOP` | BOP operations | 3.6% |
+| `CSG` | Running / pulling casing | 6.5% | | `FISH` | Fishing operations | 3.4% |
+| `WAIT` | Waiting (weather, orders) | 4.1% | | `CMT` | Cementing | 2.9% |
 
 The distribution is **heavily imbalanced**. DRILL + TRIP alone account for nearly a third of all timesteps, while many codes contribute less than 1%. About 12% of timesteps are unlabeled. The label space also contains spelling inconsistencies (`DRILL`/`DRIL`, `RIGMT`/`RGMT`/`RIGMNT`) that need canonicalization before any training can happen.
 
