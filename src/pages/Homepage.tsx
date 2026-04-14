@@ -263,7 +263,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                     </a>
                   )}
                 </div>
-                <p className={`text-sm mb-4 flex-grow ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`} style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <p className={`text-sm mb-4 flex-grow overflow-y-auto max-h-20 pr-1 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                   {proj.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
