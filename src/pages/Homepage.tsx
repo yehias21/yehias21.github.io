@@ -75,7 +75,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             <p className={`text-md md:text-lg font-mono border-l-4 pl-4 italic transition-all duration-500 ease-in-out ${isMatrix ? 'text-green-400 border-green-500' : 'text-slate-500 border-blue-500'}`}>
               {PROFILE.quotes[quoteIndex]}
             </p>
-            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-green-700' : 'text-slate-400'}`}>
+            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-green-400' : 'text-slate-500'}`}>
               Press 'Q' to change
             </span>
           </div>
@@ -83,21 +83,21 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           {/* Social Links & Contact */}
           <div className="flex gap-4">
             {PROFILE.socials.github && (
-              <a href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="GitHub" title="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <Github className="w-5 h-5" />
               </a>
             )}
             {PROFILE.socials.linkedin && (
-              <a href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="LinkedIn" title="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <Linkedin className="w-5 h-5" />
               </a>
             )}
             {PROFILE.socials.scholar && (
-              <a href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="Google Scholar" title="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <GraduationCap className="w-5 h-5" />
               </a>
             )}
-            <a href={`mailto:${PROFILE.email}`} className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+            <a aria-label="Email" title="Email" href={`mailto:${PROFILE.email}`} className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
               <Mail className="w-5 h-5" />
             </a>
           </div>

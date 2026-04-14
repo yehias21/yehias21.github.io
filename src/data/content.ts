@@ -133,7 +133,13 @@ export const PUBLICATIONS: Publication[] = [
     year: 2026,
     abstract: "Extends learning-based KKL observers to controlled non-autonomous nonlinear systems via hypernetwork-based input conditioning, producing time-varying transformation maps that track the attractor geometry under forcing.",
     tags: ["Dynamical Systems", "Observers", "Hypernetworks"],
-    link: "https://github.com/yehias21/HyperKKL"
+    link: "https://github.com/yehias21/HyperKKL",
+    bibtex: `@inproceedings{shaaban2026hyperkkl,
+  title={HyperKKL: Enabling Non-Autonomous State Estimation through Dynamic Weight Conditioning},
+  author={Shaaban, Yahia Salaheldin and Lahlou, Salem and Sayed, Abdelrahman Sayed},
+  booktitle={ICLR 2026 Workshop on AI and PDE},
+  year={2026}
+}`
   },
   {
     id: "svrpbench",
@@ -158,7 +164,14 @@ export const PUBLICATIONS: Publication[] = [
     venue: "IEEE Big Data Conference 2025",
     year: 2025,
     abstract: "A streaming pipeline that couples real-time activity segmentation on drilling sensor streams with multimodal text generation to produce Daily Drilling Report entries at segment boundaries.",
-    tags: ["Multimodal", "Industry 4.0", "NLP"]
+    tags: ["Multimodal", "Industry 4.0", "NLP"],
+    bibtex: `@inproceedings{sengupta2025streaming,
+  title={Streaming Drilling Report Generation with Live Segmentation and Multimodal Text Generation},
+  author={Sengupta, Soumyadipta and Buiting, Sebastiaan and El Khair, Amine and Khaouja, Imane and Shaaban, Yahia Salaheldin and Benzine, Abdallah},
+  booktitle={2025 IEEE International Conference on Big Data (BigData)},
+  year={2025},
+  organization={IEEE}
+}`
   },
   {
     id: "livedrill",
@@ -167,7 +180,13 @@ export const PUBLICATIONS: Publication[] = [
     venue: "NeurIPS 2025 Workshop (Bert2S)",
     year: 2025,
     abstract: "Segment-triggered data-to-text for time-series foundation models on industrial drilling data; soft-prompted LLM conditioned on projected sensor embeddings to generate DDR text.",
-    tags: ["Time Series", "Foundation Models", "Multimodal"]
+    tags: ["Time Series", "Foundation Models", "Multimodal"],
+    bibtex: `@inproceedings{sengupta2025livedrill,
+  title={LiveDrill: Multimodal Segment-Triggered Data-to-Text for Time Series Foundation Models},
+  author={Sengupta, Soumyadipta and El Khair, Amine and Buiting, Sebastiaan and Khaouja, Imane and Shaaban, Yahia Salaheldin and Benzine, Abdallah},
+  booktitle={NeurIPS 2025 Workshop on Breaking the Barriers of Time Series (Bert2S)},
+  year={2025}
+}`
   },
   {
     id: "llm-judge-drilling",
@@ -176,7 +195,13 @@ export const PUBLICATIONS: Publication[] = [
     venue: "NeurIPS 2025 Workshop (Evaluating the Evolving LLM Lifecycle)",
     year: 2025,
     abstract: "Systematic evaluation of LLM-as-judge protocols against human expert ratings for domain-specific DDR generation, comparing minimal, weighted multi-criteria, and externally-aggregated multi-criteria prompts across multiple judge scales.",
-    tags: ["LLM Evaluation", "Drilling", "NLP"]
+    tags: ["LLM Evaluation", "Drilling", "NLP"],
+    bibtex: `@inproceedings{benzine2025llmjudges,
+  title={LLMs as Judges for Domain-Specific Text: Evidence from Drilling Reports},
+  author={Benzine, Abdallah and Sengupta, Soumyadipta and Buiting, Sebastiaan and Khaouja, Imane and Shaaban, Yahia Salaheldin and El Khair, Amine},
+  booktitle={NeurIPS 2025 Workshop on Evaluating the Evolving LLM Lifecycle},
+  year={2025}
+}`
   },
   {
     id: "watermark-removal",
@@ -186,11 +211,26 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     abstract: "Winning approach combining frequency-domain analysis, adaptive VAE inversion of StegaStamp watermarks, and cluster-specific diffusion regeneration attacks. Ranked 1st in both tracks of the NeurIPS 2024 challenge.",
     tags: ["Security", "GenAI", "Watermarking"],
-    link: "https://github.com/yehias21/watermark-analysis"
+    link: "https://github.com/yehias21/watermark-analysis",
+    bibtex: `@inproceedings{shamshad2025watermark,
+  title={First-Place Solution to NeurIPS 2024 Invisible Watermark Removal Challenge},
+  author={Shamshad, Fahad and Bakr, Tewodros and Shaaban, Yahia Salaheldin and Hussein, Noor Hazim and Nandakumar, Karthik and Lukas, Nils},
+  booktitle={ICLR 2025 Workshop on GenAI Watermarking},
+  year={2025}
+}`
   }
 ];
 
+// Projects listed in reverse-chronological order (most recent first).
 export const PROJECTS: Project[] = [
+  {
+    id: "hyperkkl",
+    title: "HyperKKL: Non-Autonomous Observer Learning",
+    description: "ICLR 2026 Workshop on AI and PDE. Hypernetwork-conditioned KKL observers for controlled nonlinear systems. Two variants: input-dependent latent correction, and LoRA/full weight deltas generated from the input history. Collapses exactly to the autonomous observer when u ≡ 0.",
+    image: hyperkklImg,
+    techStack: ["PyTorch", "Dynamical Systems", "Hypernetworks"],
+    github: "https://github.com/yehias21/HyperKKL"
+  },
   {
     id: "industslm",
     title: "IndusTSLM: Time-Series Language Models for Drilling",
@@ -210,20 +250,19 @@ export const PROJECTS: Project[] = [
     linkLabel: "Benchmark"
   },
   {
-    id: "hyperkkl",
-    title: "HyperKKL: Non-Autonomous Observer Learning",
-    description: "ICLR 2026 Workshop on AI and PDE. Hypernetwork-conditioned KKL observers for controlled nonlinear systems. Two variants: input-dependent latent correction, and LoRA/full weight deltas generated from the input history. Collapses exactly to the autonomous observer when u ≡ 0.",
-    image: hyperkklImg,
-    techStack: ["PyTorch", "Dynamical Systems", "Hypernetworks"],
-    github: "https://github.com/yehias21/HyperKKL"
-  },
-  {
     id: "watermark-analysis",
     title: "Watermark Analysis: NeurIPS 2024 1st Place",
     description: "First-place solution to the NeurIPS 2024 Erasing the Invisible Stress-Test Challenge. Encoders/decoders (RivaGAN, StegaStamp, DWT-DCT, Tree-Ring), removal attacks (distortion, diffusion regeneration, adaptive VAE, embedding-space PGD), and quality metrics.",
     image: watermarkImg,
     techStack: ["Diffusion", "Security", "Computer Vision"],
     github: "https://github.com/yehias21/watermark-analysis"
+  },
+  {
+    id: "arabic-retrieval",
+    title: "Arabic Dense Retrieval",
+    description: "ColBERT-based neural retrieval for Arabic, trained via knowledge distillation from cross-lingual teachers and fine-tuned on large-scale Arabic corpora. Competitive MRR and recall on standard Arabic IR benchmarks.",
+    image: arabicColbertImg,
+    techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"]
   },
   {
     id: "rlexplore",
@@ -240,13 +279,6 @@ export const PROJECTS: Project[] = [
     image: fedsecaggImg,
     techStack: ["Flower", "PyTorch", "Privacy", "SMPC"],
     github: "https://github.com/yehias21/FedRs"
-  },
-  {
-    id: "arabic-retrieval",
-    title: "Arabic Dense Retrieval",
-    description: "ColBERT-based neural retrieval for Arabic, trained via knowledge distillation from cross-lingual teachers and fine-tuned on large-scale Arabic corpora. Competitive MRR and recall on standard Arabic IR benchmarks.",
-    image: arabicColbertImg,
-    techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"]
   },
   {
     id: "undergrad-archive",

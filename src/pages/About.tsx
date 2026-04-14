@@ -78,10 +78,13 @@ const About: React.FC<AboutProps> = ({ theme }) => {
             </h3>
             <div className={`p-6 rounded-lg border ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
               <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
-                At my core, I am a curious scientist and a dedicated family man. I believe that everything becomes fascinating when you dig deep enough.
+                I am a curious scientist who believes that almost anything becomes fascinating once you dig deep enough. Research, for me, is that deep dig: a disciplined way to turn curiosity into something useful.
               </p>
               <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
-                My mission for this accelerated journey on earth is to leave a lasting positive imprint, starting from my daily interactions to building a legacy. I view research not just as a pursuit of pride, but as a path to provide security, goodness, and inspiration for my future family and community.
+                My drive is to leave a lasting positive imprint on the communities I am part of. I want my work to outlast me, to create opportunity for people who would otherwise not have it, and to turn hard problems into tools others can build on.
+              </p>
+              <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
+                Concretely: I care about making ML work reliably on the messy, high-stakes signals that real industries and societies actually produce, and about sharing what I learn openly so the next researcher starts one step ahead.
               </p>
               <p className={`text-xs italic mt-4 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
                 <small>(Inspired by Veritasium's philosophy on purpose and sustainability <a href="https://www.youtube.com/watch?v=piHGnG4LsmQ" target="_blank" rel="noopener noreferrer" className={`underline hover:no-underline ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>here</a>)</small>

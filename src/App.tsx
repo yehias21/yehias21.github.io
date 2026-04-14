@@ -129,9 +129,9 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       {/* Footer */}
       <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-400 border-slate-200'}`}>
         <div className="flex justify-center gap-6 mb-4">
-          {PROFILE.socials.github && <a href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
-          {PROFILE.socials.linkedin && <a href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
-          {PROFILE.socials.scholar && <a href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><GraduationCap className="w-5 h-5"/></a>}
+          {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
+          {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
+          {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><GraduationCap className="w-5 h-5"/></a>}
         </div>
         <p>&copy; {new Date().getFullYear()} {PROFILE.name}</p>
       </footer>
