@@ -1,19 +1,19 @@
 # Linear Algebra Fundamentals: A Deep Dive into Everyday Mathematics
 
-This is a comprehensive set of linear algebra fundamentals - these form the backbone of so much in ML. Let me rebuild these concepts for you with clear explanations and geometric intuition.
+This is a comprehensive set of linear algebra fundamentals. These form the backbone of so much in ML. Let me rebuild these concepts for you with clear explanations and geometric intuition.
 
 ---
 
 ## 1. Eigenvectors and Eigenvalues: Geometric Interpretation & PCA
 
-**The core idea:** When you apply a matrix $A$ to most vectors, they change both direction and magnitude. But *eigenvectors* are special - they only get scaled (stretched or compressed), not rotated.
+**The core idea:** When you apply a matrix $A$ to most vectors, they change both direction and magnitude. But *eigenvectors* are special: they only get scaled (stretched or compressed), not rotated.
 
 $$A\mathbf{v} = \lambda \mathbf{v}$$
 
 - $\mathbf{v}$ is the eigenvector (the direction that stays fixed)
 - $\lambda$ is the eigenvalue (the scaling factor)
 
-**Geometric picture:** Imagine $A$ as a transformation. The eigenvectors are the "principal axes" of that transformation - the directions along which the transformation acts most simply (pure scaling).
+**Geometric picture:** Imagine $A$ as a transformation. The eigenvectors are the "principal axes" of that transformation: the directions along which the transformation acts most simply (pure scaling).
 
 **Why crucial for PCA?**
 
@@ -57,9 +57,9 @@ $$A = U \Sigma V^T$$
 
 **Rank:** The number of linearly independent columns (or rows) of a matrix. Equivalently, the dimension of the column space.
 
-**Column space** $\text{Col}(A)$: All possible outputs $A\mathbf{x}$ - the "reachable" vectors.
+**Column space** $\text{Col}(A)$: All possible outputs $A\mathbf{x}$: the "reachable" vectors.
 
-**Null space** $\text{Null}(A)$: All vectors $\mathbf{x}$ such that $A\mathbf{x} = \mathbf{0}$ - inputs that get "killed."
+**Null space** $\text{Null}(A)$: All vectors $\mathbf{x}$ such that $A\mathbf{x} = \mathbf{0}$: inputs that get "killed."
 
 **The rank-nullity theorem:**
 $$\text{rank}(A) + \dim(\text{Null}(A)) = n$$

@@ -39,7 +39,7 @@ export const EDUCATION: Education[] = [
     period: "Aug 2024 – May 2026",
     location: "Abu Dhabi, UAE",
     details: [
-      "Thesis: IndusTSLM — integrating raw sensor signals as a native modality into pretrained LLMs for oil-well drilling data. Supervised by Dr. Salem Lahlou and Dr. Martin Takáč.",
+      "Thesis: IndusTSLM: integrating raw sensor signals as a native modality into pretrained LLMs for oil-well drilling data. Supervised by Dr. Salem Lahlou and Dr. Martin Takáč.",
       "Courses: Advanced Machine Learning, Probabilistic and Statistical Inference, Convex Optimization, Advanced NLP."
     ]
   },
@@ -95,7 +95,7 @@ export const EXPERIENCE: Experience[] = [
     company: "Flower Labs",
     role: "Summer of Reproducibility Contributor",
     period: "Jul 2023 – Oct 2023",
-    location: "Remote – Cambridge University",
+    location: "Remote: Cambridge University",
     description: [
       "Replicated FedPara (ICLR 2022) and integrated the implementation into the Flower federated learning framework."
     ]
@@ -192,7 +192,7 @@ export const PUBLICATIONS: Publication[] = [
 export const PROJECTS: Project[] = [
   {
     id: "industslm",
-    title: "IndusTSLM — Time-Series Language Models for Drilling",
+    title: "IndusTSLM: Time-Series Language Models for Drilling",
     description: "Master's thesis. Multimodal alignment of 1 Hz industrial sensor streams and Daily Drilling Report text: DriMM (dual-encoder contrastive), LiveDrill (soft-prompt generation), and a Flamingo-style cross-attention variant. Includes DrillBench, a 7-task benchmark with a knowledge-decoupling framework.",
     image: industslmImg,
     techStack: ["PyTorch", "Time Series", "LLMs", "Multimodal"],
@@ -200,7 +200,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "svrpbench",
-    title: "SVRPBench — Stochastic Vehicle Routing Benchmark",
+    title: "SVRPBench: Stochastic Vehicle Routing Benchmark",
     description: "NeurIPS 2025 Datasets & Benchmarks. 500+ instances (10–1000 customers) for stochastic VRP with time-dependent travel delays, log-normal disruptions, and realistic time windows calibrated against real city road networks.",
     image: svrpPipelineImg,
     techStack: ["Optimization", "Benchmarks", "RL", "OR"],
@@ -209,7 +209,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "hyperkkl",
-    title: "HyperKKL — Non-Autonomous Observer Learning",
+    title: "HyperKKL: Non-Autonomous Observer Learning",
     description: "ICLR 2026 Workshop on AI and PDE. Hypernetwork-conditioned KKL observers for controlled nonlinear systems. Two variants: input-dependent latent correction, and LoRA/full weight deltas generated from the input history. Collapses exactly to the autonomous observer when u ≡ 0.",
     image: hyperkklImg,
     techStack: ["PyTorch", "Dynamical Systems", "Hypernetworks"],
@@ -217,7 +217,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "watermark-analysis",
-    title: "Watermark Analysis — NeurIPS 2024 1st Place",
+    title: "Watermark Analysis: NeurIPS 2024 1st Place",
     description: "First-place solution to the NeurIPS 2024 Erasing the Invisible Stress-Test Challenge. Encoders/decoders (RivaGAN, StegaStamp, DWT-DCT, Tree-Ring), removal attacks (distortion, diffusion regeneration, adaptive VAE, embedding-space PGD), and quality metrics.",
     image: watermarkImg,
     techStack: ["Diffusion", "Security", "Computer Vision"],
@@ -225,7 +225,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "rlexplore",
-    title: "RLeXplore — Exploration in RL",
+    title: "RLeXplore: Exploration in RL",
     description: "Value-based, discrete-action RL on MiniGrid, organized around the taxonomy of Amin et al. (2021). SOLID plugin registry for strategies (ε-greedy, εz-greedy, NoisyNets, Bootstrapped DQN, count-based, RND) with a single declarative config and CLI.",
     image: rlexploreImg,
     techStack: ["PyTorch", "RL", "MiniGrid"],
@@ -233,7 +233,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "fedsecagg",
-    title: "FedSecAgg — Federated Learning with Secure Aggregation",
+    title: "FedSecAgg: Federated Learning with Secure Aggregation",
     description: "Federated learning with secure aggregation on Flower + PyTorch. SOLID layout: swappable dataset providers, model factories, strategy decorators, and pluggable metric loggers. Default task: CIFAR-10 across many simulated clients with SecAgg primitives.",
     image: drimmImg,
     techStack: ["Flower", "PyTorch", "Privacy", "SMPC"],
@@ -263,7 +263,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Oil & Gas Drilling: From Bits to Bytes",
     date: "Mar 25, 2026",
     readTime: "18 min read",
-    excerpt: "A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models — drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.",
+    excerpt: "A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models: drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.",
     content: oilGasMd,
     tags: ["Oil & Gas", "Time Series", "Multimodal", "Industry 4.0"]
   },
@@ -282,12 +282,12 @@ export const GALLERY: GalleryItem[] = [
   {
     id: "g1",
     src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=600",
-    caption: "M.I.A Robotics — Underwater ROV"
+    caption: "M.I.A Robotics: Underwater ROV"
   },
   {
     id: "g2",
     src: "https://images.unsplash.com/photo-1544367563-12123d8965cd?auto=format&fit=crop&q=80&w=600",
-    caption: "Pro Swimmer — National Competition"
+    caption: "Pro Swimmer: National Competition"
   },
   {
     id: "g3",

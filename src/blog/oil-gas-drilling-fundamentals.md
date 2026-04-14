@@ -1,6 +1,6 @@
 # Oil & Gas Drilling: From Bits to Bytes
 
-*A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models — drawn from my M.Sc. thesis work on IndusTSLM with AIQ Intelligence.*
+*A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models: drawn from my M.Sc. thesis work on IndusTSLM with AIQ Intelligence.*
 
 ![IndusTSLM Flamingo architecture for drilling data](./blog/industslm.png)
 
@@ -10,7 +10,7 @@
 
 A single wellbore generates on average **700,000 sensor measurements per day**, recorded at up to 1 Hz across channels that monitor mechanical forces, hydraulic pressures, rotational speeds, and depth progression. Over a typical campaign spanning multiple wells and several years, this produces **billions of timestamped observations** encoding the full operational history of the rig.
 
-Concurrently, drilling engineers produce **Daily Drilling Reports (DDRs)** — concise natural language summaries documenting the activities performed during each shift, the depths reached, the equipment used, and any anomalies encountered.
+Concurrently, drilling engineers produce **Daily Drilling Reports (DDRs)**: concise natural language summaries documenting the activities performed during each shift, the depths reached, the equipment used, and any anomalies encountered.
 
 Despite the richness of these paired data streams, the industry still relies heavily on manual interpretation. That is exactly where modern multimodal ML can help.
 
@@ -20,10 +20,10 @@ Despite the richness of these paired data streams, the industry still relies hea
 
 Drilling creates a borehole (a *wellbore*) that penetrates rock formations to access hydrocarbon reservoirs, sometimes several kilometers below the surface. Four broad families:
 
-1. **Exploration (wildcat) drilling** — unproven areas to discover new reserves.
-2. **Development drilling** — additional wells in proven fields.
-3. **Directional drilling** — at angles to reach reserves not directly below the rig.
-4. **Horizontal drilling** — along the reservoir layer to maximize contact area.
+1. **Exploration (wildcat) drilling**: unproven areas to discover new reserves.
+2. **Development drilling**: additional wells in proven fields.
+3. **Directional drilling**: at angles to reach reserves not directly below the rig.
+4. **Horizontal drilling**: along the reservoir layer to maximize contact area.
 
 ### Surface components at a glance
 
@@ -35,20 +35,20 @@ Key surface components measured by the 8 channels discussed below: the **traveli
 
 ## The drilling process
 
-### Phase 1 — Planning
+### Phase 1: Planning
 Geological surveys, seismic analysis, and environmental review feed a detailed **well plan**: target depth and trajectory, casing design, mud weight, expected formations, and safety procedures.
 
-### Phase 2 — Rig setup
+### Phase 2: Rig setup
 Derrick, drawworks, rotary table / top drive, mud pumps, blowout preventer (BOP).
 
-### Phase 3 — Drilling
+### Phase 3: Drilling
 - **Spud in** → first penetration.
 - **Drilling ahead** → monitored through ROP, WOB, RPM, torque, SPP.
 - **Tripping** → pulling the drill string out and back in for bit changes, casing runs, or logging.
 - **Casing and cementing** → successive steel casing strings (conductor → surface → intermediate → production) cemented to stabilize the well and isolate zones.
 - **Total Depth (TD)** → target reached, well ready for completion.
 
-### Phase 4 — Completion
+### Phase 4: Completion
 Production tubing, perforation, packers, safety valves, well testing.
 
 ---
@@ -134,7 +134,7 @@ Before any modeling, both modalities go through a multi-stage pipeline:
 3. Removal of entries without a sensor signature (safety meetings, crew changes).
 
 **Rig state inference**
-Per-timestep physics-based rules map four binary conditions (block direction, bit on bottom, pumps on, rotating) to **19 discrete rig states** at 1 Hz — a far finer temporal label than the 24-hour DDR.
+Per-timestep physics-based rules map four binary conditions (block direction, bit on bottom, pumps on, rotating) to **19 discrete rig states** at 1 Hz: a far finer temporal label than the 24-hour DDR.
 
 ---
 
@@ -146,18 +146,18 @@ The question my thesis asks is simple: **can the multimodal recipes that bridged
 
 I attacked it in three progressive stages:
 
-### 1. DriMM — dual-encoder contrastive alignment
+### 1. DriMM: dual-encoder contrastive alignment
 A CLIP-style model where a time-series encoder (Moirai or MOMENT) and a domain-adapted RoBERTa map sensor windows and DDR text into a shared 256-d space. Training objective: symmetric InfoNCE with **hard negative mining** from semantically similar but operationally distinct DDR entries. Result: up to +30 pp on linear probing over the pretrained time-series checkpoint, and ~8% average gain from hard negatives on retrieval / zero-shot / linear probing.
 
-### 2. IndusTSLM — generative time-series language models
+### 2. IndusTSLM: generative time-series language models
 Two architectural paradigms on identical drilling data:
 - **LiveDrill**: live activity segmentation triggers **soft-prompted** DDR generation through a frozen LLM.
 - **Flamingo variant**: gated cross-attention layers inject time-series latents into the frozen LLM via a Perceiver Resampler, trained with a two-stage curriculum (activity-code classification → DDR generation).
 
 Evaluation uses an **LLM-as-judge** rubric with eight weighted criteria, validated against human expert ratings (ICC up to 0.864 for Qwen-72B).
 
-### 3. DrillBench — a standardized benchmark
-7 task types across 4 groups (classification, generation, physical reasoning, forecasting) built on public Volve Field and Utah FORGE data. Introduces a **knowledge-decoupling framework** that separates genuine sensor analysis from pretrained-knowledge recall — a real issue when commercial LLMs can answer drilling questions from memory without reading the signal.
+### 3. DrillBench: a standardized benchmark
+7 task types across 4 groups (classification, generation, physical reasoning, forecasting) built on public Volve Field and Utah FORGE data. Introduces a **knowledge-decoupling framework** that separates genuine sensor analysis from pretrained-knowledge recall: a real issue when commercial LLMs can answer drilling questions from memory without reading the signal.
 
 ---
 
@@ -173,19 +173,19 @@ Decisions in seconds (kick detection); limited satellite bandwidth offshore; on-
 Sensors at 100 Hz, DDRs daily, seismic static, mud logs image-like. Temporal alignment and the semantic gap between raw signal and geological concept are both hard.
 
 ### 4. Rare event prediction
-Stuck pipe, lost circulation, kicks are < 1% of time but operationally decisive. False-positive cost is high — operators tune out a noisy system.
+Stuck pipe, lost circulation, kicks are < 1% of time but operationally decisive. False-positive cost is high: operators tune out a noisy system.
 
 ### 5. Causal inference and interpretability
 Many confounders (formation, equipment, operator skill, mud). Black-box models are a non-starter in a safety-critical domain.
 
 ### 6. Numeric fidelity in generative models
-This is the open problem I keep hitting. Every architecture I tried reliably identifies the **type** of activity (primary-operation match ~0.6–0.7) but struggles with **numbers** — depth accuracy below 0.06, parameter fidelity below 0.04. The encoder preserves patterns but loses exact values, and the projection into LLM token space degrades them further.
+This is the open problem I keep hitting. Every architecture I tried reliably identifies the **type** of activity (primary-operation match ~0.6–0.7) but struggles with **numbers**: depth accuracy below 0.06, parameter fidelity below 0.04. The encoder preserves patterns but loses exact values, and the projection into LLM token space degrades them further.
 
 ---
 
 ## Why this matters
 
-Drilling is a domain where data science can have enormous impact — safer operations, fewer lost days, faster wells — but the constraints are real:
+Drilling is a domain where data science can have enormous impact: safer operations, fewer lost days, faster wells: but the constraints are real:
 
 - **Data** is noisy, sparse, fragmented, and proprietary.
 - **Real-time** means edge deployment with latency and bandwidth limits.
@@ -194,7 +194,7 @@ Drilling is a domain where data science can have enormous impact — safer opera
 
 The combinations that seem to work are: domain expertise + physics-informed priors + robust methods + explainability + human-in-the-loop augmentation rather than replacement.
 
-The future of drilling isn't just deeper and faster — it's more observable, and hopefully more honest about what the sensors actually say.
+The future of drilling isn't just deeper and faster: it's more observable, and hopefully more honest about what the sensors actually say.
 
 ---
 
