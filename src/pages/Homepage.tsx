@@ -82,7 +82,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
           {/* Research story CTA */}
           <a
-            href="https://github.com/yehias21/yehias21#-research-background"
+            href="https://github.com/yehias21/yehias21.github.io#-research-background"
             target="_blank"
             rel="noreferrer"
             className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-6 transition-all ${isMatrix ? 'bg-green-900/40 text-green-300 border border-green-800 hover:bg-green-900/60' : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'}`}
