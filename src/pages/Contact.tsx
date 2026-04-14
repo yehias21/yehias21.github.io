@@ -14,7 +14,7 @@ const Contact: React.FC<ContactProps> = ({ theme }) => {
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-2xl mx-auto text-center">
       <h2 className={`text-3xl font-bold mb-6 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>Let's Connect</h2>
       <p className={`mb-8 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-        I am open to collaborations on Time Series, LLMs, and Reasoning.
+        I am open to collaborations on time-series foundation models, multimodal learning, dynamical systems, and federated learning.
       </p>
 
       <div className={`p-8 rounded-2xl shadow-sm border mb-8 ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>

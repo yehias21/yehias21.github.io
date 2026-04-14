@@ -14,6 +14,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
     Math.floor(Math.random() * PROFILE.quotes.length)
   );
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [expandedPubId, setExpandedPubId] = useState<string | null>(null);
   const isMatrix = theme === ThemeMode.MATRIX;
 
   // Auto-rotate quotes every 8 seconds
@@ -133,13 +134,13 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         <div className="space-y-4">
           {PUBLICATIONS.slice(0, 3).map((pub) => {
-            const [isExpanded, setIsExpanded] = useState(false);
+            const isExpanded = expandedPubId === pub.id;
 
             return (
               <div
                 key={pub.id}
                 className={`group p-6 rounded-xl border transition-all duration-300 cursor-pointer ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-green-800 hover:shadow-lg hover:shadow-green-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => setExpandedPubId(isExpanded ? null : pub.id)}
               >
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
@@ -237,9 +238,15 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
               key={proj.id}
               className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-green-800 hover:shadow-green-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
             >
-              <div className="h-40 overflow-hidden bg-gray-200 relative">
-                <img src={proj.image} alt={proj.title} className={`w-full h-full object-cover transition-transform duration-500 ${isMatrix ? 'opacity-80' : ''}`} />
-                <div className={`absolute inset-0 bg-gradient-to-t to-transparent ${isMatrix ? 'from-slate-900' : 'from-white/50'}`}></div>
+              <div className={`h-40 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
+                {proj.image && (
+                  <img src={proj.image} alt={proj.title} className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] ${isMatrix ? 'opacity-90' : ''}`} />
+                )}
+                {!proj.image && proj.placeholderLabel && (
+                  <span className="font-mono text-white/90 text-sm tracking-widest uppercase drop-shadow-md">
+                    {proj.placeholderLabel}
+                  </span>
+                )}
               </div>
               <div className="p-5 flex flex-col flex-grow">
                 <div className="flex items-start justify-between mb-2">
@@ -356,7 +363,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="text-center py-12">
         <h2 className={`text-3xl font-bold mb-4 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>Let's Connect</h2>
         <p className={`mb-8 max-w-md mx-auto ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-          I am open to collaborations on Time Series, LLMs, and Reasoning.
+          I am open to collaborations on time-series foundation models, multimodal learning, dynamical systems, and federated learning.
         </p>
         <Link
           to="/contact"

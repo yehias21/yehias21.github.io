@@ -5,7 +5,7 @@ import { quotes } from './quotes';
 // Project images
 import industslmImg from '../assets/projects/industslm_logo.gif';
 import drimmImg from '../assets/projects/drimm.png';
-import svrpPipelineImg from '../assets/projects/svrp_pipeline.png';
+import svrpPipelineImg from '../assets/projects/svrp_teaser.png';
 import hyperkklImg from '../assets/projects/hyperkkl.png';
 import watermarkImg from '../assets/projects/watermark_teaser.png';
 import rlexploreImg from '../assets/projects/rlexplore.gif';
@@ -245,8 +245,7 @@ export const PROJECTS: Project[] = [
     title: "Arabic Dense Retrieval",
     description: "ColBERT-based neural retrieval for Arabic, trained via knowledge distillation from cross-lingual teachers and fine-tuned on large-scale Arabic corpora. Competitive MRR and recall on standard Arabic IR benchmarks.",
     image: arabicColbertImg,
-    techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"],
-    github: "https://github.com/yehias21/arabic-retrieval"
+    techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"]
   },
   {
     id: "undergrad-archive",
