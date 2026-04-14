@@ -71,6 +71,25 @@
         scroll-behavior: smooth;
       }
 
+      /* Scrollbar hidden by default, appears on hover. */
+      .scroll-on-hover {
+        scrollbar-width: none;
+      }
+      .scroll-on-hover::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background: transparent;
+      }
+      .scroll-on-hover:hover,
+      .scroll-on-hover:focus-within {
+        scrollbar-width: thin;
+      }
+      .scroll-on-hover:hover::-webkit-scrollbar,
+      .scroll-on-hover:focus-within::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
       /* Glitch text effect for matrix mode */
       .glitch-text {
         position: relative;

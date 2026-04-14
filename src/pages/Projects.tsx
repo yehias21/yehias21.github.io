@@ -51,7 +51,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                   </a>
                 )}
               </div>
-              <p className={`text-sm mb-4 flex-grow overflow-y-auto max-h-24 pr-1 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-sm mb-4 flex-grow overflow-y-auto max-h-24 pr-1 scroll-on-hover ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                 {proj.description}
               </p>
               <div className="flex flex-wrap gap-2">
