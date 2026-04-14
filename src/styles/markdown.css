@@ -165,6 +165,11 @@
   border: 1px solid rgba(100, 116, 139, 0.15);
 }
 
+/* Tall/narrow figures that shouldn't span the full column. */
+.prose img[src*="mtgm.png"] {
+  max-width: 360px;
+}
+
 /* A stand-alone italic paragraph right after an image acts as its caption. */
 .prose p > img + em,
 .prose p:has(> img) + p > em:only-child {
