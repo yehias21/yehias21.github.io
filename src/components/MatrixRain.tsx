@@ -17,7 +17,7 @@ const MatrixRain: React.FC = () => {
 
     // Matrix characters - mix of letters, numbers and symbols
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*(){}[]|;:<>?';
-    const fontSize = 16;
+    const fontSize = 14;
     const columns = Math.floor(width / fontSize);
 
     // Array to track the y position of each column
@@ -29,31 +29,33 @@ const MatrixRain: React.FC = () => {
     }
 
     const draw = () => {
-      // Semi-transparent black to create fade effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+      // Slightly stronger fade so trails don't smear into grey
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.font = `${fontSize}px "Courier New", monospace`;
+      ctx.font = `bold ${fontSize}px "Courier New", monospace`;
 
       for (let i = 0; i < drops.length; i++) {
         const text = characters.charAt(Math.floor(Math.random() * characters.length));
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // Create gradient effect - brighter at the head
+        // More saturated neon-green palette with a glowing head.
         const brightness = Math.random();
-        if (brightness > 0.98) {
-          // Bright white head of the rain
-          ctx.fillStyle = '#ffffff';
+        if (brightness > 0.985) {
+          ctx.shadowColor = '#39ff14';
+          ctx.shadowBlur = 8;
+          ctx.fillStyle = '#eaffea';
         } else if (brightness > 0.9) {
-          // Bright green
-          ctx.fillStyle = '#00ff00';
-        } else if (brightness > 0.7) {
-          // Medium green
-          ctx.fillStyle = '#00cc00';
+          ctx.shadowColor = '#00ff41';
+          ctx.shadowBlur = 6;
+          ctx.fillStyle = '#39ff14';
+        } else if (brightness > 0.65) {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#00e03a';
         } else {
-          // Darker green for trail
-          ctx.fillStyle = '#008800';
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#00a62b';
         }
 
         ctx.fillText(text, x, y);
@@ -97,7 +99,7 @@ const MatrixRain: React.FC = () => {
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
       style={{
-        opacity: 0.35,
+        opacity: 0.75,
         mixBlendMode: 'screen'
       }}
     />
