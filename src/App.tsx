@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import MatrixRain from './components/MatrixRain';
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
-import MatrixRain from './components/MatrixRain';
 import ChatWidget from './components/ChatWidget';
 import Homepage from './pages/Homepage';
 import About from './pages/About';

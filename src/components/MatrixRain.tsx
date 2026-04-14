@@ -40,21 +40,16 @@ const MatrixRain: React.FC = () => {
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // More saturated neon-green palette with a glowing head.
+        // Saturated neon-green palette, no glow (no pulsing).
+        ctx.shadowBlur = 0;
         const brightness = Math.random();
         if (brightness > 0.985) {
-          ctx.shadowColor = '#39ff14';
-          ctx.shadowBlur = 8;
           ctx.fillStyle = '#eaffea';
         } else if (brightness > 0.9) {
-          ctx.shadowColor = '#00ff41';
-          ctx.shadowBlur = 6;
           ctx.fillStyle = '#39ff14';
         } else if (brightness > 0.65) {
-          ctx.shadowBlur = 0;
           ctx.fillStyle = '#00e03a';
         } else {
-          ctx.shadowBlur = 0;
           ctx.fillStyle = '#00a62b';
         }
 
