@@ -80,6 +80,18 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             </span>
           </div>
 
+          {/* Research story CTA */}
+          <a
+            href="https://github.com/yehias21/yehias21#-research-background"
+            target="_blank"
+            rel="noreferrer"
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-6 transition-all ${isMatrix ? 'bg-green-900/40 text-green-300 border border-green-800 hover:bg-green-900/60' : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'}`}
+          >
+            <BookText className="w-4 h-4" />
+            Read my research background
+            <ArrowRight className="w-4 h-4" />
+          </a>
+
           {/* Social Links & Contact */}
           <div className="flex gap-4">
             {PROFILE.socials.github && (
