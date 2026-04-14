@@ -70,6 +70,9 @@ Operations are tracked with standardized **activity codes** that feed the DDR. A
 | `FISH` | Fishing operations | 3.4% |
 | `CMT` | Cementing | 2.9% |
 
+![Distribution of drilling activity labels across the dataset](./blog/activity_distribution.png)
+*Major activity codes (left) and top sub-codes (right). DRILL + TRIP alone account for nearly a third of all timesteps.*
+
 The distribution is **heavily imbalanced**: DRILL + TRIP alone account for nearly a third of all timesteps, while many codes contribute less than 1%. About 12% of timesteps are unlabeled. The label space also contains spelling inconsistencies (`DRILL`/`DRIL`, `RIGMT`/`RGMT`/`RIGMNT`) that need canonicalization.
 
 ---
@@ -91,6 +94,9 @@ Modern rigs record far more than 8 channels, but for sensor-to-language alignmen
 
 ### Different activities have very different signatures
 
+![Eight sensor channels over a 3.3 hour window from well BB-1282](./blog/sensor_timeseries.png)
+*A real ~3.3 hour window from well BB-1282 (16" hole section). Shaded regions mark DRILL → TRIP → CIRC transitions. Each activity leaves a distinct fingerprint across the eight channels.*
+
 During **DRILL**: elevated WOB, active torque, high SPP and flow, steadily increasing bit depth.
 During **TRIP**: WOB drops to zero, hook load and block position exhibit a characteristic sawtooth as stands are handled.
 During **CIRC**: hydraulic system active but mechanical indicators near zero.
@@ -101,18 +107,22 @@ This contrast is precisely what makes a learnable mapping between sensor traject
 
 ## The Daily Drilling Report (DDR)
 
-A short excerpt from an actual DDR:
+At the end of each 24 hour shift, a drilling engineer logs every activity segment in a table like this (one real day from the dataset):
 
-```
-00:00–01:00  TRIP    Made up BHA; made up 8.5" PDC bit with 8-3/8" near bit reamer.
-01:00–03:30  TRIP    RIH to 956 m. Recorded serial numbers on HWDP.
-10:00–12:00  CIRC    Precautionary wash from 2,053 m to 2,138 m.
-13:30–16:30  RIGMT   Inspected crown and traveling blocks. Found wooden bumper broken.
-19:00–00:00  DRILL   Drilled in oriented mode to kick off well from 2,231 m to 2,243 m.
-                     Held toolface at 90° left. 60–70% cement in cuttings at 2,243 m.
-```
+| From | To | Elapsed | End MD (ft) | Code | Operations Description |
+|---|---|---|---|---|---|
+| 00:00 | 01:00 | 1.0 h | 469 | TRIP | Made up BHA; made up 8.5" PDC bit with 8-3/8" near bit reamer. Checked scribe line and picked up new drilling jar. |
+| 01:00 | 03:30 | 2.5 h | 3,136 | TRIP | RIH to 956 m. Recorded serial numbers on HWDP. |
+| 10:00 | 12:00 | 2.0 h | 7,014 | CIRC | Precautionary wash from 2,053 m to 2,138 m. |
+| 13:30 | 16:30 | 3.0 h | 7,146 | RIGMT | Inspected crown and traveling blocks. Found wooden bumper and clamps broken. Performed visual inspection of derrick. No damage found. |
+| 19:00 | 00:00 | 5.0 h | 7,359 | DRILL | Drilled in oriented mode to kick off well from 2,231 m to 2,243 m. Held toolface at 90° left. 60–70% cement in cuttings at 2,243 m. |
 
-Telegraphic, numeric, acronym-heavy. This is the text side of the multimodal problem.
+Telegraphic, numeric, acronym-heavy. This is the text side of the multimodal problem: the model has to learn to map those wiggly sensor traces to sentences that look like the ones above.
+
+### What end-to-end generation looks like
+
+![Reasoning trace: a 2-hour sensor window goes in, a DDR entry comes out](./blog/reasoning_trace.png)
+*A 2-hour window spanning CIRCM → PACKER → DISPL → MONITOR. IndusTSLM reads the eight sensor channels and generates the DDR entry at the bottom, evaluated along three dimensions: numeric fidelity, factual alignment, and completeness.*
 
 ---
 
@@ -147,12 +157,25 @@ The question my thesis asks is simple: **can the multimodal recipes that bridged
 I attacked it in three progressive stages:
 
 ### 1. DriMM: dual-encoder contrastive alignment
+
+![DriMM contrastive training setup](./blog/drimm_teaser.png)
+*Sensor windows and DDR sentences are embedded independently, then pulled together in a shared 256-d space with a symmetric InfoNCE loss.*
+
 A CLIP-style model where a time-series encoder (Moirai or MOMENT) and a domain-adapted RoBERTa map sensor windows and DDR text into a shared 256-d space. Training objective: symmetric InfoNCE with **hard negative mining** from semantically similar but operationally distinct DDR entries. Result: up to +30 pp on linear probing over the pretrained time-series checkpoint, and ~8% average gain from hard negatives on retrieval / zero-shot / linear probing.
 
 ### 2. IndusTSLM: generative time-series language models
-Two architectural paradigms on identical drilling data:
-- **LiveDrill**: live activity segmentation triggers **soft-prompted** DDR generation through a frozen LLM.
-- **Flamingo variant**: gated cross-attention layers inject time-series latents into the frozen LLM via a Perceiver Resampler, trained with a two-stage curriculum (activity-code classification → DDR generation).
+
+Two architectural paradigms on identical drilling data.
+
+**LiveDrill** (soft prompting): live activity segmentation triggers DDR generation through a frozen LLM.
+
+![LiveDrill multimodal text generation module](./blog/mtgm.png)
+*A binary region-of-interest mask marks the most recent completed segment. The multivariate window is encoded, projected, and handed to the frozen LLM as soft tokens that condition DDR generation.*
+
+**Flamingo variant** (cross attention): gated cross-attention layers inject time-series latents into the frozen LLM via a Perceiver Resampler, trained with a two-stage curriculum (activity-code classification → DDR generation).
+
+![IndusTSLM Flamingo architecture adapted from OpenTSLM](./blog/opentslm_flamingo.png)
+*Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.*
 
 Evaluation uses an **LLM-as-judge** rubric with eight weighted criteria, validated against human expert ratings (ICC up to 0.864 for Qwen-72B).
 
