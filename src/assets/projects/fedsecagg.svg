@@ -1,0 +1,378 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+  <!-- ============================================================
+       PALETTE (warm editorial, modern research-page feel)
+         bg:     #FBFAF7 → #F2EEE3  warm paper
+         ink:    #0F172A            slate-900
+         muted:  #64748B            slate-500
+         card:   #FFFFFF
+         stroke: #E5E0D5            warm border
+         coral:  #E85D3A            upload / encryption / masks
+         teal:   #0E7490            aggregation / clean sum
+         slate:  #1E293B            model / structural
+         gold:   #CA8A04            client data accent
+       ============================================================ -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FBFAF7"/>
+      <stop offset="100%" stop-color="#F2EEE3"/>
+    </linearGradient>
+    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8FAFC"/>
+    </linearGradient>
+    <linearGradient id="coralBadge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E85D3A"/>
+      <stop offset="100%" stop-color="#C84221"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="4" result="o"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.10"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- arrowhead markers -->
+    <marker id="arrowCoral" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#E85D3A"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#0E7490"/>
+    </marker>
+  </defs>
+
+  <!-- ===== BACKGROUND ===== -->
+  <rect width="1200" height="720" fill="url(#bg)"/>
+
+  <!-- top eyebrow -->
+  <text x="600" y="46" text-anchor="middle" font-size="11" font-weight="700"
+        fill="#E85D3A" letter-spacing="3">FEDSECAGG · PROTOCOL WALKTHROUGH</text>
+  <!-- title -->
+  <text x="600" y="82" text-anchor="middle" font-size="34" font-weight="800"
+        fill="#0F172A" letter-spacing="-0.8">One round of secure federated training</text>
+
+  <!-- =====================================================================
+       SERVER CARD  (top, centered)   x:420..780   y:115..295
+       ===================================================================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="420" y="115" width="360" height="180" rx="14"
+          fill="url(#serverGrad)" stroke="#E5E0D5" stroke-width="1.5"/>
+  </g>
+  <!-- header strip -->
+  <rect x="420" y="115" width="360" height="30" rx="14" fill="#0F172A"/>
+  <rect x="420" y="130" width="360" height="15" fill="#0F172A"/>
+  <circle cx="438" cy="130" r="3.5" fill="#E85D3A"/>
+  <circle cx="450" cy="130" r="3.5" fill="#CA8A04"/>
+  <circle cx="462" cy="130" r="3.5" fill="#0E7490"/>
+  <text x="600" y="134" text-anchor="middle" font-size="11" font-weight="700"
+        fill="#FFFFFF" letter-spacing="2">AGGREGATOR  ·  SERVER</text>
+
+  <!-- big clean-sum formula -->
+  <text x="600" y="195" text-anchor="middle" font-size="46" font-weight="800"
+        fill="#0E7490" letter-spacing="-0.5">Σᵢ Δwᵢ</text>
+  <text x="600" y="220" text-anchor="middle" font-size="12" font-weight="500" fill="#64748B">
+    server only sees the clean sum  ·  masks cancel
+  </text>
+  <!-- mini global model visualization (recommender: U × V) + update rule -->
+  <g transform="translate(445,240)">
+    <text x="0" y="12" font-size="10" font-weight="600" fill="#64748B" letter-spacing="1">GLOBAL MODEL</text>
+    <rect x="100" y="0" width="34" height="22" rx="3" fill="#1E293B"/>
+    <text x="117" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">U</text>
+    <text x="140" y="16" font-size="12" fill="#64748B">×</text>
+    <rect x="152" y="0" width="34" height="22" rx="3" fill="#1E293B"/>
+    <text x="169" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">V</text>
+    <text x="196" y="16" font-size="10" fill="#64748B">user × item factors</text>
+  </g>
+  <text x="600" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#1E293B">
+    w ← w + η · (Σᵢ Δwᵢ) / N
+  </text>
+
+  <!-- =====================================================================
+       LEGEND CHIPS  (flanking the arrow zone)
+       ===================================================================== -->
+  <!-- left chip: masked upload -->
+  <g transform="translate(40,315)">
+    <rect width="180" height="34" rx="17" fill="#FFFFFF" stroke="#E85D3A" stroke-width="1.5"/>
+    <circle cx="20" cy="17" r="9" fill="#E85D3A"/>
+    <text x="20" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#FFFFFF">1</text>
+    <text x="36" y="15" font-size="10" font-weight="700" fill="#E85D3A" letter-spacing="1">MASKED UPLOAD</text>
+    <text x="36" y="28" font-size="9.5" fill="#64748B">Δwᵢ ⊕ mask(sᵢⱼ)</text>
+  </g>
+  <!-- right chip: broadcast -->
+  <g transform="translate(980,315)">
+    <rect width="180" height="34" rx="17" fill="#FFFFFF" stroke="#0E7490" stroke-width="1.5"/>
+    <circle cx="20" cy="17" r="9" fill="#0E7490"/>
+    <text x="20" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#FFFFFF">2</text>
+    <text x="36" y="15" font-size="10" font-weight="700" fill="#0E7490" letter-spacing="1">GLOBAL BROADCAST</text>
+    <text x="36" y="28" font-size="9.5" fill="#64748B">new w sent to all clients</text>
+  </g>
+
+  <!-- =====================================================================
+       ARROWS  — upload (coral, solid) + broadcast (teal, dashed)
+       client top y=430   server bottom y=295
+       client centers: 210, 600, 990
+       server upload ports (left third):  455, 510, 565
+       server broadcast ports (right third): 635, 690, 745
+       ===================================================================== -->
+  <g fill="none" stroke-width="2.5" stroke-linecap="round">
+    <!-- UPLOADS (coral solid) -->
+    <path d="M 185,430 C 185,350 455,375 455,298" stroke="#E85D3A" marker-end="url(#arrowCoral)"/>
+    <path d="M 575,430 C 575,350 510,375 510,298" stroke="#E85D3A" marker-end="url(#arrowCoral)"/>
+    <path d="M 965,430 C 965,350 565,375 565,298" stroke="#E85D3A" marker-end="url(#arrowCoral)"/>
+
+    <!-- BROADCASTS (teal dashed)  end at y=418 for 12px gap above client cards -->
+    <path d="M 635,298 C 635,370 235,345 235,418" stroke="#0E7490"
+          stroke-dasharray="5 4" marker-end="url(#arrowTeal)"/>
+    <path d="M 690,298 C 690,370 625,345 625,418" stroke="#0E7490"
+          stroke-dasharray="5 4" marker-end="url(#arrowTeal)"/>
+    <path d="M 745,298 C 745,370 1015,345 1015,418" stroke="#0E7490"
+          stroke-dasharray="5 4" marker-end="url(#arrowTeal)"/>
+  </g>
+
+  <!-- =====================================================================
+       CLIENT CARDS   y:430..620   w:300   h:190
+         C1 x=60   C2 x=450   C3 x=840
+       ===================================================================== -->
+  <g font-family="'Inter',sans-serif">
+    <!-- reusable client layout via transform -->
+    <!-- CLIENT 1 -->
+    <g transform="translate(60,430)">
+      <g filter="url(#cardShadow)">
+        <rect width="300" height="190" rx="14" fill="#FFFFFF" stroke="#E5E0D5" stroke-width="1.5"/>
+      </g>
+      <!-- header -->
+      <text x="20" y="28" font-size="12" font-weight="700" fill="#0F172A" letter-spacing="1">CLIENT 1</text>
+      <text x="20" y="43" font-size="10" fill="#64748B">local user · private ratings</text>
+      <circle cx="275" cy="28" r="10" fill="#FEF3EC" stroke="#E85D3A" stroke-width="1.2"/>
+      <path d="M 270,28 a 5,5 0 0 1 10,0 M 271,28 l 0,5 M 279,28 l 0,5" stroke="#E85D3A"
+            stroke-width="1.4" fill="none" stroke-linecap="round"/>
+
+      <!-- ratings matrix (local data) -->
+      <g transform="translate(20,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">RATINGS R</text>
+        <g>
+          <!-- 5x4 grid of small cells, filled = user rated -->
+          <rect x="0"  y="4" width="14" height="14" rx="2" fill="#CA8A04"/>
+          <rect x="17" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="34" y="4" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+          <rect x="51" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="68" y="4" width="14" height="14" rx="2" fill="#CA8A04"/>
+
+          <rect x="0"  y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="17" y="21" width="14" height="14" rx="2" fill="#CA8A04"/>
+          <rect x="34" y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="51" y="21" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+          <rect x="68" y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+
+          <rect x="0"  y="38" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.5"/>
+          <rect x="17" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="34" y="38" width="14" height="14" rx="2" fill="#CA8A04"/>
+          <rect x="51" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+          <rect x="68" y="38" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        </g>
+      </g>
+
+      <!-- MF model: U and V -->
+      <g transform="translate(140,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">MF MODEL  U × V</text>
+        <rect x="0"  y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#7DD3C0">
+          <circle cx="12" cy="14" r="1.8"/><circle cx="24" cy="14" r="1.8"/>
+          <circle cx="36" cy="14" r="1.8"/><circle cx="48" cy="14" r="1.8"/>
+          <circle cx="12" cy="26" r="1.8"/><circle cx="24" cy="26" r="1.8"/>
+          <circle cx="36" cy="26" r="1.8"/><circle cx="48" cy="26" r="1.8"/>
+          <circle cx="12" cy="38" r="1.8"/><circle cx="24" cy="38" r="1.8"/>
+          <circle cx="36" cy="38" r="1.8"/><circle cx="48" cy="38" r="1.8"/>
+        </g>
+        <text x="30" y="66" text-anchor="middle" font-size="9" fill="#64748B">U  (users × k)</text>
+
+        <rect x="70" y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#F59E5E">
+          <circle cx="82" cy="14" r="1.8"/><circle cx="94" cy="14" r="1.8"/>
+          <circle cx="106" cy="14" r="1.8"/><circle cx="118" cy="14" r="1.8"/>
+          <circle cx="82" cy="26" r="1.8"/><circle cx="94" cy="26" r="1.8"/>
+          <circle cx="106" cy="26" r="1.8"/><circle cx="118" cy="26" r="1.8"/>
+          <circle cx="82" cy="38" r="1.8"/><circle cx="94" cy="38" r="1.8"/>
+          <circle cx="106" cy="38" r="1.8"/><circle cx="118" cy="38" r="1.8"/>
+        </g>
+        <text x="100" y="66" text-anchor="middle" font-size="9" fill="#64748B">V  (items × k)</text>
+      </g>
+
+      <!-- masked output badge -->
+      <g transform="translate(20,148)">
+        <rect width="260" height="28" rx="14" fill="url(#coralBadge)"/>
+        <g transform="translate(14,14)">
+          <circle r="7" fill="#FFFFFF" opacity="0.25"/>
+          <path d="M -3,-1 a 3,3 0 0 1 6,0 v 2 M -3.5,1 h 7 v 4 h -7 z" fill="none"
+                stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <text x="140" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">
+          Δwᵢ  ⊕  mask(sᵢⱼ)
+        </text>
+      </g>
+    </g>
+
+    <!-- CLIENT 2  (same content, different label) -->
+    <g transform="translate(450,430)">
+      <g filter="url(#cardShadow)">
+        <rect width="300" height="190" rx="14" fill="#FFFFFF" stroke="#E5E0D5" stroke-width="1.5"/>
+      </g>
+      <text x="20" y="28" font-size="12" font-weight="700" fill="#0F172A" letter-spacing="1">CLIENT 2</text>
+      <text x="20" y="43" font-size="10" fill="#64748B">local user · private ratings</text>
+      <circle cx="275" cy="28" r="10" fill="#FEF3EC" stroke="#E85D3A" stroke-width="1.2"/>
+      <path d="M 270,28 a 5,5 0 0 1 10,0 M 271,28 l 0,5 M 279,28 l 0,5" stroke="#E85D3A"
+            stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <g transform="translate(20,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">RATINGS R</text>
+        <rect x="0"  y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="17" y="4" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="34" y="4" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="51" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="68" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="0"  y="21" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="17" y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="34" y="21" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="51" y="21" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.5"/>
+        <rect x="68" y="21" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="0"  y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="17" y="38" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="34" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="51" y="38" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="68" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+      </g>
+      <g transform="translate(140,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">MF MODEL  U × V</text>
+        <rect x="0"  y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#7DD3C0">
+          <circle cx="12" cy="14" r="1.8"/><circle cx="24" cy="14" r="1.8"/>
+          <circle cx="36" cy="14" r="1.8"/><circle cx="48" cy="14" r="1.8"/>
+          <circle cx="12" cy="26" r="1.8"/><circle cx="24" cy="26" r="1.8"/>
+          <circle cx="36" cy="26" r="1.8"/><circle cx="48" cy="26" r="1.8"/>
+          <circle cx="12" cy="38" r="1.8"/><circle cx="24" cy="38" r="1.8"/>
+          <circle cx="36" cy="38" r="1.8"/><circle cx="48" cy="38" r="1.8"/>
+        </g>
+        <text x="30" y="66" text-anchor="middle" font-size="9" fill="#64748B">U  (users × k)</text>
+        <rect x="70" y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#F59E5E">
+          <circle cx="82" cy="14" r="1.8"/><circle cx="94" cy="14" r="1.8"/>
+          <circle cx="106" cy="14" r="1.8"/><circle cx="118" cy="14" r="1.8"/>
+          <circle cx="82" cy="26" r="1.8"/><circle cx="94" cy="26" r="1.8"/>
+          <circle cx="106" cy="26" r="1.8"/><circle cx="118" cy="26" r="1.8"/>
+          <circle cx="82" cy="38" r="1.8"/><circle cx="94" cy="38" r="1.8"/>
+          <circle cx="106" cy="38" r="1.8"/><circle cx="118" cy="38" r="1.8"/>
+        </g>
+        <text x="100" y="66" text-anchor="middle" font-size="9" fill="#64748B">V  (items × k)</text>
+      </g>
+      <g transform="translate(20,148)">
+        <rect width="260" height="28" rx="14" fill="url(#coralBadge)"/>
+        <g transform="translate(14,14)">
+          <circle r="7" fill="#FFFFFF" opacity="0.25"/>
+          <path d="M -3,-1 a 3,3 0 0 1 6,0 v 2 M -3.5,1 h 7 v 4 h -7 z" fill="none"
+                stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <text x="140" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">
+          Δwᵢ  ⊕  mask(sᵢⱼ)
+        </text>
+      </g>
+    </g>
+
+    <!-- CLIENT N -->
+    <g transform="translate(840,430)">
+      <g filter="url(#cardShadow)">
+        <rect width="300" height="190" rx="14" fill="#FFFFFF" stroke="#E5E0D5" stroke-width="1.5"/>
+      </g>
+      <text x="20" y="28" font-size="12" font-weight="700" fill="#0F172A" letter-spacing="1">CLIENT N</text>
+      <text x="20" y="43" font-size="10" fill="#64748B">local user · private ratings</text>
+      <circle cx="275" cy="28" r="10" fill="#FEF3EC" stroke="#E85D3A" stroke-width="1.2"/>
+      <path d="M 270,28 a 5,5 0 0 1 10,0 M 271,28 l 0,5 M 279,28 l 0,5" stroke="#E85D3A"
+            stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <g transform="translate(20,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">RATINGS R</text>
+        <rect x="0"  y="4" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="17" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="34" y="4" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="51" y="4" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.5"/>
+        <rect x="68" y="4" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="0"  y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="17" y="21" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="34" y="21" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="51" y="21" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="68" y="21" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.5"/>
+        <rect x="0"  y="38" width="14" height="14" rx="2" fill="#CA8A04"/>
+        <rect x="17" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="34" y="38" width="14" height="14" rx="2" fill="#CA8A04" opacity="0.7"/>
+        <rect x="51" y="38" width="14" height="14" rx="2" fill="#F1EADC"/>
+        <rect x="68" y="38" width="14" height="14" rx="2" fill="#CA8A04"/>
+      </g>
+      <g transform="translate(140,60)">
+        <text x="0" y="-2" font-size="9" font-weight="600" fill="#64748B">MF MODEL  U × V</text>
+        <rect x="0"  y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#7DD3C0">
+          <circle cx="12" cy="14" r="1.8"/><circle cx="24" cy="14" r="1.8"/>
+          <circle cx="36" cy="14" r="1.8"/><circle cx="48" cy="14" r="1.8"/>
+          <circle cx="12" cy="26" r="1.8"/><circle cx="24" cy="26" r="1.8"/>
+          <circle cx="36" cy="26" r="1.8"/><circle cx="48" cy="26" r="1.8"/>
+          <circle cx="12" cy="38" r="1.8"/><circle cx="24" cy="38" r="1.8"/>
+          <circle cx="36" cy="38" r="1.8"/><circle cx="48" cy="38" r="1.8"/>
+        </g>
+        <text x="30" y="66" text-anchor="middle" font-size="9" fill="#64748B">U  (users × k)</text>
+        <rect x="70" y="4" width="60" height="50" rx="3" fill="#1E293B"/>
+        <g fill="#F59E5E">
+          <circle cx="82" cy="14" r="1.8"/><circle cx="94" cy="14" r="1.8"/>
+          <circle cx="106" cy="14" r="1.8"/><circle cx="118" cy="14" r="1.8"/>
+          <circle cx="82" cy="26" r="1.8"/><circle cx="94" cy="26" r="1.8"/>
+          <circle cx="106" cy="26" r="1.8"/><circle cx="118" cy="26" r="1.8"/>
+          <circle cx="82" cy="38" r="1.8"/><circle cx="94" cy="38" r="1.8"/>
+          <circle cx="106" cy="38" r="1.8"/><circle cx="118" cy="38" r="1.8"/>
+        </g>
+        <text x="100" y="66" text-anchor="middle" font-size="9" fill="#64748B">V  (items × k)</text>
+      </g>
+      <g transform="translate(20,148)">
+        <rect width="260" height="28" rx="14" fill="url(#coralBadge)"/>
+        <g transform="translate(14,14)">
+          <circle r="7" fill="#FFFFFF" opacity="0.25"/>
+          <path d="M -3,-1 a 3,3 0 0 1 6,0 v 2 M -3.5,1 h 7 v 4 h -7 z" fill="none"
+                stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <text x="140" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">
+          Δwᵢ  ⊕  mask(sᵢⱼ)
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ellipsis between C2 and C_N -->
+  <g fill="#94A3B8" transform="translate(790,525)">
+    <circle cx="0" cy="0" r="3"/>
+    <circle cx="14" cy="0" r="3"/>
+    <circle cx="28" cy="0" r="3"/>
+  </g>
+
+  <!-- =====================================================================
+       PAIRWISE MASK ARCS  (between client tops)
+       Dashed thin arcs hinting at Diffie-Hellman key agreement
+       ===================================================================== -->
+  <g fill="none" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="2 3">
+    <path d="M 360,432 Q 405,402 450,432"/>
+    <path d="M 750,432 Q 795,402 840,432"/>
+  </g>
+  <text x="405" y="396" text-anchor="middle" font-size="10" font-style="italic"
+        fill="#64748B">sᵢⱼ = −sⱼᵢ</text>
+  <text x="795" y="396" text-anchor="middle" font-size="10" font-style="italic"
+        fill="#64748B">sᵢⱼ = −sⱼᵢ</text>
+
+  <!-- =====================================================================
+       FOOTER
+       ===================================================================== -->
+  <line x1="60" y1="655" x2="1140" y2="655" stroke="#E5E0D5" stroke-width="1"/>
+  <text x="60" y="683" font-size="11" font-weight="600" fill="#0F172A">
+    Built on Flower + PyTorch
+  </text>
+  <text x="60" y="700" font-size="10" fill="#64748B">
+    Each client's update is blinded by pairwise masks from a Diffie–Hellman key exchange. The masks sum to zero, so the server recovers Σ Δwᵢ without ever seeing any single Δwᵢ.
+  </text>
+  <text x="1140" y="683" text-anchor="end" font-size="11" font-weight="600" fill="#0E7490">
+    github.com/…/fedsecagg
+  </text>
+</svg>

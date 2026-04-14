@@ -5,11 +5,12 @@ import { quotes } from './quotes';
 // Project images
 import industslmImg from '../assets/projects/industslm.png';
 import drimmImg from '../assets/projects/drimm.png';
-import svrpLogoImg from '../assets/projects/svrp_logo.png';
 import svrpPipelineImg from '../assets/projects/svrp_pipeline.png';
 import hyperkklImg from '../assets/projects/hyperkkl.png';
 import watermarkImg from '../assets/projects/watermark_leaderboard.png';
 import rlexploreImg from '../assets/projects/rlexplore.gif';
+import fedsecaggImg from '../assets/projects/fedsecagg.svg';
+import arabicColbertImg from '../assets/projects/arabic_colbert.png';
 
 // Blog markdown files (raw imports)
 import linearAlgebraMd from '../blog/linear-algebra-fundamentals.md?raw';
@@ -235,7 +236,7 @@ export const PROJECTS: Project[] = [
     id: "fedsecagg",
     title: "FedSecAgg: Federated Learning with Secure Aggregation",
     description: "Federated learning with secure aggregation on Flower + PyTorch. SOLID layout: swappable dataset providers, model factories, strategy decorators, and pluggable metric loggers. Default task: CIFAR-10 across many simulated clients with SecAgg primitives.",
-    image: drimmImg,
+    image: fedsecaggImg,
     techStack: ["Flower", "PyTorch", "Privacy", "SMPC"],
     github: "https://github.com/yehias21/FedRs"
   },
@@ -243,7 +244,7 @@ export const PROJECTS: Project[] = [
     id: "arabic-retrieval",
     title: "Arabic Dense Retrieval",
     description: "ColBERT-based neural retrieval for Arabic, trained via knowledge distillation from cross-lingual teachers and fine-tuned on large-scale Arabic corpora. Competitive MRR and recall on standard Arabic IR benchmarks.",
-    image: svrpLogoImg,
+    image: arabicColbertImg,
     techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"],
     github: "https://github.com/yehias21/arabic-retrieval"
   },
