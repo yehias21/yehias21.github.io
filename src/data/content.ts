@@ -225,24 +225,24 @@ export const PUBLICATIONS: Publication[] = [
 export const PROJECTS: Project[] = [
   {
     id: "hyperkkl",
-    title: "HyperKKL: Non-Autonomous Observer Learning",
-    description: "ICLR 2026 Workshop on AI and PDE. Hypernetwork-conditioned KKL observers for controlled nonlinear systems. Two variants: input-dependent latent correction, and LoRA/full weight deltas generated from the input history. Collapses exactly to the autonomous observer when u ≡ 0.",
+    title: "HyperKKL",
+    description: "A hypernetwork reads the input signal and reshapes a neural observer on the fly, so it keeps tracking nonlinear systems even when they are driven by inputs. Published at ICLR 2026 Workshop on AI and PDE.",
     image: hyperkklImg,
     techStack: ["PyTorch", "Dynamical Systems", "Hypernetworks"],
     github: "https://github.com/yehias21/HyperKKL"
   },
   {
     id: "industslm",
-    title: "IndusTSLM: Time-Series Language Models for Drilling",
-    description: "Master's thesis. Multimodal alignment of 1 Hz industrial sensor streams and Daily Drilling Report text: DriMM (dual-encoder contrastive), LiveDrill (soft-prompt generation), and a Flamingo-style cross-attention variant. Includes DrillBench, a 7-task benchmark with a knowledge-decoupling framework.",
+    title: "IndusTSLM",
+    description: "My master's thesis. Teaches a language model to read raw drilling sensor streams and write the operator's daily report. Three stages: contrastive alignment, soft-prompt generation, and a Flamingo-style cross-attention variant, all benchmarked on DrillBench.",
     image: industslmImg,
     techStack: ["PyTorch", "Time Series", "LLMs", "Multimodal"],
     github: "https://github.com/yehias21/IndusTSLM"
   },
   {
     id: "svrpbench",
-    title: "SVRPBench: Stochastic Vehicle Routing Benchmark",
-    description: "NeurIPS 2025 Datasets & Benchmarks. 500+ instances (10–1000 customers) for stochastic VRP with time-dependent travel delays, log-normal disruptions, and realistic time windows calibrated against real city road networks.",
+    title: "SVRPBench",
+    description: "A benchmark for stochastic vehicle routing that actually looks like a real city: 500+ instances with time-dependent traffic, random delays, and realistic delivery windows calibrated to real road networks. NeurIPS 2025 Datasets & Benchmarks.",
     image: svrpPipelineImg,
     techStack: ["Optimization", "Benchmarks", "RL", "OR"],
     github: "https://github.com/yehias21/svrpbench",
@@ -251,8 +251,8 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "watermark-analysis",
-    title: "Watermark Analysis: NeurIPS 2024 1st Place",
-    description: "First-place solution to the NeurIPS 2024 Erasing the Invisible Stress-Test Challenge. Encoders/decoders (RivaGAN, StegaStamp, DWT-DCT, Tree-Ring), removal attacks (distortion, diffusion regeneration, adaptive VAE, embedding-space PGD), and quality metrics.",
+    title: "Watermark Analysis",
+    description: "First place at the NeurIPS 2024 Erasing the Invisible challenge. A toolkit of invisible watermark encoders, several removal attacks (including adaptive VAE and diffusion regeneration), and the metrics to score them.",
     image: watermarkImg,
     techStack: ["Diffusion", "Security", "Computer Vision"],
     github: "https://github.com/yehias21/watermark-analysis"
@@ -260,22 +260,22 @@ export const PROJECTS: Project[] = [
   {
     id: "arabic-retrieval",
     title: "Arabic Dense Retrieval",
-    description: "ColBERT-based neural retrieval for Arabic, trained via knowledge distillation from cross-lingual teachers and fine-tuned on large-scale Arabic corpora. Competitive MRR and recall on standard Arabic IR benchmarks.",
+    description: "A ColBERT-style retriever for Arabic. Distilled from cross-lingual teachers, fine-tuned on large Arabic corpora, and evaluated on the standard Arabic IR benchmarks.",
     image: arabicColbertImg,
     techStack: ["NLP", "Retrieval", "Arabic", "ColBERT"]
   },
   {
     id: "rlexplore",
-    title: "RLeXplore: Exploration in RL",
-    description: "Value-based, discrete-action RL on MiniGrid, organized around the taxonomy of Amin et al. (2021). SOLID plugin registry for strategies (ε-greedy, εz-greedy, NoisyNets, Bootstrapped DQN, count-based, RND) with a single declarative config and CLI.",
+    title: "RLeXplore",
+    description: "A clean playground for exploration strategies in reinforcement learning. Single config, plug-in registry, everything from ε-greedy to Noisy Nets and RND, running on MiniGrid.",
     image: rlexploreImg,
     techStack: ["PyTorch", "RL", "MiniGrid"],
     github: "https://github.com/yehias21/RLeXplore"
   },
   {
     id: "fedsecagg",
-    title: "FedSecAgg: Federated Learning with Secure Aggregation",
-    description: "Federated learning with secure aggregation on Flower + PyTorch. SOLID layout: swappable dataset providers, model factories, strategy decorators, and pluggable metric loggers. Default task: CIFAR-10 across many simulated clients with SecAgg primitives.",
+    title: "FedSecAgg",
+    description: "Federated learning with secure aggregation, so the server sees only the sum of client updates. Built on Flower and PyTorch; datasets, models, and strategies are swappable without touching the training loop.",
     image: fedsecaggImg,
     techStack: ["Flower", "PyTorch", "Privacy", "SMPC"],
     github: "https://github.com/yehias21/FedRs"
@@ -283,7 +283,7 @@ export const PROJECTS: Project[] = [
   {
     id: "undergrad-archive",
     title: "Undergraduate Archive",
-    description: "Consolidated archive of bachelor-era coursework imported as git subtrees (full commit history preserved): mini-blockchain, federated neural collaborative filtering, multi-threaded web server, Linux shell, Pthreads algorithms, page-replacement algorithms, SQL assignments, and more.",
+    description: "A single repo that collects my bachelor coursework, with each project's full git history preserved: mini-blockchain, federated NCF, a multi-threaded web server, a Linux shell, page-replacement algorithms, SQL exercises, and more.",
     gradient: "linear-gradient(135deg, #1e3a8a 0%, #0f766e 55%, #134e4a 100%)",
     placeholderLabel: "Undergraduate Archive",
     techStack: ["C++", "Python", "Systems", "SQL"],
