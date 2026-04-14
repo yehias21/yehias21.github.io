@@ -2,7 +2,7 @@
 
 *A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models. Drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.*
 
-![IndusTSLM Flamingo architecture: a Perceiver Resampler compresses multivariate sensor patches into fixed latents that feed gated cross-attention inside a frozen LLM.](./blog/industslm.png)
+![IndusTSLM: time-series language models for drilling data.](./blog/industslm_logo.gif)
 
 ---
 
@@ -182,8 +182,6 @@ Combined with the segmentation bottleneck (CNN LSM at F1IoU = 0.510), the full s
 **Cross-attention scales better but wins by a small margin.** The memory argument is real: soft prompting's token count grows with input length while the Perceiver latent count is fixed. But on this task the quality gap is only +0.014. The real bottleneck is elsewhere.
 
 ### 3. DrillBench: a standardized benchmark
-
-![DrillBench task taxonomy: seven tasks across four groups, with built-in knowledge decoupling.](./blog/tslm_survey.png)
 
 DrillBench is the first comprehensive benchmark for TSLMs in drilling. Seven task types across four groups (**classification, generation, physical reasoning, forecasting**), roughly 150,000 instances built from the public Volve Field and Utah FORGE datasets. Split at the well level to prevent leakage.
 

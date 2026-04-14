@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import MatrixRain from './components/MatrixRain';
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import ChatWidget from './components/ChatWidget';
@@ -39,9 +38,6 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
 
   return (
     <div className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono bg-black text-white' : 'bg-gray-50 text-slate-900'}`}>
-      {/* Matrix Rain - Only visible in matrix/night mode */}
-      {isMatrix && <MatrixRain />}
-
       {/* Navbar */}
       <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-black/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

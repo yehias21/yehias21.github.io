@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { BLOG_POSTS } from '../data/content';
-import { FileText, ArrowLeft, Calendar, Clock, ArrowUp, List } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, ArrowUp, List, ChevronDown, ChevronUp } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -66,6 +66,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   const [progress, setProgress] = useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [showTop, setShowTop] = useState(false);
+  const [tocOpen, setTocOpen] = useState(true);
   const articleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -94,20 +95,22 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   }, [headings]);
 
   // Attach deterministic ids to rendered headings so TOC links and scroll-spy agree.
-  const counters = useRef<Record<string, number>>({});
-  useEffect(() => {
-    counters.current = {};
-  }, [bodyMd]);
-
+  // Reset on every render so counts don't drift when state updates re-render the page.
+  const counters: Record<string, number> = {};
+  const extractText = (nodes: any): string => {
+    return React.Children.toArray(nodes).map((c: any): string => {
+      if (typeof c === 'string' || typeof c === 'number') return String(c);
+      if (c?.props?.children) return extractText(c.props.children);
+      return '';
+    }).join('');
+  };
   const headingRenderer =
     (level: 2 | 3) =>
     ({ children }: any) => {
-      const text = React.Children.toArray(children)
-        .map((c: any) => (typeof c === 'string' ? c : c?.props?.children ?? ''))
-        .join('');
+      const text = extractText(children);
       const base = slugify(text);
-      const n = counters.current[base] ?? 0;
-      counters.current[base] = n + 1;
+      const n = counters[base] ?? 0;
+      counters[base] = n + 1;
       const id = n === 0 ? base : `${base}-${n}`;
       const Tag = (`h${level}` as any) as keyof JSX.IntrinsicElements;
       return <Tag id={id} className="scroll-mt-24">{children}</Tag>;
@@ -210,10 +213,19 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         {headings.length > 2 && (
           <aside className="hidden lg:block">
             <div className="sticky top-24">
-              <div className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-wider mb-3 ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
-                <List className="w-4 h-4" />
-                On this page
-              </div>
+              <button
+                type="button"
+                onClick={() => setTocOpen((o) => !o)}
+                aria-expanded={tocOpen}
+                className={`w-full flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider mb-3 transition-colors ${isMatrix ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                <span className="flex items-center gap-2">
+                  <List className="w-4 h-4" />
+                  On this page
+                </span>
+                {tocOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+              {tocOpen && (
               <nav className={`border-l pl-4 space-y-2 text-sm ${isMatrix ? 'border-slate-800' : 'border-slate-200'}`}>
                 {headings.map(h => {
                   const isActive = activeId === h.id;
@@ -244,6 +256,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                   );
                 })}
               </nav>
+              )}
             </div>
           </aside>
         )}
