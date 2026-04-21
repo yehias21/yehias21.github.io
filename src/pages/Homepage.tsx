@@ -389,7 +389,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="text-center py-12">
         <h2 className={`text-3xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Let's Connect</h2>
         <p className={`mb-8 max-w-md mx-auto ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-          I am open to collaborations on time-series foundation models, multimodal learning, dynamical systems, and federated learning.
+          Open to collaborate. Just ping me.
         </p>
         <Link
           to="/contact"
