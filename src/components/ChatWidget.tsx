@@ -56,7 +56,7 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
       {isOpen && (
         <div className={`w-80 sm:w-96 h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300 border ${isMatrix ? 'bg-slate-900 border-green-800' : 'bg-white border-slate-200'}`}>
           {/* Header */}
-          <div className={`p-4 flex justify-between items-center border-b ${isMatrix ? 'bg-black border-green-900' : 'bg-slate-50 border-slate-200'}`}>
+          <div className={`p-4 flex justify-between items-center border-b ${isMatrix ? 'bg-slate-950 border-green-900' : 'bg-slate-50 border-slate-200'}`}>
             <div className="flex items-center gap-2">
               <Bot className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
               <h3 className={`font-semibold ${isMatrix ? 'text-green-500' : 'text-slate-800'}`}>Research Assistant</h3>
@@ -67,7 +67,7 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
           </div>
 
           {/* Messages */}
-          <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${isMatrix ? 'bg-black/90' : 'bg-slate-50'}`}>
+          <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${isMatrix ? 'bg-slate-950/90' : 'bg-slate-50'}`}>
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -92,14 +92,14 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
           </div>
 
           {/* Input */}
-          <div className={`p-3 flex gap-2 border-t ${isMatrix ? 'bg-black border-green-900' : 'bg-white border-slate-200'}`}>
+          <div className={`p-3 flex gap-2 border-t ${isMatrix ? 'bg-slate-950 border-green-900' : 'bg-white border-slate-200'}`}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Ask about papers, projects..."
-              className={`flex-1 rounded-full px-4 py-2 outline-none text-sm border ${isMatrix ? 'bg-slate-900 text-white border-slate-700 focus:ring-2 focus:ring-green-500 focus:border-green-500' : 'bg-slate-100 text-slate-900 border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}`}
+              className={`flex-1 rounded-full px-4 py-2 outline-none text-sm border ${isMatrix ? 'bg-slate-900 text-slate-100 border-slate-700 focus:ring-2 focus:ring-green-500 focus:border-green-500' : 'bg-slate-100 text-slate-900 border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}`}
             />
             <button
               onClick={handleSend}

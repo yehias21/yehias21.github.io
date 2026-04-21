@@ -40,12 +40,12 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   ];
 
   return (
-    <div className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono bg-black text-white' : 'bg-gray-50 text-slate-900'}`}>
+    <div className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono bg-slate-950 text-slate-100' : 'bg-stone-50 text-slate-900'}`}>
       {/* Navbar */}
-      <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-black/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
+      <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <Link to="/" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+            <Link to="/" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
               <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-green-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
                 <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
@@ -88,7 +88,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
               </button>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`${isMatrix ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}
+                className={`${isMatrix ? 'text-slate-300 hover:text-slate-100' : 'text-slate-600 hover:text-slate-900'}`}
               >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>

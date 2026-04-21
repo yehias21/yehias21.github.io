@@ -73,7 +73,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             </div>
           )}
 
-          <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+          <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             Hello, I'm <br />
             <span className={isMatrix ? 'text-green-500 glitch-text' : 'text-blue-600'}>
               {PROFILE.name.split(' ')[0]}
@@ -133,7 +133,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
           <div className="relative w-64 h-64 md:w-80 md:h-80">
             <div className={`absolute inset-0 rounded-2xl transform rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-green-600' : 'bg-blue-200'}`}></div>
-            <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-black border border-green-500' : 'bg-slate-200'}`}></div>
+            <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-green-500' : 'bg-slate-200'}`}></div>
             <img
               src={PROFILE.image}
               alt="Profile"
@@ -146,7 +146,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       {/* Publications Preview Section */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
             Publications
           </h2>
@@ -189,7 +189,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
                 {/* Abstract Dropdown */}
                 {isExpanded && (
-                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-black/50 text-slate-300 border-green-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
+                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-green-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
                     <span className="font-bold block mb-1">Abstract:</span>
                     {pub.abstract}
                   </div>
@@ -246,7 +246,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       {/* Projects Preview Section */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
             Projects
           </h2>
@@ -276,7 +276,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
               </div>
               <div className="p-5 flex flex-col flex-grow">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{proj.title}</h3>
+                  <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{proj.title}</h3>
                   {proj.github && (
                     <a
                       href={proj.github}
@@ -308,7 +308,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       {/* Experience Preview Section */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
             Experience
           </h2>
@@ -324,7 +324,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           {EXPERIENCE.slice(0, 3).map(exp => (
             <div key={exp.id} className={`relative pl-6 border-l-2 transition-colors group ${isMatrix ? 'border-slate-700 hover:border-green-600' : 'border-slate-200 hover:border-blue-500'}`}>
               <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-green-600' : 'bg-white border-blue-500'}`}></div>
-              <h4 className={`font-bold text-lg ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{exp.role}</h4>
+              <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{exp.role}</h4>
               <div className={`flex flex-col sm:flex-row sm:justify-between text-sm mb-2 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
                 <span className={`font-semibold ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>{exp.company}</span>
                 <div className="flex items-center gap-2">
@@ -340,7 +340,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       {/* Blog Preview Section */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             <FileText className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
             Blog
           </h2>
@@ -387,7 +387,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
       {/* Contact CTA */}
       <section className="text-center py-12">
-        <h2 className={`text-3xl font-bold mb-4 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>Let's Connect</h2>
+        <h2 className={`text-3xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Let's Connect</h2>
         <p className={`mb-8 max-w-md mx-auto ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
           I am open to collaborations on time-series foundation models, multimodal learning, dynamical systems, and federated learning.
         </p>

@@ -205,7 +205,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
 
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className={`text-3xl font-bold mb-6 flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+      <h2 className={`text-3xl font-bold mb-6 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
         <Plane className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
         Places I've Been
       </h2>

@@ -14,7 +14,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <header className="mb-10">
-        <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+        <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
           <FileText className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
           Blog
         </h2>

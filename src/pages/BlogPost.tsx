@@ -120,7 +120,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
     return (
       <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="text-center">
-          <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>Blog post not found</h2>
+          <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Blog post not found</h2>
           <Link
             to="/blog"
             className={`inline-flex items-center gap-2 ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
@@ -172,7 +172,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                 </span>
               </div>
 
-              <h1 className={`text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-5 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+              <h1 className={`text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-5 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
                 {post.title}
               </h1>
 

@@ -12,7 +12,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
 
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className={`text-3xl font-bold mb-8 flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+      <h2 className={`text-3xl font-bold mb-8 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
         <User className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
         About Me
       </h2>
@@ -29,7 +29,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
             <div className="space-y-6">
               {EDUCATION.map(edu => (
                 <div key={edu.id} className={`border-l-2 pl-4 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}>
-                  <h4 className={`font-bold text-lg ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{edu.institution}</h4>
+                  <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{edu.institution}</h4>
                   <div className={`flex justify-between items-center text-sm mb-1 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
                     <span>{edu.degree}</span>
                     <span>{edu.period}</span>
@@ -53,7 +53,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
               {EXPERIENCE.map(exp => (
                 <div key={exp.id} className={`relative pl-6 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}>
                   <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-green-600' : 'bg-white border-blue-500'}`}></div>
-                  <h4 className={`font-bold text-lg ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{exp.role}</h4>
+                  <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{exp.role}</h4>
                   <div className={`flex flex-col sm:flex-row sm:justify-between text-sm mb-2 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
                     <span className={`font-semibold ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>{exp.company}</span>
                     <div className="flex items-center gap-2">

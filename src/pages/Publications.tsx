@@ -45,7 +45,7 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center mb-6">
-        <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+        <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
           <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
           Publications
         </h2>
@@ -137,7 +137,7 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
                 </div>
 
                 {expandedId === pub.id && (
-                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-black/50 text-slate-300 border-green-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
+                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-green-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
                     <span className="font-bold block mb-1">Abstract</span>
                     {pub.abstract}
                   </div>

@@ -13,7 +13,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center mb-8">
-        <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+        <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
           <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
           Projects
         </h2>
@@ -39,7 +39,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
             </div>
             <div className="p-6 flex flex-col flex-grow">
               <div className="flex items-start justify-between mb-2">
-                <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{proj.title}</h3>
+                <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{proj.title}</h3>
                 {proj.github && (
                   <a
                     href={proj.github}
