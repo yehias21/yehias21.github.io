@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { geoEqualEarth, geoPath } from 'd3-geo';
+import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, Geometry } from 'geojson';
 import { MapPin, Plane, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
@@ -11,10 +11,13 @@ interface TravelProps {
   theme: ThemeMode;
 }
 
-const MAP_W = 960;
-const MAP_H = 500;
-const MIN_ZOOM_W = MAP_W / 12; // 12x max
+// Target width used to scale the projection. Height is derived from the
+// projection's actual bounds so the viewBox fits the map exactly (no whitespace,
+// which was reading as "distortion").
+const TARGET_W = 960;
+const MAX_ZOOM = 12;
 const ZOOM_STEP = 1.6;
+const CITY_BASE_R = 3.5; // viewBox units when fully zoomed out
 
 // Half-life controls how fast the blue fades after a visit.
 // 24 months = 2 years for intensity to halve. Tweak to taste.
@@ -56,11 +59,10 @@ interface CountryFeature extends Feature<Geometry, { name: string }> {
 }
 
 interface ViewBox { x: number; y: number; w: number; h: number; }
-const INITIAL_VB: ViewBox = { x: 0, y: 0, w: MAP_W, h: MAP_H };
 
-const clampVb = (vb: ViewBox): ViewBox => ({
-  x: Math.max(0, Math.min(MAP_W - vb.w, vb.x)),
-  y: Math.max(0, Math.min(MAP_H - vb.h, vb.y)),
+const clampVb = (vb: ViewBox, base: ViewBox): ViewBox => ({
+  x: Math.max(base.x, Math.min(base.x + base.w - vb.w, vb.x)),
+  y: Math.max(base.y, Math.min(base.y + base.h - vb.h, vb.y)),
   w: vb.w,
   h: vb.h,
 });
@@ -73,14 +75,6 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   const [tipContent, setTipContent] = useState<React.ReactNode>(null);
   const now = useMemo(() => new Date(), []);
 
-  // Zoom / pan state. Driving the svg viewBox lets stroke widths scale
-  // naturally (thicker when zoomed in) and keeps all geometry math simple.
-  const [vb, setVb] = useState<ViewBox>(INITIAL_VB);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const isZoomed = vb.w < MAP_W - 0.5;
-
   const visitedById = useMemo(() => {
     const map = new Map<string, VisitedCountry>();
     VISITED_COUNTRIES.forEach(c => {
@@ -90,17 +84,33 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     return map;
   }, []);
 
-  const { features, pathFor, projectPoint } = useMemo(() => {
+  // Build projection, then read the actual drawn bounds to size the viewBox
+  // tightly. This avoids the empty strip above/below the map that made it look
+  // squeezed on some screens.
+  const { features, pathFor, projectPoint, baseVb, minZoomW } = useMemo(() => {
     const topo = worldTopo as any;
     const fc = feature(topo, topo.objects.countries) as unknown as FeatureCollection<Geometry, { name: string }>;
-    const projection = geoEqualEarth().fitSize([MAP_W, MAP_H], fc);
+    const projection = geoNaturalEarth1().fitWidth(TARGET_W, fc);
     const gp = geoPath(projection);
+    const [[x0, y0], [x1, y1]] = gp.bounds(fc);
+    const base: ViewBox = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
     return {
       features: fc.features as CountryFeature[],
       pathFor: (f: CountryFeature) => gp(f) || '',
       projectPoint: (lon: number, lat: number) => projection([lon, lat]) as [number, number] | null,
+      baseVb: base,
+      minZoomW: base.w / MAX_ZOOM,
     };
   }, []);
+
+  // Zoom / pan state. Driving the svg viewBox lets stroke widths scale
+  // naturally and keeps all geometry math simple.
+  const [vb, setVb] = useState<ViewBox>(baseVb);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const isZoomed = vb.w < baseVb.w - 0.5;
+  const zoomFactor = vb.w / baseVb.w; // <= 1; smaller = more zoomed in
 
   const fillFaded = isMatrix ? '#0b2540' : '#dbeafe';
   const fillFresh = isMatrix ? '#3b82f6' : '#1d4ed8';
@@ -144,7 +154,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
         ...prev,
         x: dragStart.current!.vx - dx * sx,
         y: dragStart.current!.vy - dy * sy,
-      }));
+      }, baseVb));
       return;
     }
     if (tipContent) setTipPos(posFromEvent(e));
@@ -158,20 +168,19 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   // --- zoom ---
   const zoomAroundPoint = (factor: number, cx?: number, cy?: number) => {
     setVb(prev => {
-      const newW = Math.min(MAP_W, Math.max(MIN_ZOOM_W, prev.w * factor));
-      const newH = newW * (MAP_H / MAP_W);
-      // Default to center of current view.
+      const newW = Math.min(baseVb.w, Math.max(minZoomW, prev.w * factor));
+      const newH = newW * (baseVb.h / baseVb.w);
       const px = cx ?? prev.x + prev.w / 2;
       const py = cy ?? prev.y + prev.h / 2;
       const tx = px - (px - prev.x) * (newW / prev.w);
       const ty = py - (py - prev.y) * (newH / prev.h);
-      return clampVb({ x: tx, y: ty, w: newW, h: newH });
+      return clampVb({ x: tx, y: ty, w: newW, h: newH }, baseVb);
     });
   };
 
   const zoomIn = () => zoomAroundPoint(1 / ZOOM_STEP);
   const zoomOut = () => zoomAroundPoint(ZOOM_STEP);
-  const resetView = () => setVb(INITIAL_VB);
+  const resetView = () => setVb(baseVb);
 
   // Wheel zoom centered on cursor. Attached via ref so we can set passive:false
   // and preventDefault() to stop the page from scrolling while over the map.
@@ -185,18 +194,18 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
       const uy = (e.clientY - rect.top) / rect.height;
       setVb(prev => {
         const factor = e.deltaY < 0 ? 1 / ZOOM_STEP : ZOOM_STEP;
-        const newW = Math.min(MAP_W, Math.max(MIN_ZOOM_W, prev.w * factor));
-        const newH = newW * (MAP_H / MAP_W);
+        const newW = Math.min(baseVb.w, Math.max(minZoomW, prev.w * factor));
+        const newH = newW * (baseVb.h / baseVb.w);
         const px = prev.x + ux * prev.w;
         const py = prev.y + uy * prev.h;
         const tx = px - ux * newW;
         const ty = py - uy * newH;
-        return clampVb({ x: tx, y: ty, w: newW, h: newH });
+        return clampVb({ x: tx, y: ty, w: newW, h: newH }, baseVb);
       });
     };
     el.addEventListener('wheel', handler, { passive: false });
     return () => el.removeEventListener('wheel', handler);
-  }, []);
+  }, [baseVb, minZoomW]);
 
   const btnBase = `p-2 rounded-md border shadow-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed`;
   const btnStyle = isMatrix
@@ -218,7 +227,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
             aria-label="Zoom in"
             title="Zoom in"
             onClick={zoomIn}
-            disabled={vb.w <= MIN_ZOOM_W + 0.5}
+            disabled={vb.w <= minZoomW + 0.5}
             className={`${btnBase} ${btnStyle}`}
           >
             <ZoomIn className="w-4 h-4" />
@@ -238,7 +247,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
             aria-label="Reset view"
             title="Reset view"
             onClick={resetView}
-            disabled={!isZoomed && vb.x === 0 && vb.y === 0}
+            disabled={!isZoomed && Math.abs(vb.x - baseVb.x) < 0.5 && Math.abs(vb.y - baseVb.y) < 0.5}
             className={`${btnBase} ${btnStyle}`}
           >
             <Maximize2 className="w-4 h-4" />
@@ -309,7 +318,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                     key={`${country.id}-${city.name}`}
                     cx={p[0]}
                     cy={p[1]}
-                    r={3.5}
+                    r={CITY_BASE_R * zoomFactor}
                     fill={cityColor}
                     stroke={isMatrix ? '#fef2f2' : '#ffffff'}
                     strokeWidth={1}
