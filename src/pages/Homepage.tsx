@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE } from '../data/content';
-import perseusBg from '../assets/figures/perseus-bg.png';
+import perseusBg from '../assets/figures/perseus-bg.jpg';
 import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
 
 interface HomepageProps {
