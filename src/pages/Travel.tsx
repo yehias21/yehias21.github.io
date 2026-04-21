@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { geoEqualEarth, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, Geometry } from 'geojson';
-import { MapPin, Plane } from 'lucide-react';
+import { MapPin, Plane, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 import { ThemeMode, VisitedCountry } from '../types';
 import { VISITED_COUNTRIES } from '../data/content';
 import worldTopo from '../assets/data/countries-110m.json';
@@ -13,6 +13,8 @@ interface TravelProps {
 
 const MAP_W = 960;
 const MAP_H = 500;
+const MIN_ZOOM_W = MAP_W / 12; // 12x max
+const ZOOM_STEP = 1.6;
 
 // Half-life controls how fast the blue fades after a visit.
 // 24 months = 2 years for intensity to halve. Tweak to taste.
@@ -53,6 +55,16 @@ interface CountryFeature extends Feature<Geometry, { name: string }> {
   id?: string | number;
 }
 
+interface ViewBox { x: number; y: number; w: number; h: number; }
+const INITIAL_VB: ViewBox = { x: 0, y: 0, w: MAP_W, h: MAP_H };
+
+const clampVb = (vb: ViewBox): ViewBox => ({
+  x: Math.max(0, Math.min(MAP_W - vb.w, vb.x)),
+  y: Math.max(0, Math.min(MAP_H - vb.h, vb.y)),
+  w: vb.w,
+  h: vb.h,
+});
+
 const Travel: React.FC<TravelProps> = ({ theme }) => {
   const isMatrix = theme === ThemeMode.MATRIX;
   // Split tooltip state so crossing country boundaries (mouseenter B while
@@ -61,18 +73,23 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   const [tipContent, setTipContent] = useState<React.ReactNode>(null);
   const now = useMemo(() => new Date(), []);
 
+  // Zoom / pan state. Driving the svg viewBox lets stroke widths scale
+  // naturally (thicker when zoomed in) and keeps all geometry math simple.
+  const [vb, setVb] = useState<ViewBox>(INITIAL_VB);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const isZoomed = vb.w < MAP_W - 0.5;
+
   const visitedById = useMemo(() => {
     const map = new Map<string, VisitedCountry>();
     VISITED_COUNTRIES.forEach(c => {
-      // Accept both "070" and "70" keys so lookup is robust regardless of
-      // how the topojson stores ids (some builds strip leading zeros).
       map.set(c.id, c);
       map.set(String(parseInt(c.id, 10)), c);
     });
     return map;
   }, []);
 
-  // Parse topojson once into a GeoJSON FeatureCollection + svg paths.
   const { features, pathFor, projectPoint } = useMemo(() => {
     const topo = worldTopo as any;
     const fc = feature(topo, topo.objects.countries) as unknown as FeatureCollection<Geometry, { name: string }>;
@@ -85,24 +102,21 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     };
   }, []);
 
-  // Color theme for visited countries. Faded end -> fresh end.
-  const fillFaded = isMatrix ? '#0b2540' : '#dbeafe';  // pale blue
-  const fillFresh = isMatrix ? '#3b82f6' : '#1d4ed8';  // deep blue
+  const fillFaded = isMatrix ? '#0b2540' : '#dbeafe';
+  const fillFresh = isMatrix ? '#3b82f6' : '#1d4ed8';
   const fillUnvisited = isMatrix ? '#1f2937' : '#e2e8f0';
   const strokeColor = isMatrix ? '#0f172a' : '#ffffff';
   const cityColor = isMatrix ? '#f87171' : '#dc2626';
 
   const posFromEvent = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as SVGElement).ownerSVGElement!.getBoundingClientRect();
+    const rect = (e.currentTarget as Element).ownerSVGElement?.getBoundingClientRect()
+      ?? (e.currentTarget as Element).getBoundingClientRect();
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
   const showTip = (e: React.MouseEvent, content: React.ReactNode) => {
+    if (isDragging) return;
     setTipContent(content);
-    setTipPos(posFromEvent(e));
-  };
-
-  const moveTip = (e: React.MouseEvent) => {
     setTipPos(posFromEvent(e));
   };
 
@@ -111,23 +125,135 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     setTipPos(null);
   };
 
+  // --- pan ---
+  const onSvgMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!isZoomed) return; // no need to pan when fully zoomed out
+    setIsDragging(true);
+    dragStart.current = { mx: e.clientX, my: e.clientY, vx: vb.x, vy: vb.y };
+    hideTip();
+  };
+
+  const onSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (isDragging && dragStart.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const dx = e.clientX - dragStart.current.mx;
+      const dy = e.clientY - dragStart.current.my;
+      const sx = vb.w / rect.width;
+      const sy = vb.h / rect.height;
+      setVb(prev => clampVb({
+        ...prev,
+        x: dragStart.current!.vx - dx * sx,
+        y: dragStart.current!.vy - dy * sy,
+      }));
+      return;
+    }
+    if (tipContent) setTipPos(posFromEvent(e));
+  };
+
+  const endDrag = () => {
+    setIsDragging(false);
+    dragStart.current = null;
+  };
+
+  // --- zoom ---
+  const zoomAroundPoint = (factor: number, cx?: number, cy?: number) => {
+    setVb(prev => {
+      const newW = Math.min(MAP_W, Math.max(MIN_ZOOM_W, prev.w * factor));
+      const newH = newW * (MAP_H / MAP_W);
+      // Default to center of current view.
+      const px = cx ?? prev.x + prev.w / 2;
+      const py = cy ?? prev.y + prev.h / 2;
+      const tx = px - (px - prev.x) * (newW / prev.w);
+      const ty = py - (py - prev.y) * (newH / prev.h);
+      return clampVb({ x: tx, y: ty, w: newW, h: newH });
+    });
+  };
+
+  const zoomIn = () => zoomAroundPoint(1 / ZOOM_STEP);
+  const zoomOut = () => zoomAroundPoint(ZOOM_STEP);
+  const resetView = () => setVb(INITIAL_VB);
+
+  // Wheel zoom centered on cursor. Attached via ref so we can set passive:false
+  // and preventDefault() to stop the page from scrolling while over the map.
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const handler = (e: WheelEvent) => {
+      e.preventDefault();
+      const rect = el.getBoundingClientRect();
+      const ux = (e.clientX - rect.left) / rect.width;
+      const uy = (e.clientY - rect.top) / rect.height;
+      setVb(prev => {
+        const factor = e.deltaY < 0 ? 1 / ZOOM_STEP : ZOOM_STEP;
+        const newW = Math.min(MAP_W, Math.max(MIN_ZOOM_W, prev.w * factor));
+        const newH = newW * (MAP_H / MAP_W);
+        const px = prev.x + ux * prev.w;
+        const py = prev.y + uy * prev.h;
+        const tx = px - ux * newW;
+        const ty = py - uy * newH;
+        return clampVb({ x: tx, y: ty, w: newW, h: newH });
+      });
+    };
+    el.addEventListener('wheel', handler, { passive: false });
+    return () => el.removeEventListener('wheel', handler);
+  }, []);
+
+  const btnBase = `p-2 rounded-md border shadow-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed`;
+  const btnStyle = isMatrix
+    ? `bg-slate-900/90 border-slate-700 text-slate-200 hover:bg-slate-800`
+    : `bg-white/90 border-slate-200 text-slate-700 hover:bg-slate-50`;
+
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className={`text-3xl font-bold mb-2 flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
+      <h2 className={`text-3xl font-bold mb-6 flex items-center gap-3 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
         <Plane className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
         Places I've Been
       </h2>
-      <p className={`mb-6 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-        Countries fade from deep blue (recent visit) toward pale blue as time passes,
-        following exponential decay with a {HALFLIFE_MONTHS} month half life.
-        Red points mark specific cities. Hover a country for details.
-      </p>
 
       <div className={`relative rounded-lg border overflow-hidden ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+        {/* Zoom controls */}
+        <div className="absolute top-3 right-3 z-20 flex flex-col gap-1.5">
+          <button
+            type="button"
+            aria-label="Zoom in"
+            title="Zoom in"
+            onClick={zoomIn}
+            disabled={vb.w <= MIN_ZOOM_W + 0.5}
+            className={`${btnBase} ${btnStyle}`}
+          >
+            <ZoomIn className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            aria-label="Zoom out"
+            title="Zoom out"
+            onClick={zoomOut}
+            disabled={!isZoomed}
+            className={`${btnBase} ${btnStyle}`}
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            aria-label="Reset view"
+            title="Reset view"
+            onClick={resetView}
+            disabled={!isZoomed && vb.x === 0 && vb.y === 0}
+            className={`${btnBase} ${btnStyle}`}
+          >
+            <Maximize2 className="w-4 h-4" />
+          </button>
+        </div>
+
         <svg
-          viewBox={`0 0 ${MAP_W} ${MAP_H}`}
-          className="w-full h-auto block"
-          onMouseLeave={hideTip}
+          ref={svgRef}
+          viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
+          className="w-full h-auto block select-none"
+          style={{ cursor: isDragging ? 'grabbing' : isZoomed ? 'grab' : 'default' }}
+          onMouseDown={onSvgMouseDown}
+          onMouseMove={onSvgMouseMove}
+          onMouseUp={endDrag}
+          onMouseLeave={() => { endDrag(); hideTip(); }}
         >
           <g>
             {features.map((f) => {
@@ -143,7 +269,8 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                   fill={fill}
                   stroke={strokeColor}
                   strokeWidth={0.5}
-                  style={{ cursor: 'pointer', transition: 'fill 200ms' }}
+                  vectorEffect="non-scaling-stroke"
+                  style={{ cursor: isZoomed ? (isDragging ? 'grabbing' : 'grab') : 'pointer', transition: 'fill 200ms' }}
                   onMouseEnter={(e) => {
                     const months = visited && !visited.permanent ? monthsSince(visited.lastVisit, now) : 0;
                     showTip(e, (
@@ -166,7 +293,6 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                       </div>
                     ));
                   }}
-                  onMouseMove={moveTip}
                 />
               );
             })}
@@ -179,31 +305,30 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                 const p = projectPoint(city.lon, city.lat);
                 if (!p) return null;
                 return (
-                  <g key={`${country.id}-${city.name}`}>
-                    <circle
-                      cx={p[0]}
-                      cy={p[1]}
-                      r={3.5}
-                      fill={cityColor}
-                      stroke={isMatrix ? '#fef2f2' : '#ffffff'}
-                      strokeWidth={1}
-                      style={{ cursor: 'pointer' }}
-                      onMouseEnter={(e) => showTip(e, (
-                        <div className="text-xs">
-                          <div className="font-semibold">{city.name}</div>
-                          <div className="opacity-70">{country.name}</div>
-                        </div>
-                      ))}
-                      onMouseMove={moveTip}
-                    />
-                  </g>
+                  <circle
+                    key={`${country.id}-${city.name}`}
+                    cx={p[0]}
+                    cy={p[1]}
+                    r={3.5}
+                    fill={cityColor}
+                    stroke={isMatrix ? '#fef2f2' : '#ffffff'}
+                    strokeWidth={1}
+                    vectorEffect="non-scaling-stroke"
+                    style={{ cursor: 'pointer' }}
+                    onMouseEnter={(e) => showTip(e, (
+                      <div className="text-xs">
+                        <div className="font-semibold">{city.name}</div>
+                        <div className="opacity-70">{country.name}</div>
+                      </div>
+                    ))}
+                  />
                 );
               })
             )}
           </g>
         </svg>
 
-        {tipPos && tipContent && (
+        {tipPos && tipContent && !isDragging && (
           <div
             className={`pointer-events-none absolute px-2 py-1.5 rounded shadow-lg border ${isMatrix ? 'bg-slate-800 text-slate-100 border-slate-700' : 'bg-white text-slate-800 border-slate-200'}`}
             style={{
@@ -237,7 +362,6 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
           <span>City visited</span>
         </div>
       </div>
-
     </div>
   );
 };
