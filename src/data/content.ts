@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, VisitedCountry } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -21,7 +21,7 @@ export const PROFILE: Profile = {
   role: "M.Sc. in Machine Learning",
   institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
   email: "yahia.shaaban@mbzuai.ac.ae",
-  bio: "Machine learning researcher specializing in time-series foundation models, dynamical systems, and multimodal learning. I build end-to-end ML systems spanning sensor-level signal modeling to large-scale language model integration, with expertise in federated learning, model deployment, and benchmark construction for industrial applications. Ranked 1st in NeurIPS 2024 Watermark Removal Challenge.",
+  bio: "A physicist, polymath, and part time linguist who found himself doing ML for a living. Driven by a never ending curiosity to understand the beauty and simplicity of this world; I love connecting ideas and meeting people. On the technical side, I work on mathematical modeling (recently foundation models for time series), domain adaptation, and careful inductive bias injection in deep learning models.",
   image: profileImage,
   quotes,
   socials: {
@@ -328,6 +328,86 @@ export const GALLERY: GalleryItem[] = [
     src: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&fit=crop&q=80&w=600",
     caption: "NeurIPS 2025 Conference"
   }
+];
+
+// Travel log. IDs are numeric ISO 3166-1 codes used by the world-atlas topojson.
+// Color fades with exponential decay in months since lastVisit (permanent = always full).
+export const VISITED_COUNTRIES: VisitedCountry[] = [
+  {
+    id: "818",
+    name: "Egypt",
+    permanent: true,
+    note: "Home country",
+    lastVisit: "2026-04",
+    cities: [
+      { name: "Cairo", lon: 31.2357, lat: 30.0444 },
+      { name: "Alexandria", lon: 29.9187, lat: 31.2001 },
+    ],
+  },
+  {
+    id: "784",
+    name: "United Arab Emirates",
+    permanent: true,
+    note: "Residence",
+    lastVisit: "2026-04",
+    cities: [
+      { name: "Dubai", lon: 55.2708, lat: 25.2048 },
+      { name: "Abu Dhabi", lon: 54.3773, lat: 24.4539 },
+    ],
+  },
+  {
+    id: "070",
+    name: "Bosnia and Herzegovina",
+    lastVisit: "2025-08",
+    cities: [
+      { name: "Mostar", lon: 17.8078, lat: 43.3438 },
+      { name: "Sarajevo", lon: 18.4131, lat: 43.8563 },
+    ],
+  },
+  {
+    id: "191",
+    name: "Croatia",
+    lastVisit: "2025-09",
+    cities: [
+      { name: "Dubrovnik", lon: 18.0944, lat: 42.6507 },
+      { name: "Split", lon: 16.4402, lat: 43.5081 },
+    ],
+  },
+  {
+    id: "792",
+    name: "Turkey",
+    lastVisit: "2025-09",
+    cities: [
+      { name: "Istanbul", lon: 28.9784, lat: 41.0082 },
+    ],
+  },
+  {
+    id: "840",
+    name: "United States of America",
+    lastVisit: "2025-12",
+    cities: [
+      { name: "San Diego", lon: -117.1611, lat: 32.7157 },
+      { name: "New York", lon: -74.0060, lat: 40.7128 },
+      { name: "Richmond (VA)", lon: -77.4360, lat: 37.5407 },
+      { name: "Baltimore (MD)", lon: -76.6122, lat: 39.2904 },
+    ],
+  },
+  {
+    id: "076",
+    name: "Brazil",
+    lastVisit: "2026-04",
+    cities: [
+      { name: "Rio de Janeiro", lon: -43.1729, lat: -22.9068 },
+    ],
+  },
+  {
+    id: "380",
+    name: "Italy",
+    lastVisit: "2026-04",
+    cities: [
+      { name: "Rome", lon: 12.4964, lat: 41.9028 },
+    ],
+  },
 ];
 
 export const FACTS = [

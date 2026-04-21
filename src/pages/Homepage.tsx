@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE } from '../data/content';
+import perseusBg from '../assets/figures/perseus-bg.png';
 import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
 
 interface HomepageProps {
@@ -48,7 +49,20 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   };
 
   return (
-    <div className="space-y-24 py-8">
+    <div className="relative isolate space-y-24 py-8">
+      {!isMatrix && (
+        <div
+          aria-hidden
+          className="fixed inset-0 -z-10 pointer-events-none"
+          style={{
+            backgroundImage: `url(${perseusBg})`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.08,
+          }}
+        />
+      )}
       {/* Hero/Intro Section */}
       <section className="min-h-[80vh] flex flex-col items-center justify-center gap-10 pt-10 px-4 md:flex-row">
         {/* Left: Text Info */}

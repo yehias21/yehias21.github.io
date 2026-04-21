@@ -59,6 +59,21 @@ export interface GalleryItem {
   caption: string;
 }
 
+export interface VisitedCity {
+  name: string;
+  lon: number;
+  lat: number;
+}
+
+export interface VisitedCountry {
+  id: string;            // numeric ISO 3166-1 code used by world-atlas topojson
+  name: string;
+  cities: VisitedCity[];
+  lastVisit: string;     // YYYY-MM (or YYYY-MM-DD); ignored if permanent
+  note?: string;         // e.g. "Home country"
+  permanent?: boolean;   // home/residence, always full intensity
+}
+
 export interface Profile {
   name: string;
   role: string;

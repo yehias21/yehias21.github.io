@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
+import brainIcon from './assets/figures/brain-icon.png';
 import ChatWidget from './components/ChatWidget';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
@@ -10,7 +11,8 @@ import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home } from 'lucide-react';
+import Travel from './pages/Travel';
+import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home, Plane } from 'lucide-react';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -33,6 +35,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     { name: 'Publications', path: '/publications', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'Projects', path: '/projects', icon: <Briefcase className="w-4 h-4" /> },
     { name: 'Blog', path: '/blog', icon: <FileText className="w-4 h-4" /> },
+    { name: 'Travel', path: '/travel', icon: <Plane className="w-4 h-4" /> },
     { name: 'Contact', path: '/contact', icon: <Calendar className="w-4 h-4" /> },
   ];
 
@@ -43,8 +46,8 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <Link to="/" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-white' : 'text-slate-900'}`}>
-              <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-serif italic shadow-md ${isMatrix ? 'bg-green-600 text-black' : 'bg-blue-600 text-white'}`}>
-                {PROFILE.name.charAt(0)}
+              <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-green-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
+                <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
               <span className="hidden sm:inline tracking-tight">{PROFILE.name}</span>
             </Link>
@@ -156,6 +159,7 @@ const App: React.FC = () => {
           <Route path="/projects" element={<Projects theme={theme} />} />
           <Route path="/blog" element={<Blog theme={theme} />} />
           <Route path="/blog/:id" element={<BlogPost theme={theme} />} />
+          <Route path="/travel" element={<Travel theme={theme} />} />
           <Route path="/contact" element={<Contact theme={theme} />} />
         </Routes>
       </Layout>
