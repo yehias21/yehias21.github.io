@@ -53,15 +53,12 @@ interface CountryFeature extends Feature<Geometry, { name: string }> {
   id?: string | number;
 }
 
-interface Tooltip {
-  x: number;
-  y: number;
-  html: React.ReactNode;
-}
-
 const Travel: React.FC<TravelProps> = ({ theme }) => {
   const isMatrix = theme === ThemeMode.MATRIX;
-  const [tooltip, setTooltip] = useState<Tooltip | null>(null);
+  // Split tooltip state so crossing country boundaries (mouseenter B while
+  // mousemove for A is still scheduled) can't overwrite new content with stale.
+  const [tipPos, setTipPos] = useState<{ x: number; y: number } | null>(null);
+  const [tipContent, setTipContent] = useState<React.ReactNode>(null);
   const now = useMemo(() => new Date(), []);
 
   const visitedById = useMemo(() => {
@@ -95,16 +92,23 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   const strokeColor = isMatrix ? '#0f172a' : '#ffffff';
   const cityColor = isMatrix ? '#f87171' : '#dc2626';
 
-  const handleMouseMove = (
-    e: React.MouseEvent,
-    content: React.ReactNode,
-  ) => {
+  const posFromEvent = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as SVGElement).ownerSVGElement!.getBoundingClientRect();
-    setTooltip({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-      html: content,
-    });
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  };
+
+  const showTip = (e: React.MouseEvent, content: React.ReactNode) => {
+    setTipContent(content);
+    setTipPos(posFromEvent(e));
+  };
+
+  const moveTip = (e: React.MouseEvent) => {
+    setTipPos(posFromEvent(e));
+  };
+
+  const hideTip = () => {
+    setTipContent(null);
+    setTipPos(null);
   };
 
   return (
@@ -123,7 +127,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
         <svg
           viewBox={`0 0 ${MAP_W} ${MAP_H}`}
           className="w-full h-auto block"
-          onMouseLeave={() => setTooltip(null)}
+          onMouseLeave={hideTip}
         >
           <g>
             {features.map((f) => {
@@ -142,7 +146,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                   style={{ cursor: 'pointer', transition: 'fill 200ms' }}
                   onMouseEnter={(e) => {
                     const months = visited && !visited.permanent ? monthsSince(visited.lastVisit, now) : 0;
-                    handleMouseMove(e, (
+                    showTip(e, (
                       <div className="text-xs">
                         <div className="font-semibold">{visited ? visited.name : name}</div>
                         {visited ? (
@@ -162,9 +166,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                       </div>
                     ));
                   }}
-                  onMouseMove={(e) => {
-                    if (tooltip) handleMouseMove(e, tooltip.html);
-                  }}
+                  onMouseMove={moveTip}
                 />
               );
             })}
@@ -186,15 +188,13 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                       stroke={isMatrix ? '#fef2f2' : '#ffffff'}
                       strokeWidth={1}
                       style={{ cursor: 'pointer' }}
-                      onMouseEnter={(e) => handleMouseMove(e, (
+                      onMouseEnter={(e) => showTip(e, (
                         <div className="text-xs">
                           <div className="font-semibold">{city.name}</div>
                           <div className="opacity-70">{country.name}</div>
                         </div>
                       ))}
-                      onMouseMove={(e) => {
-                        if (tooltip) handleMouseMove(e, tooltip.html);
-                      }}
+                      onMouseMove={moveTip}
                     />
                   </g>
                 );
@@ -203,16 +203,16 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
           </g>
         </svg>
 
-        {tooltip && (
+        {tipPos && tipContent && (
           <div
             className={`pointer-events-none absolute px-2 py-1.5 rounded shadow-lg border ${isMatrix ? 'bg-slate-800 text-slate-100 border-slate-700' : 'bg-white text-slate-800 border-slate-200'}`}
             style={{
-              left: tooltip.x + 12,
-              top: tooltip.y + 12,
+              left: tipPos.x + 12,
+              top: tipPos.y + 12,
               maxWidth: 220,
             }}
           >
-            {tooltip.html}
+            {tipContent}
           </div>
         )}
       </div>
@@ -238,30 +238,6 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
         </div>
       </div>
 
-      {/* Country list */}
-      <div className="mt-10">
-        <h3 className={`text-xl font-bold mb-4 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>Trip log</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[...VISITED_COUNTRIES]
-            .sort((a, b) => (a.permanent ? -1 : b.permanent ? 1 : b.lastVisit.localeCompare(a.lastVisit)))
-            .map(c => (
-              <div
-                key={c.id}
-                className={`p-4 rounded-lg border ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
-              >
-                <div className="flex justify-between items-baseline gap-2">
-                  <h4 className={`font-semibold ${isMatrix ? 'text-white' : 'text-slate-900'}`}>{c.name}</h4>
-                  <span className={`text-xs ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-                    {c.permanent ? c.note : c.lastVisit}
-                  </span>
-                </div>
-                <p className={`text-sm mt-1 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {c.cities.map(ci => ci.name).join(' · ')}
-                </p>
-              </div>
-            ))}
-        </div>
-      </div>
     </div>
   );
 };
