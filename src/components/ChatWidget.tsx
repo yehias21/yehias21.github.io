@@ -44,7 +44,7 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className={`p-4 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 group ${isMatrix ? 'bg-green-600 text-black' : 'bg-blue-600 text-white'}`}
+          className={`p-4 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 group ${isMatrix ? 'bg-accent-600 text-black' : 'bg-blue-600 text-white'}`}
         >
           <MessageCircle className="w-6 h-6" />
           <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap font-medium">
@@ -54,14 +54,14 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
       )}
 
       {isOpen && (
-        <div className={`w-80 sm:w-96 h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300 border ${isMatrix ? 'bg-slate-900 border-green-800' : 'bg-white border-slate-200'}`}>
+        <div className={`w-80 sm:w-96 h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300 border ${isMatrix ? 'bg-slate-900 border-accent-800' : 'bg-white border-slate-200'}`}>
           {/* Header */}
-          <div className={`p-4 flex justify-between items-center border-b ${isMatrix ? 'bg-slate-950 border-green-900' : 'bg-slate-50 border-slate-200'}`}>
+          <div className={`p-4 flex justify-between items-center border-b ${isMatrix ? 'bg-slate-950 border-accent-900' : 'bg-slate-50 border-slate-200'}`}>
             <div className="flex items-center gap-2">
-              <Bot className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
-              <h3 className={`font-semibold ${isMatrix ? 'text-green-500' : 'text-slate-800'}`}>Research Assistant</h3>
+              <Bot className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
+              <h3 className={`font-semibold ${isMatrix ? 'text-accent-500' : 'text-slate-800'}`}>Research Assistant</h3>
             </div>
-            <button onClick={() => setIsOpen(false)} className={`transition-colors ${isMatrix ? 'text-green-700 hover:text-green-500' : 'text-slate-400 hover:text-slate-600'}`}>
+            <button onClick={() => setIsOpen(false)} className={`transition-colors ${isMatrix ? 'text-accent-700 hover:text-accent-500' : 'text-slate-400 hover:text-slate-600'}`}>
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -73,7 +73,7 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
                 <div
                   className={`max-w-[80%] p-3 rounded-lg text-sm shadow-sm ${
                     msg.role === 'user'
-                      ? isMatrix ? 'bg-green-700 text-white rounded-tr-none' : 'bg-blue-600 text-white rounded-tr-none'
+                      ? isMatrix ? 'bg-accent-700 text-white rounded-tr-none' : 'bg-blue-600 text-white rounded-tr-none'
                       : isMatrix ? 'bg-slate-800 text-gray-200 border border-slate-700 rounded-tl-none' : 'bg-white text-slate-800 border border-slate-200 rounded-tl-none'
                   }`}
                 >
@@ -84,7 +84,7 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
             {isLoading && (
               <div className="flex justify-start">
                 <div className={`p-3 rounded-lg rounded-tl-none shadow-sm border ${isMatrix ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
-                  <Loader2 className={`w-5 h-5 animate-spin ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+                  <Loader2 className={`w-5 h-5 animate-spin ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
                 </div>
               </div>
             )}
@@ -92,19 +92,19 @@ const ChatWidget: React.FC<{ theme: ThemeMode }> = ({ theme }) => {
           </div>
 
           {/* Input */}
-          <div className={`p-3 flex gap-2 border-t ${isMatrix ? 'bg-slate-950 border-green-900' : 'bg-white border-slate-200'}`}>
+          <div className={`p-3 flex gap-2 border-t ${isMatrix ? 'bg-slate-950 border-accent-900' : 'bg-white border-slate-200'}`}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Ask about papers, projects..."
-              className={`flex-1 rounded-full px-4 py-2 outline-none text-sm border ${isMatrix ? 'bg-slate-900 text-slate-100 border-slate-700 focus:ring-2 focus:ring-green-500 focus:border-green-500' : 'bg-slate-100 text-slate-900 border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}`}
+              className={`flex-1 rounded-full px-4 py-2 outline-none text-sm border ${isMatrix ? 'bg-slate-900 text-slate-100 border-slate-700 focus:ring-2 focus:ring-accent-500 focus:border-accent-500' : 'bg-slate-100 text-slate-900 border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}`}
             />
             <button
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
-              className={`p-2 rounded-full text-white disabled:opacity-50 transition-colors ${isMatrix ? 'bg-green-700 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}`}
+              className={`p-2 rounded-full text-white disabled:opacity-50 transition-colors ${isMatrix ? 'bg-accent-700 hover:bg-accent-600' : 'bg-blue-600 hover:bg-blue-700'}`}
             >
               <Send className="w-4 h-4" />
             </button>

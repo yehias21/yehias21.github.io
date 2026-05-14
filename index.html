@@ -25,10 +25,25 @@
         theme: {
           extend: {
             colors: {
+              // Dark-mode accent palette: violet/purple (replaces the old neon green).
+              // Single source of truth — change here to recolor dark mode.
+              accent: {
+                50:  '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+                950: '#2e1065',
+              },
               matrix: {
                 black: '#0D0208',
-                green: '#00FF41',
-                darkgreen: '#008F11',
+                violet: '#a78bfa',
+                darkviolet: '#5b21b6',
               }
             },
             fontFamily: {
@@ -60,10 +75,10 @@
         background: #0a0a0a;
       }
       .dark ::-webkit-scrollbar-thumb {
-        background: #008F11;
+        background: #5b21b6;
       }
       .dark ::-webkit-scrollbar-thumb:hover {
-        background: #00FF41;
+        background: #a78bfa;
       }
 
       /* Smooth scrolling */
@@ -125,13 +140,13 @@
           text-shadow: none;
         }
         92% {
-          text-shadow: 2px 0 #00ff00, -2px 0 #ff0000;
+          text-shadow: 2px 0 #a78bfa, -2px 0 #f472b6;
         }
         94% {
-          text-shadow: -2px 0 #00ff00, 2px 0 #ff0000;
+          text-shadow: -2px 0 #a78bfa, 2px 0 #f472b6;
         }
         96% {
-          text-shadow: 2px 0 #ff0000, -2px 0 #00ff00;
+          text-shadow: 2px 0 #f472b6, -2px 0 #a78bfa;
         }
         98% {
           text-shadow: none;

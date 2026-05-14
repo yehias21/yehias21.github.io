@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-ro
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import brainIcon from './assets/figures/brain-icon.png';
+import starryNightBg from './assets/figures/starry-night.jpg';
 import ChatWidget from './components/ChatWidget';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
@@ -41,12 +42,24 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
 
   return (
     <div className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono bg-slate-950 text-slate-100' : 'bg-stone-50 text-slate-900'}`}>
+      {/* Site-wide starry-night background (visible in light mode; subtle in dark) */}
+      <div
+        aria-hidden
+        className="fixed inset-0 -z-10 pointer-events-none"
+        style={{
+          backgroundImage: `url(${starryNightBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: isMatrix ? 0.08 : 0.14,
+        }}
+      />
       {/* Navbar */}
       <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <Link to="/" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-              <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-green-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
+              <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-accent-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
                 <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
               <span className="hidden sm:inline tracking-tight">{PROFILE.name}</span>
@@ -60,8 +73,8 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
                   to={link.path}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
                     location.pathname === link.path
-                      ? isMatrix ? 'bg-green-900/30 text-green-400' : 'bg-blue-100 text-blue-600'
-                      : isMatrix ? 'text-slate-400 hover:text-green-300' : 'text-slate-600 hover:text-blue-600'
+                      ? isMatrix ? 'bg-accent-900/30 text-accent-400' : 'bg-blue-100 text-blue-600'
+                      : isMatrix ? 'text-slate-400 hover:text-accent-300' : 'text-slate-600 hover:text-blue-600'
                   }`}
                 >
                   {link.icon}
@@ -71,7 +84,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
               <div className={`h-6 w-px mx-2 ${isMatrix ? 'bg-slate-700' : 'bg-slate-200'}`}></div>
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-green-500 hover:bg-green-900/20' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-accent-500 hover:bg-accent-900/20' : 'text-slate-600 hover:bg-slate-100'}`}
                 title={isMatrix ? 'Switch to Day Mode' : 'Switch to Night Mode'}
               >
                 {isMatrix ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -82,7 +95,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
             <div className="md:hidden flex items-center gap-4">
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-green-500' : 'text-slate-600'}`}
+                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-accent-500' : 'text-slate-600'}`}
               >
                 {isMatrix ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
@@ -107,8 +120,8 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${
                     location.pathname === link.path
-                      ? isMatrix ? 'bg-green-900/30 text-green-400' : 'bg-blue-100 text-blue-600'
-                      : isMatrix ? 'text-slate-400 hover:text-green-300' : 'text-slate-600 hover:text-blue-600'
+                      ? isMatrix ? 'bg-accent-900/30 text-accent-400' : 'bg-blue-100 text-blue-600'
+                      : isMatrix ? 'text-slate-400 hover:text-accent-300' : 'text-slate-600 hover:text-blue-600'
                   }`}
                 >
                   {link.icon}
@@ -128,9 +141,9 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       {/* Footer */}
       <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-400 border-slate-200'}`}>
         <div className="flex justify-center gap-6 mb-4">
-          {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
-          {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
-          {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-green-400' : 'hover:text-blue-600'}`}><GraduationCap className="w-5 h-5"/></a>}
+          {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
+          {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
+          {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><GraduationCap className="w-5 h-5"/></a>}
         </div>
         <p>&copy; {new Date().getFullYear()} {PROFILE.name}</p>
       </footer>

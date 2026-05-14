@@ -14,7 +14,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center mb-8">
         <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-          <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+          <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
           Projects
         </h2>
       </div>
@@ -23,7 +23,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
         {PROJECTS.map((proj) => {
           const isInteractive = Boolean(proj.github || proj.link);
           const hoverCls = isInteractive
-            ? (isMatrix ? 'hover:shadow-2xl hover:border-green-800 hover:shadow-green-900/20' : 'hover:shadow-2xl hover:border-blue-300')
+            ? (isMatrix ? 'hover:shadow-2xl hover:border-accent-800 hover:shadow-accent-900/20' : 'hover:shadow-2xl hover:border-blue-300')
             : '';
           return (
           <div key={proj.id} className={`rounded-xl overflow-hidden border transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} ${hoverCls}`}>
@@ -45,7 +45,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                     href={proj.github}
                     target="_blank"
                     rel="noreferrer"
-                    className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-green-400 hover:bg-green-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
+                    className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-accent-400 hover:bg-accent-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
                   >
                     <Github className="w-5 h-5" />
                   </a>
@@ -67,7 +67,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
                     href={proj.link}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex items-center gap-1 text-sm transition-colors ${isMatrix ? 'text-slate-400 hover:text-green-400' : 'text-slate-500 hover:text-blue-600'}`}
+                    className={`flex items-center gap-1 text-sm transition-colors ${isMatrix ? 'text-slate-400 hover:text-accent-400' : 'text-slate-500 hover:text-blue-600'}`}
                   >
                     <ExternalLink className="w-4 h-4"/> {proj.linkLabel || 'Demo'}
                   </a>

@@ -123,7 +123,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
           <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Blog post not found</h2>
           <Link
             to="/blog"
-            className={`inline-flex items-center gap-2 ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`inline-flex items-center gap-2 ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
@@ -153,7 +153,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         <div className="max-w-3xl mx-auto lg:mx-0 w-full">
           <button
             onClick={() => navigate('/blog')}
-            className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
@@ -186,7 +186,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                 {post.tags.map(tag => (
                   <span
                     key={tag}
-                    className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full ${isMatrix ? 'bg-green-900/20 text-green-400 border border-green-800/50' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}
+                    className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full ${isMatrix ? 'bg-accent-900/20 text-accent-400 border border-accent-800/50' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}
                   >
                     #{tag}
                   </span>
@@ -244,7 +244,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                       className={`block leading-snug transition-colors ${h.level === 3 ? 'pl-3' : ''} ${
                         isActive
                           ? isMatrix
-                            ? 'text-green-400 font-medium'
+                            ? 'text-accent-400 font-medium'
                             : 'text-blue-600 font-medium'
                           : isMatrix
                             ? 'text-slate-400 hover:text-slate-200'
@@ -267,7 +267,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
-          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-lg transition-all ${isMatrix ? 'bg-green-700 hover:bg-green-600 text-black' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-lg transition-all ${isMatrix ? 'bg-accent-700 hover:bg-accent-600 text-black' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
         >
           <ArrowUp className="w-5 h-5" />
         </button>

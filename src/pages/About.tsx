@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeMode } from '../types';
-import { EDUCATION, EXPERIENCE } from '../data/content';
-import { User, GraduationCap, Briefcase, MapPin, Target } from 'lucide-react';
+import { EDUCATION, EXPERIENCE, SERVICE } from '../data/content';
+import { User, GraduationCap, Briefcase, MapPin, Target, Award } from 'lucide-react';
 
 interface AboutProps {
   theme: ThemeMode;
@@ -13,7 +13,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <h2 className={`text-3xl font-bold mb-8 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-        <User className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+        <User className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
         About Me
       </h2>
 
@@ -24,7 +24,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
           {/* Education */}
           <section>
             <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
-              <GraduationCap className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-500'}`} /> Education
+              <GraduationCap className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> Education
             </h3>
             <div className="space-y-6">
               {EDUCATION.map(edu => (
@@ -47,15 +47,15 @@ const About: React.FC<AboutProps> = ({ theme }) => {
           {/* Experience Timeline */}
           <section>
             <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
-              <Briefcase className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-500'}`} /> Experience
+              <Briefcase className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> Experience
             </h3>
             <div className="space-y-6">
               {EXPERIENCE.map(exp => (
                 <div key={exp.id} className={`relative pl-6 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}>
-                  <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-green-600' : 'bg-white border-blue-500'}`}></div>
+                  <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-accent-600' : 'bg-white border-blue-500'}`}></div>
                   <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{exp.role}</h4>
                   <div className={`flex flex-col sm:flex-row sm:justify-between text-sm mb-2 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-                    <span className={`font-semibold ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>{exp.company}</span>
+                    <span className={`font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{exp.company}</span>
                     <div className="flex items-center gap-2">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3"/> {exp.location}</span>
                       <span>• {exp.period}</span>
@@ -68,13 +68,38 @@ const About: React.FC<AboutProps> = ({ theme }) => {
               ))}
             </div>
           </section>
+
+          {/* Academic Service */}
+          <section>
+            <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
+              <Award className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> Academic Service
+            </h3>
+            <ul className="space-y-3">
+              {SERVICE.map(s => (
+                <li
+                  key={s.id}
+                  className={`pl-4 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}
+                >
+                  <div className={`text-sm ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
+                    <span className={`font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{s.role}</span>
+                    <span className={isMatrix ? 'text-slate-400' : 'text-slate-500'}> · </span>
+                    <span>{s.venue}</span>
+                    <span className={isMatrix ? 'text-slate-500' : 'text-slate-400'}> · {s.year}</span>
+                  </div>
+                  {s.note && (
+                    <div className={`text-xs mt-1 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>{s.note}</div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
 
         {/* My Vision Column */}
         <div className="space-y-8">
           <section>
             <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
-              <Target className={`w-5 h-5 ${isMatrix ? 'text-green-500' : 'text-blue-500'}`} /> My Vision
+              <Target className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> My Vision
             </h3>
             <div className={`p-6 rounded-lg border ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
               <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-slate-700'}`}>
@@ -84,7 +109,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
                 My drive is to leave a lasting positive imprint on the communities I am part of. I want my work to outlast me, to create opportunity for people who would otherwise not have it, and to turn hard problems into tools others can build on.
               </p>
               <p className={`text-xs italic mt-4 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
-                <small>(Inspired by Veritasium's philosophy on purpose and sustainability <a href="https://www.youtube.com/watch?v=piHGnG4LsmQ" target="_blank" rel="noopener noreferrer" className={`underline hover:no-underline ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>here</a>)</small>
+                <small>(Inspired by Veritasium's philosophy on purpose and sustainability <a href="https://www.youtube.com/watch?v=piHGnG4LsmQ" target="_blank" rel="noopener noreferrer" className={`underline hover:no-underline ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>here</a>)</small>
               </p>
             </div>
           </section>

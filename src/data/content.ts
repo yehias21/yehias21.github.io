@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, VisitedCountry } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, VisitedCountry, ServiceItem, NewsItem } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -408,6 +408,58 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
       { name: "Rome", lon: 12.4964, lat: 41.9028 },
     ],
   },
+];
+
+export const SERVICE: ServiceItem[] = [
+  {
+    id: "s1",
+    role: "Workshop Reviewer",
+    venue: "ICML 2026 Workshop",
+    year: 2026
+  }
+];
+
+// Latest first. Use absolute dates so they stay interpretable over time.
+export const NEWS: NewsItem[] = [
+  {
+    id: "n-icml-reviewer-2026",
+    date: "2026-05-01",
+    title: "Reviewing for an ICML 2026 workshop",
+    body: "Joined the program committee of an ICML 2026 workshop as a reviewer.",
+    tag: "Service"
+  },
+  {
+    id: "n-iclr-pde-2026",
+    date: "2026-04-20",
+    title: "HyperKKL accepted at ICLR 2026 Workshop on AI and PDE",
+    body: "Our work extending learning-based KKL observers to non-autonomous nonlinear systems was accepted at the ICLR 2026 Workshop on AI and PDE.",
+    link: "https://github.com/yehias21/HyperKKL",
+    linkLabel: "Code",
+    tag: "Paper"
+  },
+  {
+    id: "n-neurips-svrp-2025",
+    date: "2025-12-10",
+    title: "SVRPBench accepted at NeurIPS 2025 (Datasets & Benchmarks)",
+    body: "A realistic benchmark for stochastic vehicle routing problems, calibrated against real city networks.",
+    link: "https://github.com/yehias21/svrpbench",
+    linkLabel: "Code",
+    tag: "Paper"
+  },
+  {
+    id: "n-bigdata-2025",
+    date: "2025-11-15",
+    title: "Streaming Drilling Report Generation accepted at IEEE Big Data 2025",
+    body: "Paper on live segmentation + multimodal text generation for daily drilling reports.",
+    tag: "Paper"
+  },
+  {
+    id: "n-aiq-intern-2025",
+    date: "2025-05-01",
+    title: "Started research internship at AIQ Intelligence",
+    body: "Working on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis.",
+    tag: "Career"
+  }
 ];
 
 export const FACTS = [

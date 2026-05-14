@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
-import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE } from '../data/content';
-import starryNightBg from '../assets/figures/starry-night.jpg';
-import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
+import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE, NEWS } from '../data/content';
+import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText, Newspaper } from 'lucide-react';
 
 interface HomepageProps {
   theme: ThemeMode;
@@ -50,32 +49,19 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
   return (
     <div className="relative isolate space-y-24 py-8">
-      {!isMatrix && (
-        <div
-          aria-hidden
-          className="fixed inset-0 -z-10 pointer-events-none"
-          style={{
-            backgroundImage: `url(${starryNightBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.12,
-          }}
-        />
-      )}
       {/* Hero/Intro Section */}
       <section className="min-h-[80vh] flex flex-col items-center justify-center gap-10 pt-10 px-4 md:flex-row">
         {/* Left: Text Info */}
         <div className="flex-1 flex flex-col justify-center items-start z-10 order-2 md:order-1">
           {isMatrix && (
-            <div className="mb-4 inline-block px-3 py-1 rounded-full text-xs font-mono bg-green-900 text-green-300">
+            <div className="mb-4 inline-block px-3 py-1 rounded-full text-xs font-mono bg-accent-900 text-accent-300">
               System: ONLINE
             </div>
           )}
 
           <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             Hello, I'm <br />
-            <span className={isMatrix ? 'text-green-500 glitch-text' : 'text-blue-600'}>
+            <span className={isMatrix ? 'text-accent-500 glitch-text' : 'text-blue-600'}>
               {PROFILE.name.split(' ')[0]}
             </span>
           </h1>
@@ -86,10 +72,10 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
           {/* Quote Section (Press Q) */}
           <div className="min-h-24 w-full max-w-lg mb-8 relative group cursor-pointer" onClick={() => setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length)}>
-            <p className={`text-md md:text-lg font-mono border-l-4 pl-4 italic transition-all duration-500 ease-in-out ${isMatrix ? 'text-green-400 border-green-500' : 'text-slate-500 border-blue-500'}`}>
+            <p className={`text-md md:text-lg font-mono border-l-4 pl-4 italic transition-all duration-500 ease-in-out ${isMatrix ? 'text-accent-400 border-accent-500' : 'text-slate-500 border-blue-500'}`}>
               {PROFILE.quotes[quoteIndex]}
             </p>
-            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-green-400' : 'text-slate-500'}`}>
+            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-accent-400' : 'text-slate-500'}`}>
               Press 'Q' to change
             </span>
           </div>
@@ -99,7 +85,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             href="https://github.com/yehias21/yehias21.github.io#-research-background"
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-6 transition-all ${isMatrix ? 'bg-green-900/40 text-green-300 border border-green-800 hover:bg-green-900/60' : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'}`}
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-6 transition-all ${isMatrix ? 'bg-accent-900/40 text-accent-300 border border-accent-800 hover:bg-accent-900/60' : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'}`}
           >
             <BookText className="w-4 h-4" />
             Read my research background
@@ -109,21 +95,21 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           {/* Social Links & Contact */}
           <div className="flex gap-4">
             {PROFILE.socials.github && (
-              <a aria-label="GitHub" title="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="GitHub" title="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <Github className="w-5 h-5" />
               </a>
             )}
             {PROFILE.socials.linkedin && (
-              <a aria-label="LinkedIn" title="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="LinkedIn" title="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <Linkedin className="w-5 h-5" />
               </a>
             )}
             {PROFILE.socials.scholar && (
-              <a aria-label="Google Scholar" title="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+              <a aria-label="Google Scholar" title="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
                 <GraduationCap className="w-5 h-5" />
               </a>
             )}
-            <a aria-label="Email" title="Email" href={`mailto:${PROFILE.email}`} className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-400 hover:text-green-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
+            <a aria-label="Email" title="Email" href={`mailto:${PROFILE.email}`} className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
               <Mail className="w-5 h-5" />
             </a>
           </div>
@@ -132,8 +118,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
         <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
           <div className="relative w-64 h-64 md:w-80 md:h-80">
-            <div className={`absolute inset-0 rounded-2xl transform rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-green-600' : 'bg-blue-200'}`}></div>
-            <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-green-500' : 'bg-slate-200'}`}></div>
+            <div className={`absolute inset-0 rounded-2xl transform rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
+            <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
             <img
               src={PROFILE.image}
               alt="Profile"
@@ -143,16 +129,79 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </div>
       </section>
 
+      {/* News Section */}
+      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
+            <Newspaper className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
+            News
+          </h2>
+          <span className={`text-xs font-mono uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
+            {NEWS.length} updates
+          </span>
+        </div>
+
+        <ol className={`relative border-l-2 ml-3 space-y-6 ${isMatrix ? 'border-slate-800' : 'border-slate-200'}`}>
+          {NEWS.slice(0, 5).map((item) => (
+            <li key={item.id} className="pl-6 relative group">
+              <span
+                className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 transition-colors ${
+                  isMatrix
+                    ? 'bg-slate-900 border-accent-500 group-hover:bg-accent-500/30'
+                    : 'bg-white border-blue-500 group-hover:bg-blue-100'
+                }`}
+              />
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <time className={`text-xs font-mono ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
+                  {item.date}
+                </time>
+                {item.tag && (
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full border ${
+                      isMatrix
+                        ? 'bg-accent-900/30 text-accent-300 border-accent-700/50'
+                        : 'bg-blue-50 text-blue-600 border-blue-200'
+                    }`}
+                  >
+                    {item.tag}
+                  </span>
+                )}
+              </div>
+              <h3 className={`text-base font-semibold mb-1 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
+                {item.title}
+              </h3>
+              {item.body && (
+                <p className={`text-sm leading-relaxed ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+                  {item.body}
+                </p>
+              )}
+              {item.link && (
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex items-center gap-1 text-xs font-medium mt-2 transition-colors ${
+                    isMatrix ? 'text-accent-400 hover:text-accent-300' : 'text-blue-600 hover:text-blue-500'
+                  }`}
+                >
+                  {item.linkLabel || 'Link'} <ArrowRight className="w-3 h-3" />
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* Publications Preview Section */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+            <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
             Publications
           </h2>
           <Link
             to="/publications"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -165,18 +214,18 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             return (
               <div
                 key={pub.id}
-                className={`group p-6 rounded-xl border transition-all duration-300 cursor-pointer ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-green-800 hover:shadow-lg hover:shadow-green-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}
+                className={`group p-6 rounded-xl border transition-all duration-300 cursor-pointer ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800 hover:shadow-lg hover:shadow-accent-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}
                 onClick={() => setExpandedPubId(isExpanded ? null : pub.id)}
               >
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
                   {pub.comment && (
-                    <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-green-900/30 text-green-400 border border-green-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-accent-900/30 text-accent-400 border border-accent-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
                       {pub.comment}
                     </span>
                   )}
                 </div>
-                <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
+                <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
                   {pub.title}
                 </h3>
                 <p className={`mt-1 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -189,7 +238,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
                 {/* Abstract Dropdown */}
                 {isExpanded && (
-                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-green-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
+                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-accent-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
                     <span className="font-bold block mb-1">Abstract:</span>
                     {pub.abstract}
                   </div>
@@ -197,7 +246,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
                 <div className="flex flex-wrap gap-2 mt-3">
                   {pub.tags.map(tag => (
-                    <span key={tag} className={`text-xs px-2 py-0.5 rounded-full border ${isMatrix ? 'bg-green-900/20 text-green-400 border-green-800/50' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
+                    <span key={tag} className={`text-xs px-2 py-0.5 rounded-full border ${isMatrix ? 'bg-accent-900/20 text-accent-400 border-accent-800/50' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
                       {tag}
                     </span>
                   ))}
@@ -210,7 +259,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                       href={pub.pdf}
                       target="_blank"
                       rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
                     >
                       <FileText className="w-4 h-4" />
                       Paper
@@ -221,7 +270,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                       href={pub.link}
                       target="_blank"
                       rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
                     >
                       <FileCode className="w-4 h-4" />
                       Code
@@ -230,7 +279,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                   {pub.bibtex && pub.bibtex !== "#" && (
                     <button
                       onClick={() => copyBibtex(pub.bibtex!, pub.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-green-900/50 text-slate-300 hover:text-green-400 border border-slate-700 hover:border-green-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
                     >
                       <BookText className="w-4 h-4" />
                       {copiedId === pub.id ? 'Copied!' : 'BibTeX'}
@@ -247,12 +296,12 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
             Projects
           </h2>
           <Link
             to="/projects"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -262,7 +311,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           {PROJECTS.slice(0, 3).map((proj) => (
             <div
               key={proj.id}
-              className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-green-800 hover:shadow-green-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+              className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-accent-800 hover:shadow-accent-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
             >
               <div className={`h-40 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
                 {proj.image && (
@@ -282,7 +331,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                       href={proj.github}
                       target="_blank"
                       rel="noreferrer"
-                      className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-green-400 hover:bg-green-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
+                      className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-accent-400 hover:bg-accent-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Github className="w-5 h-5" />
@@ -309,12 +358,12 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
             Experience
           </h2>
           <Link
             to="/about"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -322,11 +371,11 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         <div className="space-y-4">
           {EXPERIENCE.slice(0, 3).map(exp => (
-            <div key={exp.id} className={`relative pl-6 border-l-2 transition-colors group ${isMatrix ? 'border-slate-700 hover:border-green-600' : 'border-slate-200 hover:border-blue-500'}`}>
-              <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-green-600' : 'bg-white border-blue-500'}`}></div>
+            <div key={exp.id} className={`relative pl-6 border-l-2 transition-colors group ${isMatrix ? 'border-slate-700 hover:border-accent-600' : 'border-slate-200 hover:border-blue-500'}`}>
+              <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-accent-600' : 'bg-white border-blue-500'}`}></div>
               <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{exp.role}</h4>
               <div className={`flex flex-col sm:flex-row sm:justify-between text-sm mb-2 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-                <span className={`font-semibold ${isMatrix ? 'text-green-400' : 'text-blue-600'}`}>{exp.company}</span>
+                <span className={`font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{exp.company}</span>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1"><MapPin className="w-3 h-3"/> {exp.location}</span>
                   <span>• {exp.period}</span>
@@ -341,12 +390,12 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-8">
           <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <FileText className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+            <FileText className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
             Blog
           </h2>
           <Link
             to="/blog"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
           >
             See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -354,13 +403,13 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         <div className="grid gap-6">
           {BLOG_POSTS.slice(0, 2).map((post) => (
-            <article key={post.id} className={`flex flex-col md:flex-row gap-6 md:gap-12 items-start group p-6 rounded-xl border transition-all ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-green-800' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}>
+            <article key={post.id} className={`flex flex-col md:flex-row gap-6 md:gap-12 items-start group p-6 rounded-xl border transition-all ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}>
               <div className="md:w-32 shrink-0 pt-1">
                 <span className={`text-sm font-mono block ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>{post.date}</span>
                 <span className={`text-xs block ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`}>{post.readTime}</span>
               </div>
               <div className="flex-1">
-                <h3 className={`text-xl font-bold mb-2 transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
+                <h3 className={`text-xl font-bold mb-2 transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
                   {post.title}
                 </h3>
                 <p className={`leading-relaxed mb-3 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -369,12 +418,12 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex gap-2">
                     {post.tags.map(tag => (
-                      <span key={tag} className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-green-600' : 'text-blue-600'}`}>#{tag}</span>
+                      <span key={tag} className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-accent-600' : 'text-blue-600'}`}>#{tag}</span>
                     ))}
                   </div>
                   <Link
                     to={`/blog/${post.id}`}
-                    className={`flex items-center gap-1 text-sm font-medium transition-colors ${isMatrix ? 'text-green-500 hover:text-green-400' : 'text-blue-600 hover:text-blue-500'}`}
+                    className={`flex items-center gap-1 text-sm font-medium transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
                   >
                     Read more <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -393,7 +442,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </p>
         <Link
           to="/contact"
-          className={`inline-flex items-center gap-2 px-8 py-3 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl ${isMatrix ? 'bg-green-700 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}`}
+          className={`inline-flex items-center gap-2 px-8 py-3 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl ${isMatrix ? 'bg-accent-700 hover:bg-accent-600' : 'bg-blue-600 hover:bg-blue-700'}`}
         >
           <Calendar className="w-5 h-5" />
           Get in Touch

@@ -91,6 +91,24 @@ export interface Profile {
   meetingLink: string;
 }
 
+export interface ServiceItem {
+  id: string;
+  role: string;            // e.g., "Reviewer"
+  venue: string;           // e.g., "ICML 2026 Workshop on ..."
+  year: number;
+  note?: string;
+}
+
+export interface NewsItem {
+  id: string;
+  date: string;            // YYYY-MM-DD (sorts well)
+  title: string;
+  body?: string;
+  link?: string;
+  linkLabel?: string;
+  tag?: string;            // e.g., "Paper", "Service", "Talk"
+}
+
 export enum ThemeMode {
   LIGHT = 'LIGHT',
   MATRIX = 'MATRIX'

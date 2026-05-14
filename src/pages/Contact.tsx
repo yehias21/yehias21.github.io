@@ -18,16 +18,16 @@ const Contact: React.FC<ContactProps> = ({ theme }) => {
       </p>
 
       <div className={`p-8 rounded-2xl shadow-sm border mb-8 ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
-        <Calendar className={`w-12 h-12 mx-auto mb-4 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+        <Calendar className={`w-12 h-12 mx-auto mb-4 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
         <h3 className={`text-xl font-semibold mb-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Book a 30-min Call</h3>
         <p className={`text-sm mb-6 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>Directly schedule time on my calendar.</p>
-        <a href={PROFILE.meetingLink} target="_blank" rel="noreferrer" className={`inline-block px-8 py-3 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl ${isMatrix ? 'bg-green-700 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}`}>
+        <a href={PROFILE.meetingLink} target="_blank" rel="noreferrer" className={`inline-block px-8 py-3 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl ${isMatrix ? 'bg-accent-700 hover:bg-accent-600' : 'bg-blue-600 hover:bg-blue-700'}`}>
           View Calendar
         </a>
       </div>
 
       <p className={`text-sm ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
-        Or email me at <a href={`mailto:${PROFILE.email}`} className={`underline font-mono ${isMatrix ? 'text-green-500' : 'text-blue-600'}`}>{PROFILE.email}</a>
+        Or email me at <a href={`mailto:${PROFILE.email}`} className={`underline font-mono ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`}>{PROFILE.email}</a>
       </p>
     </div>
   );

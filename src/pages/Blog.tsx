@@ -15,7 +15,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <header className="mb-10">
         <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-          <FileText className={`w-8 h-8 ${isMatrix ? 'text-green-500' : 'text-blue-600'}`} />
+          <FileText className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
           Blog
         </h2>
         <p className={`text-base ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -32,7 +32,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
               to={`/blog/${post.id}`}
               className={`group relative rounded-2xl border overflow-hidden transition-all ${
                 isMatrix
-                  ? 'bg-slate-900/50 border-slate-800 hover:border-green-700 hover:shadow-[0_4px_30px_rgba(34,197,94,0.08)]'
+                  ? 'bg-slate-900/50 border-slate-800 hover:border-accent-700 hover:shadow-[0_4px_30px_rgba(34,197,94,0.08)]'
                   : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'
               }`}
             >
@@ -48,14 +48,14 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
                       {post.readTime}
                     </span>
                     {isFeature && (
-                      <span className={`ml-auto text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${isMatrix ? 'bg-green-900/30 text-green-400 border border-green-800' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}>
+                      <span className={`ml-auto text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${isMatrix ? 'bg-accent-900/30 text-accent-400 border border-accent-800' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}>
                         Latest
                       </span>
                     )}
                   </div>
 
                   <h3 className={`${isFeature ? 'text-2xl md:text-3xl' : 'text-xl'} font-bold mb-3 leading-tight transition-colors ${
-                    isMatrix ? 'text-slate-100 group-hover:text-green-400' : 'text-slate-900 group-hover:text-blue-600'
+                    isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'
                   }`}>
                     {post.title}
                   </h3>
@@ -70,14 +70,14 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
                         <span
                           key={tag}
                           className={`text-xs px-2.5 py-0.5 rounded-full border ${
-                            isMatrix ? 'bg-green-900/20 text-green-400 border-green-800/50' : 'bg-blue-50 text-blue-600 border-blue-200'
+                            isMatrix ? 'bg-accent-900/20 text-accent-400 border-accent-800/50' : 'bg-blue-50 text-blue-600 border-blue-200'
                           }`}
                         >
                           #{tag}
                         </span>
                       ))}
                     </div>
-                    <span className={`flex items-center gap-1 text-sm font-medium ${isMatrix ? 'text-green-500' : 'text-blue-600'}`}>
+                    <span className={`flex items-center gap-1 text-sm font-medium ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`}>
                       Read more <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
@@ -86,7 +86,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
               {/* Accent bar */}
               <div
                 className={`absolute inset-y-0 left-0 w-1 opacity-0 group-hover:opacity-100 transition-opacity ${
-                  isMatrix ? 'bg-green-500' : 'bg-blue-500'
+                  isMatrix ? 'bg-accent-500' : 'bg-blue-500'
                 }`}
               />
             </Link>
