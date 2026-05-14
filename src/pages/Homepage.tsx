@@ -112,13 +112,13 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
         <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
-          <div className="relative w-64 h-80 md:w-80 md:h-[26rem]">
-            <div className={`absolute inset-0 rounded-2xl transform rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
-            <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
+          <div className="relative w-72 md:w-[28rem] aspect-[1600/746]">
+            <div className={`absolute inset-0 rounded-2xl transform rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
+            <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
             <img
               src={PROFILE.image}
               alt="Profile"
-              className={`absolute inset-0 w-full h-full object-cover object-top rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
+              className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
             />
           </div>
         </div>
