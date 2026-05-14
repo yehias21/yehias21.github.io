@@ -105,15 +105,31 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
 
   // Zoom / pan state. Driving the svg viewBox lets stroke widths scale
   // naturally and keeps all geometry math simple.
+  // `vb` is the committed state (used in JSX); `liveVb` is the working copy
+  // mutated during a gesture and flushed to React state on release. This keeps
+  // pinch/pan at 60+ fps on phones — without it, the ~200-country SVG re-renders
+  // every pointermove and iOS Safari OOMs the tab on long pinches.
   const [vb, setVb] = useState<ViewBox>(baseVb);
   const [isDragging, setIsDragging] = useState(false);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const liveVb = useRef<ViewBox>(baseVb);
   // Active pointers (mouse + touch unified). Ref-based to avoid re-renders.
   const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
   const panStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
   const pinchStart = useRef<{ dist: number; vb: ViewBox; ux: number; uy: number } | null>(null);
   const isZoomed = vb.w < baseVb.w - 0.5;
   const zoomFactor = vb.w / baseVb.w; // <= 1; smaller = more zoomed in
+
+  // Keep liveVb in sync when vb changes from non-gesture sources (buttons, wheel).
+  useEffect(() => { liveVb.current = vb; }, [vb]);
+
+  // Direct-DOM viewBox writer. Avoids triggering a React render — only the one
+  // SVG element's `viewBox` attribute changes. Used during touch/mouse gestures.
+  const writeViewBox = (next: ViewBox) => {
+    liveVb.current = next;
+    const el = svgRef.current;
+    if (el) el.setAttribute('viewBox', `${next.x} ${next.y} ${next.w} ${next.h}`);
+  };
 
   const fillFaded = isMatrix ? '#0b2540' : '#dbeafe';
   const fillFresh = isMatrix ? '#3b82f6' : '#1d4ed8';
@@ -141,16 +157,19 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   };
 
   // --- unified pan + pinch (mouse + touch + pen) ---
+  //
+  // Crucial: during a gesture we mutate `liveVb` + write the SVG viewBox
+  // attribute directly. We do NOT call setVb on every pointermove — that would
+  // re-render every country path 100×/s and crash mobile Safari. setVb only
+  // fires at the start (to update the dragging flag/cursor) and at the end
+  // (to commit the final viewBox).
   const onSvgPointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
     const target = e.currentTarget;
-    // Capture so we keep receiving move/up even if the finger slides off the svg.
     try { target.setPointerCapture(e.pointerId); } catch { /* fine */ }
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     hideTip();
 
     if (pointers.current.size === 2) {
-      // Switch into pinch mode regardless of zoom state — pinching out from
-      // fully zoomed-out is a no-op (clamped), so this is safe.
       const pts = Array.from(pointers.current.values());
       const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
       const rect = target.getBoundingClientRect();
@@ -158,21 +177,26 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
       const midY = (pts[0].y + pts[1].y) / 2;
       pinchStart.current = {
         dist,
-        vb,
+        vb: { ...liveVb.current },
         ux: (midX - rect.left) / rect.width,
         uy: (midY - rect.top) / rect.height,
       };
       panStart.current = null;
-      setIsDragging(false);
-    } else if (pointers.current.size === 1 && isZoomed) {
-      panStart.current = { mx: e.clientX, my: e.clientY, vx: vb.x, vy: vb.y };
-      setIsDragging(true);
+    } else if (pointers.current.size === 1 && liveVb.current.w < baseVb.w - 0.5) {
+      panStart.current = {
+        mx: e.clientX,
+        my: e.clientY,
+        vx: liveVb.current.x,
+        vy: liveVb.current.y,
+      };
+      // Single setIsDragging() at gesture start (and matching reset at end).
+      // No state updates between, so no intermediate re-renders.
+      if (!isDragging) setIsDragging(true);
     }
   };
 
   const onSvgPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     if (!pointers.current.has(e.pointerId)) {
-      // Hovering mouse (no button) — just track tooltip position.
       if (tipContent && e.pointerType === 'mouse') setTipPos(posFromEvent(e));
       return;
     }
@@ -181,7 +205,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     if (pinchStart.current && pointers.current.size >= 2) {
       const pts = Array.from(pointers.current.values()).slice(0, 2);
       const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
-      const ratio = pinchStart.current.dist / dist; // >1 → fingers closer → zoom out
+      const ratio = pinchStart.current.dist / dist;
       const start = pinchStart.current.vb;
       const newW = Math.min(baseVb.w, Math.max(minZoomW, start.w * ratio));
       const newH = newW * (baseVb.h / baseVb.w);
@@ -189,7 +213,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
       const py = start.y + pinchStart.current.uy * start.h;
       const tx = px - pinchStart.current.ux * newW;
       const ty = py - pinchStart.current.uy * newH;
-      setVb(clampVb({ x: tx, y: ty, w: newW, h: newH }, baseVb));
+      writeViewBox(clampVb({ x: tx, y: ty, w: newW, h: newH }, baseVb));
       return;
     }
 
@@ -197,12 +221,14 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
       const rect = e.currentTarget.getBoundingClientRect();
       const dx = e.clientX - panStart.current.mx;
       const dy = e.clientY - panStart.current.my;
-      const sx = vb.w / rect.width;
-      const sy = vb.h / rect.height;
-      setVb(prev => clampVb({
-        ...prev,
-        x: panStart.current!.vx - dx * sx,
-        y: panStart.current!.vy - dy * sy,
+      const cur = liveVb.current;
+      const sx = cur.w / rect.width;
+      const sy = cur.h / rect.height;
+      writeViewBox(clampVb({
+        x: panStart.current.vx - dx * sx,
+        y: panStart.current.vy - dy * sy,
+        w: cur.w,
+        h: cur.h,
       }, baseVb));
       return;
     }
@@ -217,14 +243,22 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     if (pointers.current.size === 0) {
       panStart.current = null;
       pinchStart.current = null;
-      setIsDragging(false);
+      // Commit the gesture's final viewBox to React state in one go.
+      setVb(liveVb.current);
+      if (isDragging) setIsDragging(false);
     } else if (pointers.current.size === 1) {
-      // Pinch ended but one finger still down — resume single-finger pan.
+      // Pinch ended but one finger still down — resume single-finger pan
+      // (without committing to state; we'll commit at the very end).
       pinchStart.current = null;
       const remaining = Array.from(pointers.current.values())[0];
-      if (isZoomed) {
-        panStart.current = { mx: remaining.x, my: remaining.y, vx: vb.x, vy: vb.y };
-        setIsDragging(true);
+      if (liveVb.current.w < baseVb.w - 0.5) {
+        panStart.current = {
+          mx: remaining.x,
+          my: remaining.y,
+          vx: liveVb.current.x,
+          vy: liveVb.current.y,
+        };
+        if (!isDragging) setIsDragging(true);
       }
     }
   };
