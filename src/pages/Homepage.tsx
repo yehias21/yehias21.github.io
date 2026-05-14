@@ -15,6 +15,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   );
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [expandedPubId, setExpandedPubId] = useState<string | null>(null);
+  const [newsCount, setNewsCount] = useState(3);
   const isMatrix = theme === ThemeMode.MATRIX;
 
   // Auto-rotate quotes every 8 seconds
@@ -53,12 +54,6 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
       <section className="min-h-[80vh] flex flex-col items-center justify-center gap-10 pt-10 px-4 md:flex-row">
         {/* Left: Text Info */}
         <div className="flex-1 flex flex-col justify-center items-start z-10 order-2 md:order-1">
-          {isMatrix && (
-            <div className="mb-4 inline-block px-3 py-1 rounded-full text-xs font-mono bg-accent-900 text-accent-300">
-              System: ONLINE
-            </div>
-          )}
-
           <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             Hello, I'm <br />
             <span className={isMatrix ? 'text-accent-500 glitch-text' : 'text-blue-600'}>
@@ -117,13 +112,13 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
         {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
         <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
-          <div className="relative w-64 h-64 md:w-80 md:h-80">
+          <div className="relative w-64 h-80 md:w-80 md:h-[26rem]">
             <div className={`absolute inset-0 rounded-2xl transform rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
             <div className={`absolute inset-0 rounded-2xl transform -rotate-6 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
             <img
               src={PROFILE.image}
               alt="Profile"
-              className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
+              className={`absolute inset-0 w-full h-full object-cover object-top rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
             />
           </div>
         </div>
@@ -142,7 +137,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </div>
 
         <ol className={`relative border-l-2 ml-3 space-y-6 ${isMatrix ? 'border-slate-800' : 'border-slate-200'}`}>
-          {NEWS.slice(0, 5).map((item) => (
+          {NEWS.slice(0, newsCount).map((item) => (
             <li key={item.id} className="pl-6 relative group">
               <span
                 className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 transition-colors ${
@@ -190,6 +185,35 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             </li>
           ))}
         </ol>
+
+        {(newsCount < NEWS.length || newsCount > 3) && (
+          <div className="mt-6 flex justify-center gap-3">
+            {newsCount < NEWS.length && (
+              <button
+                onClick={() => setNewsCount((c) => Math.min(c + 5, NEWS.length))}
+                className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  isMatrix
+                    ? 'bg-accent-900/30 text-accent-300 border border-accent-800 hover:bg-accent-900/50'
+                    : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                }`}
+              >
+                See more (+{Math.min(5, NEWS.length - newsCount)})
+              </button>
+            )}
+            {newsCount > 3 && (
+              <button
+                onClick={() => setNewsCount(3)}
+                className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  isMatrix
+                    ? 'text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-500'
+                    : 'text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-400'
+                }`}
+              >
+                Show less
+              </button>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Publications Preview Section */}

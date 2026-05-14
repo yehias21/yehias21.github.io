@@ -412,9 +412,15 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
 
 export const SERVICE: ServiceItem[] = [
   {
-    id: "s1",
+    id: "s-icml-2026",
     role: "Workshop Reviewer",
     venue: "ICML 2026 Workshop",
+    year: 2026
+  },
+  {
+    id: "s-iclr-2026",
+    role: "Workshop Reviewer",
+    venue: "ICLR 2026 Workshop",
     year: 2026
   }
 ];
@@ -422,10 +428,10 @@ export const SERVICE: ServiceItem[] = [
 // Latest first. Use absolute dates so they stay interpretable over time.
 export const NEWS: NewsItem[] = [
   {
-    id: "n-icml-reviewer-2026",
+    id: "n-reviewer-2026",
     date: "2026-05-01",
-    title: "Reviewing for an ICML 2026 workshop",
-    body: "Joined the program committee of an ICML 2026 workshop as a reviewer.",
+    title: "Reviewing for ICML 2026 and ICLR 2026 workshops",
+    body: "Joined the program committees of an ICML 2026 workshop and an ICLR 2026 workshop as a reviewer.",
     tag: "Service"
   },
   {

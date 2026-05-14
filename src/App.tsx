@@ -40,20 +40,23 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     { name: 'Contact', path: '/contact', icon: <Calendar className="w-4 h-4" /> },
   ];
 
+  // Light/dark base colors as RGBA so we can stack a translucent veil
+  // on top of the starry-night image (image as bg-image of the wrapper).
+  const veil = isMatrix
+    ? 'rgba(9,9,11,0.86)'        // zinc-950 warm veil for dark mode
+    : 'rgba(250,250,249,0.82)';  // stone-50 tinted veil for light mode
+
   return (
-    <div className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono bg-slate-950 text-slate-100' : 'bg-stone-50 text-slate-900'}`}>
-      {/* Site-wide starry-night background (visible in light mode; subtle in dark) */}
-      <div
-        aria-hidden
-        className="fixed inset-0 -z-10 pointer-events-none"
-        style={{
-          backgroundImage: `url(${starryNightBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: isMatrix ? 0.08 : 0.14,
-        }}
-      />
+    <div
+      className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono text-slate-100' : 'text-slate-900'}`}
+      style={{
+        backgroundImage: `linear-gradient(${veil}, ${veil}), url(${starryNightBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       {/* Navbar */}
       <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
