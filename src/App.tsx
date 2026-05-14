@@ -43,7 +43,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   // Light/dark base colors as RGBA so we can stack a translucent veil
   // on top of the starry-night image (image as bg-image of the wrapper).
   const veil = isMatrix
-    ? 'rgba(9,9,11,0.86)'        // zinc-950 warm veil for dark mode
+    ? 'rgba(2,6,23,0.86)'        // slate-950 cool veil for dark mode
     : 'rgba(250,250,249,0.82)';  // stone-50 tinted veil for light mode
 
   return (

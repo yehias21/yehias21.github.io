@@ -111,8 +111,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </div>
 
         {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
-        <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
-          <div className="relative w-72 md:w-[28rem] aspect-[1600/746]">
+        <div className="flex-1 flex flex-col items-center justify-center z-10 md:items-end order-1 md:order-2">
+          <div className="relative w-72 md:w-[26rem] aspect-[1110/746]">
             <div className={`absolute inset-0 rounded-2xl transform rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
             <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
             <img
@@ -121,6 +121,9 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
               className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
             />
           </div>
+          <p className={`mt-4 text-sm italic font-mono ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
+            Happy me in <span aria-label="Brazil" role="img">🇧🇷</span>
+          </p>
         </div>
       </section>
 
