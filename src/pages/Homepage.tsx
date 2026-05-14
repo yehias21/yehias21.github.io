@@ -111,19 +111,32 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         </div>
 
         {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
-        <div className="flex-1 flex flex-col items-center justify-center z-10 md:items-end order-1 md:order-2">
-          <div className="relative w-72 md:w-[26rem] aspect-[1110/746]">
-            <div className={`absolute inset-0 rounded-2xl transform rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
-            <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
-            <img
-              src={PROFILE.image}
-              alt="Profile"
-              className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
-            />
+        <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
+          <div className="flex flex-col items-center">
+            <div className="relative w-72 md:w-[26rem] aspect-[1110/746]">
+              <div className={`absolute inset-0 rounded-2xl transform rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
+              <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
+              <img
+                src={PROFILE.image}
+                alt="Profile"
+                className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
+              />
+            </div>
+            <p className={`mt-4 text-sm italic font-mono text-center inline-flex items-center justify-center gap-1.5 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
+              Happy me in
+              {/* Inline SVG flag (Brazilian) — native emoji falls back to "BR" letters on systems without color-emoji fonts */}
+              <svg
+                viewBox="0 0 14 10"
+                aria-label="Brazil"
+                role="img"
+                style={{ width: '1.4em', height: '1em', verticalAlign: '-0.18em', borderRadius: 2, display: 'inline-block' }}
+              >
+                <rect width="14" height="10" fill="#009C3B" />
+                <polygon points="7,0.8 13.2,5 7,9.2 0.8,5" fill="#FFDF00" />
+                <circle cx="7" cy="5" r="2.2" fill="#002776" />
+              </svg>
+            </p>
           </div>
-          <p className={`mt-4 text-sm italic font-mono ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-            Happy me in <span aria-label="Brazil" role="img">🇧🇷</span>
-          </p>
         </div>
       </section>
 

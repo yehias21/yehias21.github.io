@@ -107,8 +107,11 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   // naturally and keeps all geometry math simple.
   const [vb, setVb] = useState<ViewBox>(baseVb);
   const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  // Active pointers (mouse + touch unified). Ref-based to avoid re-renders.
+  const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const panStart = useRef<{ mx: number; my: number; vx: number; vy: number } | null>(null);
+  const pinchStart = useRef<{ dist: number; vb: ViewBox; ux: number; uy: number } | null>(null);
   const isZoomed = vb.w < baseVb.w - 0.5;
   const zoomFactor = vb.w / baseVb.w; // <= 1; smaller = more zoomed in
 
@@ -118,16 +121,18 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
   const strokeColor = isMatrix ? '#0f172a' : '#ffffff';
   const cityColor = isMatrix ? '#f87171' : '#dc2626';
 
-  const posFromEvent = (e: React.MouseEvent) => {
+  const posFromEvent = (e: { clientX: number; clientY: number; currentTarget: any }) => {
     const rect = (e.currentTarget as Element).ownerSVGElement?.getBoundingClientRect()
       ?? (e.currentTarget as Element).getBoundingClientRect();
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
-  const showTip = (e: React.MouseEvent, content: React.ReactNode) => {
+  const showTip = (e: React.PointerEvent | React.MouseEvent, content: React.ReactNode) => {
+    // Tooltips are mouse-only; touch panning/pinching shouldn't pop them up.
+    if ('pointerType' in e && e.pointerType !== 'mouse') return;
     if (isDragging) return;
     setTipContent(content);
-    setTipPos(posFromEvent(e));
+    setTipPos(posFromEvent(e as any));
   };
 
   const hideTip = () => {
@@ -135,34 +140,93 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     setTipPos(null);
   };
 
-  // --- pan ---
-  const onSvgMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (!isZoomed) return; // no need to pan when fully zoomed out
-    setIsDragging(true);
-    dragStart.current = { mx: e.clientX, my: e.clientY, vx: vb.x, vy: vb.y };
+  // --- unified pan + pinch (mouse + touch + pen) ---
+  const onSvgPointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    const target = e.currentTarget;
+    // Capture so we keep receiving move/up even if the finger slides off the svg.
+    try { target.setPointerCapture(e.pointerId); } catch { /* fine */ }
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     hideTip();
+
+    if (pointers.current.size === 2) {
+      // Switch into pinch mode regardless of zoom state — pinching out from
+      // fully zoomed-out is a no-op (clamped), so this is safe.
+      const pts = Array.from(pointers.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+      const rect = target.getBoundingClientRect();
+      const midX = (pts[0].x + pts[1].x) / 2;
+      const midY = (pts[0].y + pts[1].y) / 2;
+      pinchStart.current = {
+        dist,
+        vb,
+        ux: (midX - rect.left) / rect.width,
+        uy: (midY - rect.top) / rect.height,
+      };
+      panStart.current = null;
+      setIsDragging(false);
+    } else if (pointers.current.size === 1 && isZoomed) {
+      panStart.current = { mx: e.clientX, my: e.clientY, vx: vb.x, vy: vb.y };
+      setIsDragging(true);
+    }
   };
 
-  const onSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (isDragging && dragStart.current) {
+  const onSvgPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!pointers.current.has(e.pointerId)) {
+      // Hovering mouse (no button) — just track tooltip position.
+      if (tipContent && e.pointerType === 'mouse') setTipPos(posFromEvent(e));
+      return;
+    }
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pinchStart.current && pointers.current.size >= 2) {
+      const pts = Array.from(pointers.current.values()).slice(0, 2);
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+      const ratio = pinchStart.current.dist / dist; // >1 → fingers closer → zoom out
+      const start = pinchStart.current.vb;
+      const newW = Math.min(baseVb.w, Math.max(minZoomW, start.w * ratio));
+      const newH = newW * (baseVb.h / baseVb.w);
+      const px = start.x + pinchStart.current.ux * start.w;
+      const py = start.y + pinchStart.current.uy * start.h;
+      const tx = px - pinchStart.current.ux * newW;
+      const ty = py - pinchStart.current.uy * newH;
+      setVb(clampVb({ x: tx, y: ty, w: newW, h: newH }, baseVb));
+      return;
+    }
+
+    if (panStart.current && pointers.current.size === 1) {
       const rect = e.currentTarget.getBoundingClientRect();
-      const dx = e.clientX - dragStart.current.mx;
-      const dy = e.clientY - dragStart.current.my;
+      const dx = e.clientX - panStart.current.mx;
+      const dy = e.clientY - panStart.current.my;
       const sx = vb.w / rect.width;
       const sy = vb.h / rect.height;
       setVb(prev => clampVb({
         ...prev,
-        x: dragStart.current!.vx - dx * sx,
-        y: dragStart.current!.vy - dy * sy,
+        x: panStart.current!.vx - dx * sx,
+        y: panStart.current!.vy - dy * sy,
       }, baseVb));
       return;
     }
-    if (tipContent) setTipPos(posFromEvent(e));
+
+    if (tipContent && e.pointerType === 'mouse') setTipPos(posFromEvent(e));
   };
 
-  const endDrag = () => {
-    setIsDragging(false);
-    dragStart.current = null;
+  const onSvgPointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
+    pointers.current.delete(e.pointerId);
+    try { e.currentTarget.releasePointerCapture(e.pointerId); } catch { /* fine */ }
+
+    if (pointers.current.size === 0) {
+      panStart.current = null;
+      pinchStart.current = null;
+      setIsDragging(false);
+    } else if (pointers.current.size === 1) {
+      // Pinch ended but one finger still down — resume single-finger pan.
+      pinchStart.current = null;
+      const remaining = Array.from(pointers.current.values())[0];
+      if (isZoomed) {
+        panStart.current = { mx: remaining.x, my: remaining.y, vx: vb.x, vy: vb.y };
+        setIsDragging(true);
+      }
+    }
   };
 
   // --- zoom ---
@@ -257,12 +321,19 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
         <svg
           ref={svgRef}
           viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
-          className="w-full h-auto block select-none"
-          style={{ cursor: isDragging ? 'grabbing' : isZoomed ? 'grab' : 'default' }}
-          onMouseDown={onSvgMouseDown}
-          onMouseMove={onSvgMouseMove}
-          onMouseUp={endDrag}
-          onMouseLeave={() => { endDrag(); hideTip(); }}
+          className="w-full h-auto block select-none touch-none"
+          style={{
+            cursor: isDragging ? 'grabbing' : isZoomed ? 'grab' : 'default',
+            touchAction: 'none',
+          }}
+          onPointerDown={onSvgPointerDown}
+          onPointerMove={onSvgPointerMove}
+          onPointerUp={onSvgPointerUp}
+          onPointerCancel={onSvgPointerUp}
+          onPointerLeave={(e) => {
+            // Only release on mouse leave; touch is captured and shouldn't fire this anyway.
+            if (e.pointerType === 'mouse') hideTip();
+          }}
         >
           <g>
             {features.map((f) => {
