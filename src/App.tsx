@@ -4,7 +4,9 @@ import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import brainIcon from './assets/figures/brain-icon.png';
 import starryNightBg from './assets/figures/starry-night.jpg';
-import ChatWidget from './components/ChatWidget';
+// ChatWidget temporarily disabled — re-enable by uncommenting the import and the
+// <ChatWidget /> render below.
+// import ChatWidget from './components/ChatWidget';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
 import Publications from './pages/Publications';
@@ -30,6 +32,22 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   const location = useLocation();
   const isMatrix = theme === ThemeMode.MATRIX;
 
+  // Sync the html/body background to the current theme. Without this, iOS
+  // Safari's fast-scroll repaints (and rubber-band overscroll) flash the
+  // body's static stone-50 through in dark mode, which reads as a brief
+  // white box.
+  useEffect(() => {
+    const bg = isMatrix ? '#020617' : '#fafaf9';
+    const fg = isMatrix ? '#f1f5f9' : '#0f172a';
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
+    document.body.style.color = fg;
+    // Disable iOS rubber-band so even if a flash slipped through, it doesn't
+    // expose anything below.
+    document.documentElement.style.overscrollBehavior = 'none';
+    document.body.style.overscrollBehavior = 'none';
+  }, [isMatrix]);
+
   const navLinks = [
     { name: 'Home', path: '/', icon: <Home className="w-4 h-4" /> },
     { name: 'About', path: '/about', icon: <User className="w-4 h-4" /> },
@@ -53,7 +71,10 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         backgroundImage: `linear-gradient(${veil}, ${veil}), url(${starryNightBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
-        backgroundAttachment: 'fixed',
+        // 'fixed' is broken on iOS Safari and was the source of the white
+        // flash on fast scroll. 'scroll' (the default) renders reliably and
+        // the image just scrolls with the page — acceptable trade-off.
+        backgroundAttachment: 'scroll',
         backgroundRepeat: 'no-repeat',
       }}
     >
@@ -151,8 +172,8 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         <p>&copy; {new Date().getFullYear()} {PROFILE.name}</p>
       </footer>
 
-      {/* Chat Widget */}
-      <ChatWidget theme={theme} />
+      {/* Chat Widget — disabled for now */}
+      {/* <ChatWidget theme={theme} /> */}
     </div>
   );
 };
