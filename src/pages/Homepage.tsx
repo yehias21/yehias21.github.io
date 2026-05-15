@@ -18,12 +18,26 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   const [newsCount, setNewsCount] = useState(3);
   const isMatrix = theme === ThemeMode.MATRIX;
 
+  // Hero first name alternates between the full name and the nickname,
+  // swapping in sync with the glitch ("vibration") animation cycle.
+  const FIRST_NAMES = [PROFILE.name.split(' ')[0], 'Yaya'];
+  const [nameIndex, setNameIndex] = useState(0);
+
   // Auto-rotate quotes every 8 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length);
     }, 8000); // 8 seconds for optimal readability
 
+    return () => clearInterval(interval);
+  }, []);
+
+  // Swap the hero first name every 2s — matches the .glitch-text animation
+  // period, so the name changes right after each vibration.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNameIndex((prev) => (prev + 1) % FIRST_NAMES.length);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -56,8 +70,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
         <div className="flex-1 flex flex-col justify-center items-start z-10 order-2 md:order-1">
           <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
             Hello, I'm <br />
-            <span className={isMatrix ? 'text-accent-500 glitch-text' : 'text-blue-600'}>
-              {PROFILE.name.split(' ')[0]}
+            <span className={`glitch-text ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`}>
+              {FIRST_NAMES[nameIndex]}
             </span>
           </h1>
 

@@ -312,22 +312,19 @@ export const BLOG_POSTS: BlogPost[] = [
   }
 ];
 
+// Celebrities Gallery — photos with notable people, rendered on the /gallery page.
+//
+// To add a photo:
+//   1. Drop the image file into src/assets/gallery/ (create the folder if needed).
+//   2. Import it at the top of this file, e.g.:
+//        import elonPhoto from '../assets/gallery/elon-musk.jpg';
+//   3. Add an entry to the array below, e.g.:
+//        { id: "cg1", src: elonPhoto, caption: "With Elon Musk — Dubai, 2025" }
+//
+// `src` can also be a direct image URL string instead of a local import.
+// `id` just needs to be unique. `caption` is shown on hover and in the lightbox.
 export const GALLERY: GalleryItem[] = [
-  {
-    id: "g1",
-    src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=600",
-    caption: "M.I.A Robotics: Underwater ROV"
-  },
-  {
-    id: "g2",
-    src: "https://images.unsplash.com/photo-1544367563-12123d8965cd?auto=format&fit=crop&q=80&w=600",
-    caption: "Pro Swimmer: National Competition"
-  },
-  {
-    id: "g3",
-    src: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&fit=crop&q=80&w=600",
-    caption: "NeurIPS 2025 Conference"
-  }
+  // { id: "cg1", src: elonPhoto, caption: "With Elon Musk — Dubai, 2025" },
 ];
 
 // Travel log. IDs are numeric ISO 3166-1 codes used by the world-atlas topojson.

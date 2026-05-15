@@ -15,7 +15,8 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Travel from './pages/Travel';
-import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home, Plane } from 'lucide-react';
+import Gallery from './pages/Gallery';
+import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home, Plane, Camera } from 'lucide-react';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -55,6 +56,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     { name: 'Projects', path: '/projects', icon: <Briefcase className="w-4 h-4" /> },
     { name: 'Blog', path: '/blog', icon: <FileText className="w-4 h-4" /> },
     { name: 'Travel', path: '/travel', icon: <Plane className="w-4 h-4" /> },
+    { name: 'Gallery', path: '/gallery', icon: <Camera className="w-4 h-4" /> },
     { name: 'Contact', path: '/contact', icon: <Calendar className="w-4 h-4" /> },
   ];
 
@@ -69,13 +71,18 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono text-slate-100' : 'text-slate-900'}`}
       style={{
         backgroundImage: `linear-gradient(${veil}, ${veil}), url(${starryNightBg})`,
-        backgroundSize: 'cover',
+        // Per-layer sizing: the veil gradient still covers the whole page,
+        // while the starry-night image is zoomed out to 60% width. Lower the
+        // percentage to zoom out further, raise it to zoom back in.
+        backgroundSize: 'cover, 60%',
         backgroundPosition: 'center center',
         // 'fixed' is broken on iOS Safari and was the source of the white
         // flash on fast scroll. 'scroll' (the default) renders reliably and
         // the image just scrolls with the page — acceptable trade-off.
         backgroundAttachment: 'scroll',
-        backgroundRepeat: 'no-repeat',
+        // Veil never repeats; the zoomed-out image tiles to fill the page
+        // (the heavy veil opacity hides the seams).
+        backgroundRepeat: 'no-repeat, repeat',
       }}
     >
       {/* Navbar */}
@@ -197,6 +204,7 @@ const App: React.FC = () => {
           <Route path="/blog" element={<Blog theme={theme} />} />
           <Route path="/blog/:id" element={<BlogPost theme={theme} />} />
           <Route path="/travel" element={<Travel theme={theme} />} />
+          <Route path="/gallery" element={<Gallery theme={theme} />} />
           <Route path="/contact" element={<Contact theme={theme} />} />
         </Routes>
       </Layout>
