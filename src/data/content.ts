@@ -12,6 +12,16 @@ import rlexploreImg from '../assets/projects/rlexplore.gif';
 import fedsecaggImg from '../assets/projects/fedsecagg.svg';
 import arabicColbertImg from '../assets/projects/arabic_colbert.png';
 
+// Gallery images
+import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.jpg';
+import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.jpg';
+import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.jpg';
+import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.jpg';
+import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.jpg';
+import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.jpg';
+import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.jpg';
+import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.jpg';
+
 // Blog markdown files (raw imports)
 import linearAlgebraMd from '../blog/linear-algebra-fundamentals.md?raw';
 import oilGasMd from '../blog/oil-gas-drilling-fundamentals.md?raw';
@@ -324,7 +334,46 @@ export const BLOG_POSTS: BlogPost[] = [
 // `src` can also be a direct image URL string instead of a local import.
 // `id` just needs to be unique. `caption` is shown on hover and in the lightbox.
 export const GALLERY: GalleryItem[] = [
-  // { id: "cg1", src: elonPhoto, caption: "With Elon Musk — Dubai, 2025" },
+  {
+    id: "cg1",
+    src: yannLeCunPhoto,
+    caption: "With Yann LeCun at ICLR's AMI Lab event in Rio, Brazil"
+  },
+  {
+    id: "cg2",
+    src: charlotteBunnePhoto,
+    caption: "With Charlotte Bunne at NeurIPS in San Diego"
+  },
+  {
+    id: "cg3",
+    src: lexFridmanPhoto,
+    caption: "With Lex Fridman at NeurIPS in San Diego"
+  },
+  {
+    id: "cg4",
+    src: jamesGatesPhoto,
+    caption: "With Sylvester James Gates at MBZUAI"
+  },
+  {
+    id: "cg5",
+    src: careyBunksPhoto,
+    caption: "With Carey Bunks and friends Berra and Ertugrul at EEML in Bosnia"
+  },
+  {
+    id: "cg6",
+    src: courvilleBengioPhoto,
+    caption: "With Aaron Courville and Samy Bengio at EEML in Bosnia"
+  },
+  {
+    id: "cg7",
+    src: ivanVulicPhoto,
+    caption: "With Ivan Vulić at M2L in Split, Croatia"
+  },
+  {
+    id: "cg8",
+    src: jessicaHamrickPhoto,
+    caption: "With Jessica Hamrick at M2L in Split, Croatia"
+  },
 ];
 
 // Travel log. IDs are numeric ISO 3166-1 codes used by the world-atlas topojson.
