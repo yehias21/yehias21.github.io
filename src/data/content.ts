@@ -16,7 +16,7 @@ import arabicColbertImg from '../assets/projects/arabic_colbert.png';
 import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.png';
 import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.png';
 import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.png';
-// import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.png'; // TODO: add photo
+import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.png';
 import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.png';
 import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.png';
 import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.png';
@@ -350,12 +350,11 @@ export const GALLERY: GalleryItem[] = [
     src: lexFridmanPhoto,
     caption: "With Lex Fridman at NeurIPS in San Diego"
   },
-  // TODO: photo missing — re-enable once sylvester-james-gates-mbzuai.png is added.
-  // {
-  //   id: "cg4",
-  //   src: jamesGatesPhoto,
-  //   caption: "With Sylvester James Gates at MBZUAI"
-  // },
+  {
+    id: "cg4",
+    src: jamesGatesPhoto,
+    caption: "With Sylvester James Gates at MBZUAI"
+  },
   {
     id: "cg5",
     src: careyBunksPhoto,
