@@ -71,7 +71,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: "ex1",
     company: "AIQ Intelligence",
-    role: "Researcher",
+    role: "AI Researcher",
     period: "May 2025 – Apr 2026",
     location: "Abu Dhabi, UAE",
     description: [
@@ -537,7 +537,7 @@ export const NEWS: NewsItem[] = [
   {
     id: "n-aiq-intern-2025",
     date: "2025-05-01",
-    title: "Joined AIQ Intelligence as a researcher",
+    title: "Joined AIQ Intelligence as an AI researcher",
     body: "Working on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis.",
     tag: "Career"
   }
