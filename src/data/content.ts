@@ -13,14 +13,14 @@ import fedsecaggImg from '../assets/projects/fedsecagg.svg';
 import arabicColbertImg from '../assets/projects/arabic_colbert.png';
 
 // Gallery images
-import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.jpg';
-import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.jpg';
-import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.jpg';
-import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.jpg';
-import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.jpg';
-import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.jpg';
-import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.jpg';
-import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.jpg';
+import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.png';
+import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.png';
+import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.png';
+// import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.png'; // TODO: add photo
+import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.png';
+import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.png';
+import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.png';
+import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.png';
 
 // Blog markdown files (raw imports)
 import linearAlgebraMd from '../blog/linear-algebra-fundamentals.md?raw';
@@ -322,12 +322,13 @@ export const BLOG_POSTS: BlogPost[] = [
   }
 ];
 
-// Celebrities Gallery — photos with notable people, rendered on the /gallery page.
+// Top Academics gallery — photos with researchers and academics, rendered on
+// the /gallery page.
 //
 // To add a photo:
-//   1. Drop the image file into src/assets/gallery/ (create the folder if needed).
+//   1. Drop the image file into src/assets/gallery/.
 //   2. Import it at the top of this file, e.g.:
-//        import elonPhoto from '../assets/gallery/elon-musk.jpg';
+//        import elonPhoto from '../assets/gallery/elon-musk.png';
 //   3. Add an entry to the array below, e.g.:
 //        { id: "cg1", src: elonPhoto, caption: "With Elon Musk — Dubai, 2025" }
 //
@@ -349,11 +350,12 @@ export const GALLERY: GalleryItem[] = [
     src: lexFridmanPhoto,
     caption: "With Lex Fridman at NeurIPS in San Diego"
   },
-  {
-    id: "cg4",
-    src: jamesGatesPhoto,
-    caption: "With Sylvester James Gates at MBZUAI"
-  },
+  // TODO: photo missing — re-enable once sylvester-james-gates-mbzuai.png is added.
+  // {
+  //   id: "cg4",
+  //   src: jamesGatesPhoto,
+  //   caption: "With Sylvester James Gates at MBZUAI"
+  // },
   {
     id: "cg5",
     src: careyBunksPhoto,

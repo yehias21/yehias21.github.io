@@ -20,14 +20,19 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
 
   const activeItem = activeIdx === null ? null : GALLERY[activeIdx];
 
+  // Block right-click / long-press so the photos can't be casually saved.
+  // Note: this is a deterrent only — images are still fetched over the network
+  // and cannot be made truly undownloadable in a browser.
+  const blockSave = (e: React.MouseEvent) => e.preventDefault();
+
   return (
-    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 select-none" onContextMenu={blockSave}>
       <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
         <Camera className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-        Celebrities Gallery
+        Top Academics Gallery
       </h2>
       <p className={`mb-8 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-        Photos with notable people I've had the chance to meet.
+        Photos with researchers and academics I've had the chance to meet.
       </p>
 
       {GALLERY.length === 0 ? (
@@ -45,6 +50,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
             <button
               key={item.id}
               type="button"
+              aria-label={item.caption}
               onClick={() => setActiveIdx(idx)}
               className={`group relative rounded-xl overflow-hidden border transition-all duration-300 aspect-square ${
                 isMatrix
@@ -52,11 +58,11 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
                   : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-2xl'
               }`}
             >
-              <img
-                src={item.src}
-                alt={item.caption}
-                loading="lazy"
-                className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isMatrix ? 'opacity-90' : ''}`}
+              {/* Photo rendered as a CSS background — no <img> element, so the
+                  browser's "Save image as…" affordance never appears. */}
+              <div
+                className={`w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105 ${isMatrix ? 'opacity-90' : ''}`}
+                style={{ backgroundImage: `url(${item.src})` }}
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-xs text-white text-left leading-snug">{item.caption}</p>
@@ -71,6 +77,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 animate-in fade-in duration-200"
           onClick={() => setActiveIdx(null)}
+          onContextMenu={blockSave}
         >
           <button
             type="button"
@@ -102,11 +109,13 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
             </>
           )}
 
-          <figure className="max-w-4xl max-h-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={activeItem.src}
-              alt={activeItem.caption}
-              className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+          <figure className="flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+            {/* Same CSS-background approach as the grid — no saveable <img>. */}
+            <div
+              className="w-[90vw] max-w-4xl h-[78vh] bg-center bg-contain bg-no-repeat rounded-lg shadow-2xl"
+              style={{ backgroundImage: `url(${activeItem.src})` }}
+              role="img"
+              aria-label={activeItem.caption}
             />
             <figcaption className="mt-3 text-sm text-white/90 text-center">{activeItem.caption}</figcaption>
           </figure>
