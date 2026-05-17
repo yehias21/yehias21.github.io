@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, VisitedCountry, ServiceItem, NewsItem } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, VisitedCountry, ServiceItem, NewsItem } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -380,6 +380,28 @@ export const GALLERY: GalleryItem[] = [
     id: "cg9",
     src: nicholasLanePhoto,
     caption: "With Nicholas Lane at ICLR in Rio, Brazil"
+  },
+];
+
+// Notable figures shared a room/event with — rendered below the photo grid on
+// the /gallery page. No photos, just the story.
+export const ROOM_ENCOUNTERS: RoomEncounter[] = [
+  {
+    id: "re1",
+    name: "Mohamed bin Zayed Al Nahyan",
+    title: "President of the United Arab Emirates",
+    note: "Visited our Convex Optimization class, taught by Samuel Horvath, during his tour of Masdar City."
+  },
+  {
+    id: "re2",
+    name: "Abdel Fattah el-Sisi",
+    title: "President of Egypt",
+    note: "Selected as a university ambassador for a lunch with him and President Mohamed bin Zayed."
+  },
+  {
+    id: "re3",
+    name: "President of Bosnia and Herzegovina",
+    note: "Gave the opening talk at the EEML summer school in Sarajevo."
   },
 ];
 

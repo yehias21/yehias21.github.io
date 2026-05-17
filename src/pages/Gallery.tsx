@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ThemeMode } from '../types';
-import { GALLERY } from '../data/content';
-import { Camera, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { GALLERY, ROOM_ENCOUNTERS } from '../data/content';
+import { Camera, X, ChevronLeft, ChevronRight, Landmark } from 'lucide-react';
 
 interface GalleryProps {
   theme: ThemeMode;
@@ -70,6 +70,30 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
             </button>
           ))}
         </div>
+      )}
+
+      {/* Heads of state & notable figures shared a room with — no photo, just the story. */}
+      {ROOM_ENCOUNTERS.length > 0 && (
+        <section className="mt-16">
+          <h3 className={`text-2xl font-bold mb-2 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
+            <Landmark className={`w-7 h-7 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
+            In the Same Room
+          </h3>
+          <p className={`mb-6 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+            Heads of state and notable figures I've shared a room with — no photo, just the story.
+          </p>
+          <div className="space-y-5">
+            {ROOM_ENCOUNTERS.map(enc => (
+              <div key={enc.id} className={`border-l-2 pl-4 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}>
+                <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{enc.name}</h4>
+                {enc.title && (
+                  <div className={`text-sm font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{enc.title}</div>
+                )}
+                <p className={`text-sm mt-1 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>{enc.note}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Lightbox */}

@@ -59,6 +59,14 @@ export interface GalleryItem {
   caption: string;
 }
 
+// A notable figure shared a room/event with — no photo, just the story.
+export interface RoomEncounter {
+  id: string;
+  name: string;
+  title?: string;
+  note: string;
+}
+
 export interface VisitedCity {
   name: string;
   lon: number;
