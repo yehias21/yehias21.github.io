@@ -21,6 +21,7 @@ import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.png';
 import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.png';
 import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.png';
 import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.png';
+import nicholasLanePhoto from '../assets/gallery/nicholas-lane-iclr-rio.png';
 
 // Blog markdown files (raw imports)
 import linearAlgebraMd from '../blog/linear-algebra-fundamentals.md?raw';
@@ -374,6 +375,11 @@ export const GALLERY: GalleryItem[] = [
     id: "cg8",
     src: jessicaHamrickPhoto,
     caption: "With Jessica Hamrick at M2L in Split, Croatia"
+  },
+  {
+    id: "cg9",
+    src: nicholasLanePhoto,
+    caption: "With Nicholas Lane at ICLR in Rio, Brazil"
   },
 ];
 
