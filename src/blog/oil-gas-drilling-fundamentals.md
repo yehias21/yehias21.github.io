@@ -168,7 +168,7 @@ Text generation scores (normalized 0–1, best per row **bold**):
 | Cross-Attn | scratch | Phi-3 | 0.198 | 0.296 | 0.489 | 0.298 | 0.343 |
 | Cross-Attn | Chronos-2 | Phi-3 | **0.237** | **0.338** | **0.541** | **0.329** | **0.381** |
 
-Combined with the segmentation bottleneck (CNN LSM at F1IoU = 0.510), the full system peaks at **0.436** under the harmonic mean — just ahead of soft prompting at 0.427. Two observations survive the setup:
+Combined with the segmentation bottleneck (CNN LSM at F1IoU = 0.510), the full system peaks at **0.436** under the harmonic mean, just ahead of soft prompting at 0.427. Two observations survive the setup:
 
 **The encoder matters more than the fusion mechanism.** A lightweight CNN trained on drilling data beats the much larger MOMENT foundation model across both paradigms. Drilling dynamics (bit-depth progression, hook-load cycling, pressure transients) seem underrepresented in general-purpose TSFM pretraining corpora. Chronos-2 initialization on top of cross-attention adds a consistent +0.037, hinting that forecasting-pretrained encoders carry useful temporal primitives even when the domain adapter does the heavy lifting.
 

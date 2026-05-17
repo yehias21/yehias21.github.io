@@ -40,7 +40,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
         <div className={`rounded-xl border border-dashed p-12 text-center ${isMatrix ? 'bg-slate-900 border-slate-700 text-slate-400' : 'bg-slate-50 border-slate-300 text-slate-500'}`}>
           <Camera className={`w-10 h-10 mx-auto mb-4 ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`} />
           <p className="text-sm">
-            No photos yet — add entries to the <span className="font-mono">GALLERY</span> array
+            No photos yet: add entries to the <span className="font-mono">GALLERY</span> array
             in <span className="font-mono">src/data/content.ts</span>.
           </p>
         </div>
@@ -80,7 +80,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
             In the Same Room
           </h3>
           <p className={`mb-6 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-            Heads of state and notable figures I've shared a room with — no photo, just the story.
+            Heads of state and notable figures I've shared a room with (no photo, just the story).
           </p>
           <div className="space-y-5">
             {ROOM_ENCOUNTERS.map(enc => (
