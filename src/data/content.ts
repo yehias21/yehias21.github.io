@@ -511,16 +511,13 @@ export const AWARDS: Award[] = [
     link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026"
   },
   {
-    id: "aw-m2l-2025",
-    title: "M2L 2025",
-    description: "Awarded a grant by Google DeepMind to attend the Mediterranean Machine Learning Summer School.",
-    link: "https://www.m2lschool.org/"
-  },
-  {
-    id: "aw-eeml-2025",
-    title: "EEML 2025",
-    description: "Awarded a grant by Google DeepMind to attend the Eastern European Machine Learning Summer School.",
-    link: "https://www.eeml.eu/"
+    id: "aw-m2l-eeml-2025",
+    title: "M2L 2025 | EEML 2025",
+    description: "Awarded grants by Google DeepMind to attend the Mediterranean and Eastern European Machine Learning Summer Schools.",
+    links: [
+      { label: "M2L 2025", url: "https://www.m2lschool.org/" },
+      { label: "EEML 2025", url: "https://www.eeml.eu/" }
+    ]
   },
   {
     id: "aw-rotman-2025",

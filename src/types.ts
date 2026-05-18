@@ -72,6 +72,9 @@ export interface Award {
   title: string;
   description: string;
   link?: string;
+  // When set, the title is rendered as these named links joined by a separator
+  // (used for awards that span two events, e.g. M2L and EEML).
+  links?: { label: string; url: string }[];
 }
 
 export interface VisitedCity {

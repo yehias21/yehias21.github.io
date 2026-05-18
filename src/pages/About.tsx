@@ -105,7 +105,26 @@ const About: React.FC<AboutProps> = ({ theme }) => {
                   key={a.id}
                   className={`pl-4 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}
                 >
-                  {a.link ? (
+                  {a.links ? (
+                    <span className={`text-sm font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>
+                      {a.links.map((lk, i) => (
+                        <React.Fragment key={lk.url}>
+                          {i > 0 && (
+                            <span className={`mx-2 font-normal ${isMatrix ? 'text-slate-600' : 'text-slate-300'}`}>|</span>
+                          )}
+                          <a
+                            href={lk.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={`inline-flex items-center gap-1 transition-colors ${isMatrix ? 'hover:text-accent-300' : 'hover:text-blue-700'}`}
+                          >
+                            {lk.label}
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </React.Fragment>
+                      ))}
+                    </span>
+                  ) : a.link ? (
                     <a
                       href={a.link}
                       target="_blank"
