@@ -110,7 +110,7 @@ const About: React.FC<AboutProps> = ({ theme }) => {
                       {a.links.map((lk, i) => (
                         <React.Fragment key={lk.url}>
                           {i > 0 && (
-                            <span className={`mx-2 font-normal ${isMatrix ? 'text-slate-600' : 'text-slate-300'}`}>|</span>
+                            <span className="mx-2 font-normal text-slate-400" aria-hidden="true">|</span>
                           )}
                           <a
                             href={lk.url}
