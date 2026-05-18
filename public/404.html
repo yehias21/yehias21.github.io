@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Yahia Shaaban</title>
+    <!--
+      SPA fallback for GitHub Pages (single-page-apps-for-github-pages by rafgraph).
+      GitHub Pages serves this file for any unknown path. It rewrites the URL into a
+      query string and bounces to the app root; index.html then restores the real
+      path so BrowserRouter can render the right route. pathSegmentsToKeep = 0
+      because this is a root-domain site (yehias21.github.io).
+    -->
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 0;
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import brainIcon from './assets/figures/brain-icon.png';
@@ -50,7 +50,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   }, [isMatrix]);
 
   const navLinks = [
-    { name: 'Home', path: '/', icon: <Home className="w-4 h-4" /> },
+    { name: 'Home', path: '/home', icon: <Home className="w-4 h-4" /> },
     { name: 'About', path: '/about', icon: <User className="w-4 h-4" /> },
     { name: 'Publications', path: '/publications', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'Projects', path: '/projects', icon: <Briefcase className="w-4 h-4" /> },
@@ -89,7 +89,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <Link to="/" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
+            <Link to="/home" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
               <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-accent-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
                 <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
@@ -197,7 +197,8 @@ const App: React.FC = () => {
       <ScrollToTop />
       <Layout theme={theme} toggleTheme={toggleTheme}>
         <Routes>
-          <Route path="/" element={<Homepage theme={theme} />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Homepage theme={theme} />} />
           <Route path="/about" element={<About theme={theme} />} />
           <Route path="/publications" element={<Publications theme={theme} />} />
           <Route path="/projects" element={<Projects theme={theme} />} />
@@ -206,6 +207,7 @@ const App: React.FC = () => {
           <Route path="/travel" element={<Travel theme={theme} />} />
           <Route path="/gallery" element={<Gallery theme={theme} />} />
           <Route path="/contact" element={<Contact theme={theme} />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Layout>
     </Router>
