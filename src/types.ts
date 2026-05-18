@@ -67,6 +67,13 @@ export interface RoomEncounter {
   note: string;
 }
 
+export interface Award {
+  id: string;
+  title: string;
+  description: string;
+  link?: string;
+}
+
 export interface VisitedCity {
   name: string;
   lon: number;

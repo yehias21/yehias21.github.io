@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, VisitedCountry, ServiceItem, NewsItem } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, Award, VisitedCountry, ServiceItem, NewsItem } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -498,6 +498,71 @@ export const SERVICE: ServiceItem[] = [
     role: "Workshop Reviewer",
     venue: "ICLR 2026 Workshop",
     year: 2026
+  }
+];
+
+// Awards & honors. `link` points to the official competition / program page.
+export const AWARDS: Award[] = [
+  {
+    id: "aw-neurips-2024",
+    title: "NeurIPS 2024 Competition",
+    description: "Ranked 1st in both tracks of the \"Erasing the Invisible\" Watermark Removal Challenge.",
+    link: "https://erasinginvisible.github.io/"
+  },
+  {
+    id: "aw-m2l-eeml-2025",
+    title: "M2L 2025 / EEML 2025",
+    description: "Awarded grants by Google DeepMind to attend the Machine Learning Summer Schools.",
+    link: "https://www.m2lschool.org/"
+  },
+  {
+    id: "aw-insilico",
+    title: "Insilico Hackathon",
+    description: "Ranked 1st in the Drug Discovery challenge.",
+    link: "https://insilico.com/ism-events/abu-dhabi/hackathon2024"
+  },
+  {
+    id: "aw-rotman-2025",
+    title: "Rotman Trading Competition",
+    description: "Top 10 in the Liquidity Case (2025).",
+    link: "https://www.rotman.utoronto.ca/faculty-and-research/education-labs/bmo-financial-group-finance-research-and-trading-lab/rotman-international-trading-competition/"
+  },
+  {
+    id: "aw-hashcode-2022",
+    title: "Google Hash Code 2022",
+    description: "Top 5% worldwide.",
+    link: "https://blog.google/technology/developers/hash-code-2022-returns-new-look/"
+  },
+  {
+    id: "aw-mate-rov-2021",
+    title: "MATE ROV / Microsoft Azure",
+    description: "3rd worldwide (ROV); 1st Place (Azure ML); Best ML Team (2021).",
+    link: "https://materovcompetition.org/"
+  },
+  {
+    id: "aw-mlss-2026",
+    title: "MLSS 2026, Columbia University",
+    description: "Full travel award to attend the Machine Learning Summer School in New York.",
+    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026"
+  }
+];
+
+// Certificates & training programs. Reuses the Award shape.
+export const CERTIFICATES: Award[] = [
+  {
+    id: "ct-mckinsey-forward",
+    title: "McKinsey Forward Program",
+    description: "Program focused on leadership, problem-solving, and business skills development."
+  },
+  {
+    id: "ct-vt-hardware-ml-2022",
+    title: "Virginia Tech Hardware Design for Machine Learning Summer Training 2022",
+    description: "Developed an FPGA accelerator with a systolic array architecture for accelerating convolutional neural network inference."
+  },
+  {
+    id: "ct-six-sigma-yellow",
+    title: "Lean Six Sigma Yellow Belt",
+    description: "Project on accelerating the research cycle."
   }
 ];
 

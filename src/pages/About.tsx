@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeMode } from '../types';
-import { EDUCATION, EXPERIENCE, SERVICE } from '../data/content';
-import { User, GraduationCap, Briefcase, MapPin, Target, Award } from 'lucide-react';
+import { EDUCATION, EXPERIENCE, SERVICE, AWARDS, CERTIFICATES } from '../data/content';
+import { User, GraduationCap, Briefcase, MapPin, Target, Award, Trophy, ScrollText, ExternalLink } from 'lucide-react';
 
 interface AboutProps {
   theme: ThemeMode;
@@ -89,6 +89,66 @@ const About: React.FC<AboutProps> = ({ theme }) => {
                   {s.note && (
                     <div className={`text-xs mt-1 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>{s.note}</div>
                   )}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Awards & Honors */}
+          <section>
+            <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
+              <Trophy className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> Awards &amp; Honors
+            </h3>
+            <ul className="space-y-3">
+              {AWARDS.map(a => (
+                <li
+                  key={a.id}
+                  className={`pl-4 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}
+                >
+                  {a.link ? (
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`text-sm font-semibold inline-flex items-center gap-1 transition-colors ${isMatrix ? 'text-accent-400 hover:text-accent-300' : 'text-blue-600 hover:text-blue-700'}`}
+                    >
+                      {a.title}
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <span className={`text-sm font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{a.title}</span>
+                  )}
+                  <p className={`text-sm mt-0.5 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>{a.description}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Certificates & Training */}
+          <section>
+            <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${isMatrix ? 'text-slate-200' : 'text-slate-800'}`}>
+              <ScrollText className={`w-5 h-5 ${isMatrix ? 'text-accent-500' : 'text-blue-500'}`} /> Certificates &amp; Training
+            </h3>
+            <ul className="space-y-3">
+              {CERTIFICATES.map(c => (
+                <li
+                  key={c.id}
+                  className={`pl-4 border-l-2 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}
+                >
+                  {c.link ? (
+                    <a
+                      href={c.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`text-sm font-semibold inline-flex items-center gap-1 transition-colors ${isMatrix ? 'text-accent-400 hover:text-accent-300' : 'text-blue-600 hover:text-blue-700'}`}
+                    >
+                      {c.title}
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <span className={`text-sm font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{c.title}</span>
+                  )}
+                  <p className={`text-sm mt-0.5 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>{c.description}</p>
                 </li>
               ))}
             </ul>
