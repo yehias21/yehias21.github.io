@@ -400,7 +400,8 @@ export const ROOM_ENCOUNTERS: RoomEncounter[] = [
   },
   {
     id: "re3",
-    name: "President of Bosnia and Herzegovina",
+    name: "Željko Komšić",
+    title: "President of Bosnia and Herzegovina",
     note: "Gave the opening talk at the EEML summer school in Sarajevo."
   },
 ];
