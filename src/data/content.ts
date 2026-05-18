@@ -502,12 +502,13 @@ export const SERVICE: ServiceItem[] = [
 ];
 
 // Awards & honors. `link` points to the official competition / program page.
+// Ordered most-recent first.
 export const AWARDS: Award[] = [
   {
-    id: "aw-neurips-2024",
-    title: "NeurIPS 2024 Competition",
-    description: "Ranked 1st in both tracks of the \"Erasing the Invisible\" Watermark Removal Challenge.",
-    link: "https://erasinginvisible.github.io/"
+    id: "aw-mlss-2026",
+    title: "MLSS 2026, Columbia University",
+    description: "Full travel award to attend the Machine Learning Summer School in New York.",
+    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026"
   },
   {
     id: "aw-m2l-eeml-2025",
@@ -516,16 +517,22 @@ export const AWARDS: Award[] = [
     link: "https://www.m2lschool.org/"
   },
   {
-    id: "aw-insilico",
-    title: "Insilico Hackathon",
-    description: "Ranked 1st in the Drug Discovery challenge.",
-    link: "https://insilico.com/ism-events/abu-dhabi/hackathon2024"
-  },
-  {
     id: "aw-rotman-2025",
     title: "Rotman Trading Competition",
     description: "Top 10 in the Liquidity Case (2025).",
     link: "https://www.rotman.utoronto.ca/faculty-and-research/education-labs/bmo-financial-group-finance-research-and-trading-lab/rotman-international-trading-competition/"
+  },
+  {
+    id: "aw-neurips-2024",
+    title: "NeurIPS 2024 Competition",
+    description: "Ranked 1st in both tracks of the \"Erasing the Invisible\" Watermark Removal Challenge.",
+    link: "https://erasinginvisible.github.io/"
+  },
+  {
+    id: "aw-insilico",
+    title: "Insilico Hackathon",
+    description: "Ranked 1st in the Drug Discovery challenge.",
+    link: "https://insilico.com/ism-events/abu-dhabi/hackathon2024"
   },
   {
     id: "aw-hashcode-2022",
@@ -538,12 +545,6 @@ export const AWARDS: Award[] = [
     title: "MATE ROV / Microsoft Azure",
     description: "3rd worldwide (ROV); 1st Place (Azure ML); Best ML Team (2021).",
     link: "https://materovcompetition.org/"
-  },
-  {
-    id: "aw-mlss-2026",
-    title: "MLSS 2026, Columbia University",
-    description: "Full travel award to attend the Machine Learning Summer School in New York.",
-    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026"
   }
 ];
 
