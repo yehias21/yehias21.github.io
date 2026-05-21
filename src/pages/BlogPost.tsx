@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { BLOG_POSTS } from '../data/content';
-import { ArrowLeft, Calendar, Clock, ArrowUp, List, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ArrowUp, List, ChevronDown, ChevronUp } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -123,7 +123,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
           <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Blog post not found</h2>
           <Link
             to="/blog"
-            className={`inline-flex items-center gap-2 ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`inline-flex items-center gap-2 ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-[#0085a1] hover:text-[#006d82]'}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
@@ -133,7 +133,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
     );
   }
 
-  const progressColor = isMatrix ? '#22c55e' : '#2563eb';
+  const progressColor = isMatrix ? '#22c55e' : '#0085a1';
 
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -153,45 +153,40 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         <div className="max-w-3xl mx-auto lg:mx-0 w-full">
           <button
             onClick={() => navigate('/blog')}
-            className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
+            className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-[#0085a1] hover:text-[#006d82]'}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </button>
 
-          <article ref={articleRef}>
-            <header className="mb-10">
-              <div className={`flex items-center gap-4 text-sm mb-4 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  {post.date}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  {post.readTime}
-                </span>
-              </div>
-
-              <h1 className={`text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-5 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
+          <article ref={articleRef} className={`blog-article ${isMatrix ? 'theme-dark' : ''}`}>
+            <header className={`mb-10 pb-8 border-b ${isMatrix ? 'border-slate-800' : 'border-[#e3e3e3]'}`}>
+              <h1 className={`text-[1.9rem] md:text-[2.6rem] font-bold leading-[1.2] mb-4 ${isMatrix ? 'text-slate-100' : 'text-[#2b2b2b]'}`}>
                 {post.title}
               </h1>
 
               {post.excerpt && (
-                <p className={`text-lg leading-relaxed ${isMatrix ? 'text-slate-300' : 'text-slate-600'}`}>
+                <p className={`text-lg font-light leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-[#5a5a5a]'}`}>
                   {post.excerpt}
                 </p>
               )}
 
-              <div className="flex flex-wrap gap-2 mt-5">
-                {post.tags.map(tag => (
-                  <span
-                    key={tag}
-                    className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full ${isMatrix ? 'bg-accent-900/20 text-accent-400 border border-accent-800/50' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
+              <p className={`blog-meta text-base ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
+                Posted on {post.date} · {post.readTime}
+              </p>
+
+              {post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-4">
+                  {post.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-[#999999]'}`}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </header>
 
             <div className={`prose prose-lg max-w-none ${isMatrix ? 'prose-invert prose-slate' : 'prose-slate'}`}>
@@ -201,6 +196,14 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                 components={{
                   h2: headingRenderer(2),
                   h3: headingRenderer(3),
+                  // Render an image's alt text as a centered italic caption
+                  // beneath it — the Clean Blog ".caption" treatment.
+                  img: ({ src, alt }: any) => (
+                    <>
+                      <img src={src as string} alt={(alt as string) ?? ''} loading="lazy" />
+                      {alt ? <span className="prose-caption">{alt}</span> : null}
+                    </>
+                  ),
                 }}
               >
                 {bodyMd}
@@ -245,7 +248,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                         isActive
                           ? isMatrix
                             ? 'text-accent-400 font-medium'
-                            : 'text-blue-600 font-medium'
+                            : 'text-[#0085a1] font-medium'
                           : isMatrix
                             ? 'text-slate-400 hover:text-slate-200'
                             : 'text-slate-500 hover:text-slate-800'
@@ -267,7 +270,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
-          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-lg transition-all ${isMatrix ? 'bg-accent-700 hover:bg-accent-600 text-black' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-lg transition-all ${isMatrix ? 'bg-accent-700 hover:bg-accent-600 text-black' : 'bg-[#0085a1] hover:bg-[#006d82] text-white'}`}
         >
           <ArrowUp className="w-5 h-5" />
         </button>

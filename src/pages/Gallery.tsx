@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeMode } from '../types';
 import { GALLERY, ROOM_ENCOUNTERS } from '../data/content';
-import { Camera, X, ChevronLeft, ChevronRight, Landmark } from 'lucide-react';
+import { Camera, X, ChevronLeft, ChevronRight, Landmark, EyeOff } from 'lucide-react';
 
 interface GalleryProps {
   theme: ThemeMode;
@@ -25,6 +25,37 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
   // and cannot be made truly undownloadable in a browser.
   const blockSave = (e: React.MouseEvent) => e.preventDefault();
 
+  // Screenshot deterrent: blur every photo whenever the page loses focus
+  // (screenshot utilities and OS capture overlays trip a window blur /
+  // visibility change) or PrintScreen is pressed. A browser cannot truly
+  // prevent an OS-level screenshot — this only raises the effort.
+  const [shielded, setShielded] = useState(false);
+
+  useEffect(() => {
+    const shield = () => setShielded(true);
+    const unshield = () => setShielded(false);
+    const onVisibility = () => (document.hidden ? shield() : unshield());
+    const onPrintScreen = (e: KeyboardEvent) => {
+      if (e.key !== 'PrintScreen') return;
+      shield();
+      // Best-effort: clear the clipboard so a grabbed frame can't be pasted.
+      navigator.clipboard?.writeText('').catch(() => {});
+      window.setTimeout(unshield, 1500);
+    };
+    window.addEventListener('blur', shield);
+    window.addEventListener('focus', unshield);
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('keydown', onPrintScreen);
+    window.addEventListener('keyup', onPrintScreen);
+    return () => {
+      window.removeEventListener('blur', shield);
+      window.removeEventListener('focus', unshield);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('keydown', onPrintScreen);
+      window.removeEventListener('keyup', onPrintScreen);
+    };
+  }, []);
+
   return (
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 select-none" onContextMenu={blockSave}>
       <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
@@ -45,7 +76,8 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="relative">
+        <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 transition-[filter] duration-150 ${shielded ? 'blur-2xl pointer-events-none' : ''}`}>
           {GALLERY.map((item, idx) => (
             <button
               key={item.id}
@@ -69,6 +101,15 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
               </div>
             </button>
           ))}
+        </div>
+        {shielded && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium shadow-lg ${isMatrix ? 'bg-slate-800 text-slate-200 border border-slate-700' : 'bg-white text-slate-700 border border-slate-200'}`}>
+              <EyeOff className="w-4 h-4" />
+              Photos hidden while the window is inactive
+            </div>
+          </div>
+        )}
         </div>
       )}
 
@@ -136,7 +177,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
           <figure className="flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
             {/* Same CSS-background approach as the grid — no saveable <img>. */}
             <div
-              className="w-[90vw] max-w-4xl h-[78vh] bg-center bg-contain bg-no-repeat rounded-lg shadow-2xl"
+              className={`w-[90vw] max-w-4xl h-[78vh] bg-center bg-contain bg-no-repeat rounded-lg shadow-2xl transition-[filter] duration-150 ${shielded ? 'blur-2xl' : ''}`}
               style={{ backgroundImage: `url(${activeItem.src})` }}
               role="img"
               aria-label={activeItem.caption}

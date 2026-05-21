@@ -1,14 +1,12 @@
 # Oil & Gas Drilling: From Bits to Bytes
 
-*A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models. Drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.*
-
-![IndusTSLM: time-series language models for drilling data.](./blog/industslm_logo.gif)
+![IndusTSLM: time-series language models for drilling data.](/blog/industslm_logo.gif)
 
 ---
 
 ## Why drilling is one of the most data-intensive industrial processes on Earth
 
-![A rotary rig. The eight sensor channels map one-to-one onto these surface components.](./blog/drilling.png)
+![A rotary rig. The eight sensor channels map one-to-one onto these surface components.](/blog/drilling.png)
 
 A single wellbore generates on average **700,000 sensor measurements per day**, recorded at up to 1 Hz across channels that monitor mechanical forces, hydraulic pressures, rotational speeds, and depth progression. Over a typical campaign spanning multiple wells and several years, this produces **billions of timestamped observations** encoding the full operational history of the rig.
 
@@ -72,7 +70,7 @@ Modern rigs record far more than 8 channels, but for sensor-to-language alignmen
 
 ### Different activities have very different signatures
 
-![A real ~3.3 hour window from well BB-1282 (16" hole section). Shaded regions mark DRILL → TRIP → CIRC transitions. Each activity leaves a distinct fingerprint across the eight channels.](./blog/sensor_timeseries.png)
+![A real ~3.3 hour window from well BB-1282 (16" hole section). Shaded regions mark DRILL → TRIP → CIRC transitions. Each activity leaves a distinct fingerprint across the eight channels.](/blog/sensor_timeseries.png)
 
 During **DRILL**, weight on bit stays elevated, surface torque is active, mud flow rate and standpipe pressure are high, and bit depth increases steadily. During **TRIP**, weight on bit drops to zero, and hook load and block position exhibit the sawtooth pattern associated with pipe handling. During **CIRC**, the hydraulic system remains active but all mechanical drilling indicators sit near zero. This contrast is precisely what makes a learnable mapping between sensor trajectories and language possible.
 
@@ -94,7 +92,7 @@ Telegraphic, numeric, acronym-heavy. This is the text side of the multimodal pro
 
 ### What end-to-end generation looks like
 
-![A 2-hour window spanning CIRCM → PACKER → DISPL → MONITOR. IndusTSLM reads the eight sensor channels and generates the DDR entry at the bottom, evaluated along three dimensions: numeric fidelity, factual alignment, and completeness.](./blog/reasoning_trace.png)
+![A 2-hour window spanning CIRCM → PACKER → DISPL → MONITOR. IndusTSLM reads the eight sensor channels and generates the DDR entry at the bottom, evaluated along three dimensions: numeric fidelity, factual alignment, and completeness.](/blog/reasoning_trace.png)
 
 ---
 
@@ -114,13 +112,13 @@ Before any modeling, both modalities go through a multi-stage pipeline.
 
 The thesis asks a simple question: **can the multimodal recipes that bridged vision and language also bridge industrial sensor streams and natural language?**
 
-![The four VLM architecture families that map one-to-one onto the time-series case: encoder-decoder, dual-encoder, cross-modal, and natively multimodal.](./blog/vlm_arch.png)
+![The four VLM architecture families that map one-to-one onto the time-series case: encoder-decoder, dual-encoder, cross-modal, and natively multimodal.](/blog/vlm_arch.png)
 
 The analogy to vision-language models is exact. CLIP-style dual encoders teach us how to share a semantic space between modalities. Flamingo teaches us how to bolt a new modality onto a frozen LLM through gated cross-attention. LLaVA teaches us how to inject visual tokens via a single linear projector. OpenTSLM (2026) already made the parallel explicit for healthcare time series. I carried the same patterns over to industrial drilling and measured what actually works.
 
 ### 1. DriMM: dual-encoder contrastive alignment
 
-![DriMM contrastive training: sensor windows and DDR sentences embed independently, then get pulled together in a shared 256-d space with a symmetric InfoNCE loss.](./blog/drimm_teaser.png)
+![DriMM contrastive training: sensor windows and DDR sentences embed independently, then get pulled together in a shared 256-d space with a symmetric InfoNCE loss.](/blog/drimm_teaser.png)
 
 A CLIP-style model. A time-series encoder (Moirai or MOMENT, frozen pretrained) and a domain-adapted RoBERTa map sensor windows and DDR text into a shared 256-d space, then ℓ₂-normalize. Training is symmetric InfoNCE. I extended the baseline with **hard negative mining**: a small LLM (Phi-3.5 mini) scores all DDR pairs for semantic similarity, picks k=5 entries that are textually close but belong to a different activity code, and injects them into each training batch. The goal is to force the model to learn the sensor-level distinction between *RIH to 5,200 ft* and *POOH from 5,350 ft*, which share vocabulary but correspond to opposite tripping directions.
 
@@ -141,11 +139,11 @@ Two architectures on identical data.
 
 **LiveDrill** uses *soft prompting*. A lightweight CNN segmentation module watches the stream and marks boundaries; when a segment completes, a region-of-interest mask hands the encoded window to a frozen LLM as soft tokens that condition DDR generation.
 
-![LiveDrill multimodal text generation module. A binary ROI mask marks the most recent completed segment. The multivariate window is encoded, projected, and passed to the frozen LLM as soft tokens.](./blog/mtgm.png)
+![LiveDrill multimodal text generation module. A binary ROI mask marks the most recent completed segment. The multivariate window is encoded, projected, and passed to the frozen LLM as soft tokens.](/blog/mtgm.png)
 
 **The Flamingo variant** uses *cross attention*. A Perceiver Resampler compresses the time-series patches into a small fixed set of latents, and gated cross-attention layers interleaved inside the frozen LLM attend to those latents during generation. Training follows OpenTSLM's two-stage curriculum, adapted to real drilling data instead of synthetic series: Stage 1 learns activity-code classification as encoder warmup; Stage 2 unlocks free-form DDR generation.
 
-![IndusTSLM Flamingo architecture. Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.](./blog/opentslm_flamingo.png)
+![IndusTSLM Flamingo architecture. Patches are compressed by a Perceiver Resampler into a fixed number of latent vectors. Gated cross-attention layers interleave inside the frozen LLM so memory stays near-constant regardless of input length.](/blog/opentslm_flamingo.png)
 
 **Evaluation is non-trivial.** Standard lexical metrics (BLEU, ROUGE) are useless here: DDRs are telegraphic, domain-specific, and shuffle order freely. I use **LLM-as-judge** with an eight-criterion rubric weighted by domain experts (primary operation match at 50%, depth match at 12.5%, conciseness / all-ops match / parameter match / hole size / BHA type / other details at 6.25% each). The protocol was validated against human expert ratings:
 
