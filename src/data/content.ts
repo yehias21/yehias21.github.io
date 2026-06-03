@@ -404,6 +404,12 @@ export const ROOM_ENCOUNTERS: RoomEncounter[] = [
     title: "President of Bosnia and Herzegovina",
     note: "Gave the opening talk at the EEML summer school in Sarajevo."
   },
+  {
+    id: "re4",
+    name: "Sam Altman",
+    title: "CEO of OpenAI",
+    note: "In the room at MBZUAI on 26 September 2025 when he was conferred the university's inaugural Honorary Doctorate, with Crown Prince of Abu Dhabi Sheikh Khaled bin Mohamed bin Zayed in attendance."
+  },
 ];
 
 // Travel log. IDs are numeric ISO 3166-1 codes used by the world-atlas topojson.
