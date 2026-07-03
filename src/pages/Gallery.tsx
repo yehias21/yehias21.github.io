@@ -60,7 +60,7 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
     <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 select-none" onContextMenu={blockSave}>
       <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
         <Camera className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-        Top Academics Gallery
+        Photographic Odyssey
       </h2>
       <p className={`mb-8 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
         Photos with researchers and academics I've had the chance to meet.
