@@ -598,6 +598,15 @@ export const CERTIFICATES: Award[] = [
 // Latest first. Use absolute dates so they stay interpretable over time.
 export const NEWS: NewsItem[] = [
   {
+    id: "n-mlss-2026",
+    date: "2026-07-07",
+    title: "Attending MLSS 2026 at Columbia University",
+    body: "Selected with a full travel award for the Machine Learning Summer School in New York.",
+    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026",
+    linkLabel: "MLSS 2026",
+    tag: "Event"
+  },
+  {
     id: "n-reviewer-2026",
     date: "2026-05-01",
     title: "Reviewing for ICML 2026 and ICLR 2026 workshops",
