@@ -186,6 +186,33 @@
   color: var(--blog-muted);
 }
 
+/* Footnotes & references (GFM `[^1]` + a manual "## References" list) —
+   Lilian-Weng-style academic citations. */
+.prose sup a,
+.prose a[data-footnote-ref] {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--blog-accent);
+  padding: 0 0.1em;
+}
+.prose .footnotes {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--blog-rule);
+  font-size: 0.9rem;
+  color: var(--blog-muted);
+}
+.prose .footnotes h2 { font-size: 1.1rem; }
+.prose .footnotes ol { margin-left: 1.25rem; }
+.prose .footnotes li { margin-bottom: 0.4rem; }
+.prose [data-footnote-backref] { text-decoration: none; }
+
+/* "Cited as:" footer block appended after every post. */
+.blog-citation pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1.6;
+}
+
 /* KaTeX math */
 .katex { font-size: 1.05em; }
 .katex-display {
@@ -233,6 +260,9 @@
 
 .prose-invert img { border-color: rgba(148, 163, 184, 0.18); }
 .prose-invert .prose-caption { color: #94a3b8; }
+.prose-invert .footnotes { border-top-color: #334155; color: #94a3b8; }
+.prose-invert sup a,
+.prose-invert a[data-footnote-ref] { color: #34b6d1; }
 
 .blog-article.theme-dark ::selection,
 .blog-article.theme-dark ::-moz-selection { background: #0085a1; color: #fff; }

@@ -29,10 +29,44 @@ export interface BlogPost {
   id: string;
   title: string;
   date: string;
+  updated?: string;      // "Updated on ..." dateline, Lilian-Weng style
   readTime: string;
   excerpt: string;
   content: string;
   tags: string[];
+}
+
+// --- Idea garden -----------------------------------------------------------
+// Half-formed research and business ideas, each with a preregistration date
+// and an inline, human-readable edit history. The tamper-evident full history
+// lives in git (see `historyUrl` on the section notice).
+export type IdeaCategory = 'research' | 'business';
+
+// Lifecycle of an idea, roughly seedling → shipped.
+export type IdeaStatus =
+  | 'seedling'    // just written down, unexplored
+  | 'exploring'   // actively reading / prototyping
+  | 'growing'     // has legs, being expanded
+  | 'parked'      // shelved for now
+  | 'shipped';    // turned into a paper / project / venture
+
+export interface IdeaRevision {
+  date: string;   // YYYY-MM-DD
+  note: string;   // what changed in this edit
+}
+
+export interface Idea {
+  id: string;
+  category: IdeaCategory;
+  title: string;
+  pitch: string;                 // one-liner shown when collapsed
+  body?: string;                 // markdown, shown when expanded
+  created: string;               // YYYY-MM-DD — the preregistration date
+  revisions?: IdeaRevision[];    // newest-first edit log
+  status?: IdeaStatus;
+  tags?: string[];
+  links?: { label: string; url: string }[];
+  patentPending?: boolean;       // business ideas: show a "patent-pending" mark
 }
 
 export interface Experience {
@@ -81,6 +115,7 @@ export interface VisitedCity {
   name: string;
   lon: number;
   lat: number;
+  note?: string;   // e.g. "MLSS 2026 at Columbia University"
 }
 
 export interface VisitedCountry {

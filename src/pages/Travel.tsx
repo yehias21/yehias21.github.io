@@ -433,6 +433,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                       <div className="text-xs">
                         <div className="font-semibold">{city.name}</div>
                         <div className="opacity-70">{country.name}</div>
+                        {city.note && <div className="opacity-80 mt-0.5 italic">{city.note}</div>}
                       </div>
                     ))}
                   />

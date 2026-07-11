@@ -20,6 +20,18 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
 
   const activeItem = activeIdx === null ? null : GALLERY[activeIdx];
 
+  // Keyboard control for the lightbox: Escape closes, arrows navigate.
+  useEffect(() => {
+    if (activeIdx === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveIdx(null);
+      else if (e.key === 'ArrowLeft') showPrev();
+      else if (e.key === 'ArrowRight') showNext();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [activeIdx]);
+
   // Block right-click / long-press so the photos can't be casually saved.
   // Note: this is a deterrent only — images are still fetched over the network
   // and cannot be made truly undownloadable in a browser.
@@ -37,9 +49,9 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
     const onVisibility = () => (document.hidden ? shield() : unshield());
     const onPrintScreen = (e: KeyboardEvent) => {
       if (e.key !== 'PrintScreen') return;
+      // Briefly blur the photos on PrintScreen. We deliberately do NOT touch
+      // the visitor's clipboard — wiping it destroys data they copied elsewhere.
       shield();
-      // Best-effort: clear the clipboard so a grabbed frame can't be pasted.
-      navigator.clipboard?.writeText('').catch(() => {});
       window.setTimeout(unshield, 1500);
     };
     window.addEventListener('blur', shield);

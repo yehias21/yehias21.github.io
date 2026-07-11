@@ -53,6 +53,16 @@ const parseHeadings = (md: string): { id: string; text: string; level: number }[
 // Remove the first top-level heading from markdown so we can render it as a proper hero title.
 const stripLeadingH1 = (md: string): string => md.replace(/^\s*#\s+[^\n]+\n?/, '');
 
+const SITE_ORIGIN = 'https://yehias21.github.io';
+const CITE_AUTHOR = 'Shaaban, Yahia Salaheldin';
+
+// Pull the 4-digit year out of a human dateline like "Jun 3, 2026".
+const yearOf = (date: string): string => (date.match(/\b(\d{4})\b/)?.[1] ?? '');
+
+// Build the BibTeX key: first author surname + year + first title word.
+const bibKey = (title: string, year: string): string =>
+  `shaaban${year}${(title.toLowerCase().match(/[a-z0-9]+/g) ?? ['post'])[0]}`;
+
 const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -173,6 +183,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
 
               <p className={`blog-meta text-base ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
                 Posted on {post.date} · {post.readTime}
+                {post.updated && <> · Updated on {post.updated}</>}
               </p>
 
               {post.tags.length > 0 && (
@@ -209,6 +220,34 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
                 {bodyMd}
               </ReactMarkdown>
             </div>
+
+            {/* Auto-generated "Cited as:" block — Lilian-Weng signature footer. */}
+            {(() => {
+              const year = yearOf(post.date);
+              const url = `${SITE_ORIGIN}/blog/${post.id}`;
+              const bib =
+`@article{${bibKey(post.title, year)},
+  title   = "${post.title}",
+  author  = "${CITE_AUTHOR}",
+  journal = "yehias21.github.io",
+  year    = "${year}",
+  url      = "${url}"
+}`;
+              return (
+                <section data-allow-copy className={`blog-citation not-prose mt-16 pt-8 border-t ${isMatrix ? 'border-slate-800' : 'border-[#e3e3e3]'}`}>
+                  <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
+                    Cited as:
+                  </h3>
+                  <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-[#5a5a5a]'}`}>
+                    Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
+                    <span className="italic">yehias21.github.io</span>.{' '}
+                    <a href={url} className={isMatrix ? 'text-accent-400 underline' : 'text-[#0085a1] underline'}>{url}</a>
+                  </p>
+                  <p className={`text-xs mb-2 ${isMatrix ? 'text-slate-500' : 'text-[#808080]'}`}>Or</p>
+                  <pre className={`text-xs rounded-md p-4 overflow-x-auto ${isMatrix ? 'bg-slate-900 border border-slate-800 text-slate-300' : 'bg-[#f4f4f4] border border-[#e4e4e4] text-[#404040]'}`}>{bib}</pre>
+                </section>
+              );
+            })()}
           </article>
         </div>
 

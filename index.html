@@ -9,12 +9,53 @@
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#2563eb">
 
+    <!-- Human search engines welcome; AI training / answer-engine reuse opted out.
+         `noai`/`noimageai` are honored by some crawlers; `tdm-reservation` is the
+         W3C text-&-data-mining opt-out. See /robots.txt for per-bot rules. These
+         are signals, not enforcement — a determined scraper can ignore them. -->
+    <meta name="robots" content="index, follow, max-image-preview:standard, noai, noimageai">
+    <meta name="tdm-reservation" content="1">
+    <meta name="rights" content="© Yahia Salaheldin Shaaban. All rights reserved. Not licensed for AI/ML training or reproduction without permission.">
+    <link rel="license" href="/LICENSE.txt">
+
+    <link rel="canonical" href="https://yehias21.github.io/">
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Yahia Shaaban | ML Researcher">
     <meta property="og:description" content="ML researcher working on time-series foundation models, multimodal learning, and dynamical systems.">
     <meta property="og:url" content="https://yehias21.github.io">
+    <meta property="og:image" content="https://yehias21.github.io/favicon.png">
     <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yahia Shaaban | ML Researcher">
+    <meta name="twitter:description" content="ML researcher working on time-series foundation models, multimodal learning, and dynamical systems.">
+    <meta name="twitter:image" content="https://yehias21.github.io/favicon.png">
+
+    <!-- Structured data: helps human search engines show a rich author card. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Yahia Salaheldin Shaaban",
+      "url": "https://yehias21.github.io",
+      "image": "https://yehias21.github.io/favicon.png",
+      "jobTitle": "Machine Learning Researcher",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)"
+      },
+      "alumniOf": [
+        { "@type": "Organization", "name": "MBZUAI" },
+        { "@type": "Organization", "name": "Alexandria University" }
+      ],
+      "knowsAbout": ["Time-Series Foundation Models", "Multimodal Learning", "Dynamical Systems", "Machine Learning"],
+      "sameAs": [
+        "https://github.com/yehias21/",
+        "https://www.linkedin.com/in/yehiasalah21/",
+        "https://scholar.google.com/citations?user=wRtW0zMAAAAJ&hl=en"
+      ]
+    }
+    </script>
 
     <!-- Favicon: brain connectome (same image used in navbar avatar) -->
     <link rel="icon" type="image/png" href="/favicon.png">
@@ -201,6 +242,50 @@
 
       .animate-in {
         animation: fadeInUp 0.5s ease-out forwards;
+      }
+
+      /* Respect users who ask for less motion: neutralize the glitch, fades,
+         slide-ins, and any smooth-scroll / transitions site-wide. */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
+        html { scroll-behavior: auto; }
+        .glitch-text, .cursor-blink, .animate-in { animation: none !important; }
+      }
+
+      /* --- Content-copy deterrent ---------------------------------------
+         Makes casual selecting / copying / image-dragging harder. This is a
+         deterrent, NOT security: anyone can read the page source or disable
+         JS. Regions that SHOULD stay copyable (citation blocks, form fields)
+         opt back in with [data-allow-copy]. Toggle the whole thing off by
+         removing the `protect` class from <html> (set in src/index or App). */
+      html.protect body {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+      }
+      html.protect [data-allow-copy],
+      html.protect [data-allow-copy] *,
+      html.protect input,
+      html.protect textarea {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+        -webkit-touch-callout: default;
+      }
+      html.protect img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        user-drag: none;
+        -webkit-touch-callout: none;
       }
     </style>
 </head>

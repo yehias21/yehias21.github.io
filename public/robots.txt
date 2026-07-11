@@ -1,0 +1,85 @@
+# robots.txt — yehias21.github.io
+#
+# Policy: normal search engines are welcome (so the work stays discoverable
+# and citable). AI / LLM crawlers that scrape for training or answer-engines
+# are asked to stay out. This is a request, honored by well-behaved crawlers;
+# it is not an access control. Content here is © Yahia Salaheldin Shaaban and
+# not licensed for model training or reproduction without permission.
+
+# --- Allow conventional search indexing ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# --- Disallow AI training / answer-engine crawlers ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+# --- Everything else: allowed, but no AI reuse (see meta tags + license) ---
+User-agent: *
+Allow: /

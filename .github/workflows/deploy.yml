@@ -31,9 +31,6 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Build
         run: npm run build
-        env:
-          # This injects the secret from GitHub Settings into the build
-          API_KEY: ${{ secrets.API_KEY }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, Award, VisitedCountry, ServiceItem, NewsItem } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, Award, VisitedCountry, ServiceItem, NewsItem, Idea } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -24,8 +24,8 @@ import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-cro
 import nicholasLanePhoto from '../assets/gallery/nicholas-lane-iclr-rio.png';
 
 // Blog markdown files (raw imports)
-import linearAlgebraMd from '../blog/linear-algebra-fundamentals.md?raw';
 import oilGasMd from '../blog/oil-gas-drilling-fundamentals.md?raw';
+import kalmanFiltersMd from '../blog/kalman-filters-deep-dive.md?raw';
 
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
@@ -304,6 +304,15 @@ export const PROJECTS: Project[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "kalman-filters-deep-dive",
+    title: "A Deep Dive into Kalman Filters",
+    date: "Jun 3, 2026",
+    readTime: "16 min read",
+    excerpt: "Rebuilding the Kalman filter from the ground up: the predict-update rhythm, the Kalman gain as a dial between model and measurement, a worked tracking example, and the nonlinear extensions (EKF, UKF) you reach for in practice.",
+    content: kalmanFiltersMd,
+    tags: ["Mathematics", "State Estimation", "Time Series", "Robotics"]
+  },
+  {
     id: "oil-gas-drilling-fundamentals",
     title: "Oil & Gas Drilling: From Bits to Bytes",
     date: "Mar 25, 2026",
@@ -311,16 +320,121 @@ export const BLOG_POSTS: BlogPost[] = [
     excerpt: "A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models: drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.",
     content: oilGasMd,
     tags: ["Oil & Gas", "Time Series", "Multimodal", "Industry 4.0"]
+  }
+];
+
+// ---------------------------------------------------------------------------
+// Idea garden — half-formed research & business ideas.
+//
+// Each idea is "preregistered": `created` is the date I first wrote it down and
+// establishes priority. `revisions` is a human-readable, newest-first edit log
+// — every time you meaningfully change an idea, prepend a { date, note } entry
+// rather than silently editing. The *full, tamper-evident* history is the git
+// history of this file (linked from the Ideas page → "full edit history on
+// GitHub"), so the dated commits are the real proof-of-timestamp.
+//
+// To add an idea: prepend an entry (newest first). To edit one: change the
+// body/pitch AND prepend a revision note with today's date.
+//
+// Business ideas (category: 'business') are shown publicly but are dated,
+// version-controlled, and — where marked `patentPending` — protected. The
+// licensing/citation notice on the Ideas page governs reuse.
+export const IDEAS: Idea[] = [
+  {
+    id: "sensor-native-tokenizer",
+    category: "research",
+    title: "A sensor-native tokenizer for time-series LLMs",
+    pitch: "Stop projecting raw sensor windows into text-token space. Learn a discrete, physically-grounded codebook so an LLM reads telemetry the way it reads words.",
+    body: `Current time-series LLMs (my IndusTSLM included) glue a continuous projector onto a frozen LLM. The projector is a bottleneck: it has to invent a mapping from a $C\\times T$ sensor window into the LLM's embedding space with no vocabulary of its own.
+
+**Hypothesis:** a VQ-style codebook trained on multi-channel drilling telemetry — with codes tied to *physical regimes* (rotating-on-bottom, tripping, circulating) rather than raw amplitude — gives the LLM a genuine "sensor vocabulary". Then next-token prediction over interleaved *sensor-tokens + text-tokens* becomes a single objective.
+
+**What would falsify it:** if a learned codebook doesn't beat the continuous projector on DDR generation at matched parameter count, the discreteness isn't buying anything.
+
+**First experiment:** RVQ over 30 s windows on DrillBench, measure code-usage entropy vs. rig-state mutual information.`,
+    created: "2026-05-12",
+    status: "exploring",
+    revisions: [
+      { date: "2026-06-28", note: "Reframed around mutual information with rig states after the DrillBench alignment work showed rig_states are noisy on 58-32." },
+      { date: "2026-05-30", note: "Added the RVQ-entropy first experiment." },
+    ],
+    tags: ["Time Series", "LLMs", "Tokenization", "Thesis-adjacent"],
+    links: [{ label: "IndusTSLM", url: "https://github.com/yehias21/IndusTSLM" }],
   },
   {
-    id: "linear-algebra-fundamentals",
-    title: "Linear Algebra Fundamentals: A Deep Dive into Everyday Mathematics",
-    date: "Jan 18, 2026",
-    readTime: "25 min read",
-    excerpt: "A comprehensive exploration of linear algebra concepts that power machine learning, from eigenvectors to SVD, with geometric intuitions and practical applications.",
-    content: linearAlgebraMd,
-    tags: ["Mathematics", "Linear Algebra", "Machine Learning"]
-  }
+    id: "hypernet-observer-control",
+    category: "research",
+    title: "Closing the loop: hypernetwork observers as controllers",
+    pitch: "HyperKKL reshapes an observer on the fly from the input signal. What if the same hypernetwork also proposes the control action — estimation and control from one conditioned network?",
+    body: `HyperKKL conditions a KKL observer's weights on the exogenous input so it tracks non-autonomous systems. The natural next question: fold the controller in.
+
+**Idea:** a single hypernetwork emits both the observer transformation *and* a feedback gain, trained end-to-end so the estimated state it produces is exactly the one the control law needs. This is separation-principle-breaking on purpose.
+
+**Open worry:** stability guarantees. The KKL side has them; the joint estimator-controller almost certainly doesn't without extra constraints. Might need a Lyapunov-in-the-loss term.`,
+    created: "2026-04-22",
+    status: "seedling",
+    revisions: [
+      { date: "2026-06-02", note: "Noted the Lyapunov-in-the-loss requirement after ICLR workshop feedback." },
+    ],
+    tags: ["Dynamical Systems", "Control", "Hypernetworks"],
+    links: [{ label: "HyperKKL", url: "https://github.com/yehias21/HyperKKL" }],
+  },
+  {
+    id: "arabic-ts-report-eval",
+    category: "research",
+    title: "Do LLM judges transfer across languages for domain reports?",
+    pitch: "We showed LLM-as-judge works for English drilling reports. Does the same protocol hold when the reports (and the judge) are Arabic?",
+    body: `Our NeurIPS workshop paper studied LLM-judge protocols for English DDRs. Domain-specific + cross-lingual is unexplored: an Arabic operator's report, judged by an Arabic-capable model, against Arabic expert ratings.
+
+**Why it's interesting:** the failure modes of LLM judges (verbosity bias, position bias) may not transfer symmetrically across languages, especially for a morphologically rich, lower-resource target. This connects my Arabic-retrieval work with the LLM-judge work.`,
+    created: "2026-06-15",
+    status: "seedling",
+    tags: ["LLM Evaluation", "Arabic", "NLP"],
+  },
+  {
+    id: "drillbench-anomaly-preregister",
+    category: "research",
+    title: "Preregistered anomaly benchmark on drilling telemetry",
+    pitch: "Publish the anomaly labels and the evaluation protocol *before* touching a model, so nobody (including me) can p-hack the benchmark.",
+    body: `Anomaly detection benchmarks are notoriously leaky — thresholds and post-hoc label adjustments inflate F1. Idea: treat the benchmark itself like a preregistered study. Freeze the label set, the point-adjustment rule, and the metric on DrillBench, hash it, and only then run detectors.
+
+This is half research idea, half methodology stance. It fits the "preregistration" theme of this whole Ideas section.`,
+    created: "2026-07-01",
+    status: "seedling",
+    tags: ["Time Series", "Benchmarks", "Anomaly Detection", "Open Science"],
+  },
+  // --- Business ideas -------------------------------------------------------
+  // NOTE: these are examples to seed the section — replace with your own.
+  // Set `patentPending: true` on anything you've actually filed for.
+  {
+    id: "livedrill-copilot",
+    category: "business",
+    title: "Rig-floor report copilot",
+    pitch: "A streaming assistant that turns live drilling sensor feeds into draft daily-drilling-report entries at each operation boundary — the operator edits instead of writes.",
+    body: `Productization of the LiveDrill / streaming-DDR research: an on-prem service that ingests WITSML sensor streams, segments operations in real time, and drafts DDR entries a human signs off on. Value prop is hours of tool-pusher time per rig per day, plus consistent, queryable reports.
+
+**Moat:** the segment-triggered multimodal generation pipeline and the domain-tuned evaluation harness. **Status:** concept + research backing; not built as a product.`,
+    created: "2026-05-20",
+    status: "exploring",
+    patentPending: false,
+    revisions: [
+      { date: "2026-06-30", note: "Narrowed to on-prem / WITSML after operator conversations about data-egress constraints." },
+    ],
+    tags: ["Industry 4.0", "SaaS", "Oil & Gas"],
+  },
+  {
+    id: "preregistration-notebook",
+    category: "business",
+    title: "Tamper-evident idea notebook for researchers",
+    pitch: "A lightweight tool that timestamps and cryptographically seals research ideas as you write them — priority proof without a lawyer.",
+    body: `Every researcher fears getting scooped. Idea: a notebook app that, on each save, commits the entry to an append-only, hash-chained log (optionally anchored to a public ledger), producing a verifiable "I had this on date X" record — exactly the mechanism this Ideas section approximates with git.
+
+**Open question:** is the willingness-to-pay real, or is a public git repo already good enough for most people? Worth a landing-page test before any code.`,
+    created: "2026-06-10",
+    status: "seedling",
+    patentPending: false,
+    tags: ["DevTools", "Open Science", "SaaS"],
+  },
 ];
 
 // Top Academics gallery — photos with researchers and academics, rendered on
@@ -469,7 +583,7 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
     lastVisit: "2025-12",
     cities: [
       { name: "San Diego", lon: -117.1611, lat: 32.7157 },
-      { name: "New York", lon: -74.0060, lat: 40.7128 },
+      { name: "New York", lon: -74.0060, lat: 40.7128, note: "MLSS 2026 at Columbia University" },
       { name: "Richmond (VA)", lon: -77.4360, lat: 37.5407 },
       { name: "Baltimore (MD)", lon: -76.6122, lat: 39.2904 },
     ],

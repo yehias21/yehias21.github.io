@@ -1,0 +1,28 @@
+Copyright © Yahia Salaheldin Shaaban. All rights reserved.
+
+WEBSITE CONTENT (text, blog posts, ideas, business concepts, images, and design
+of yehias21.github.io)
+
+You MAY:
+  - Read, link to, and share the pages.
+  - Quote short excerpts WITH attribution and a citation back to this site
+    (see the "Cited as:" block on each blog post).
+
+You MAY NOT, without prior written permission:
+  - Copy, republish, or redistribute substantial portions of the content.
+  - Create derivative works from the ideas, business concepts, figures, or text.
+  - Use the content for commercial purposes.
+  - Use the content — in whole or in part — to train, fine-tune, evaluate, or
+    ground machine-learning / AI / LLM systems, or to build datasets for such
+    purposes. This is an explicit reservation of text-and-data-mining rights
+    (TDM) under applicable law.
+
+The business concepts published here are dated and version-controlled to
+establish authorship and priority; some are the subject of patent filings.
+Any use or commercialization requires a separate license.
+
+To request permission or a license, or to cite the work, contact:
+  https://yehias21.github.io/contact
+
+This notice does not cover source code that may be released separately in the
+author's public GitHub repositories under their own open-source licenses.

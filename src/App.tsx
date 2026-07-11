@@ -4,9 +4,6 @@ import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import brainIcon from './assets/figures/brain-icon.png';
 import starryNightBg from './assets/figures/starry-night.jpg';
-// ChatWidget temporarily disabled — re-enable by uncommenting the import and the
-// <ChatWidget /> render below.
-// import ChatWidget from './components/ChatWidget';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
 import Publications from './pages/Publications';
@@ -24,6 +21,68 @@ const ScrollToTop: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [pathname]);
   return null;
+};
+
+// Content-copy deterrent. Disables the context menu, blocks copy/cut, and
+// prevents image dragging — everywhere EXCEPT nodes marked [data-allow-copy]
+// (e.g. the citation block, so people can still cite the work) and form
+// fields. This is a polite deterrent, not access control: the page source is
+// still readable and a determined visitor can disable JS. Flip PROTECT to
+// false to turn it all off.
+const PROTECT = true;
+const useContentProtection = () => {
+  useEffect(() => {
+    if (!PROTECT) return;
+    const root = document.documentElement;
+    root.classList.add('protect');
+
+    // Is the event target inside an opt-in-copy region (or a form field)?
+    const allowed = (t: EventTarget | null): boolean => {
+      let el = t as HTMLElement | null;
+      while (el) {
+        if (el.dataset && el.dataset.allowCopy !== undefined) return true;
+        const tag = el.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
+        el = el.parentElement;
+      }
+      return false;
+    };
+
+    const onContextMenu = (e: MouseEvent) => { if (!allowed(e.target)) e.preventDefault(); };
+    const onCopyCut = (e: ClipboardEvent) => {
+      if (allowed(e.target)) return;
+      e.preventDefault();
+      e.clipboardData?.setData(
+        'text/plain',
+        '© Yahia Salaheldin Shaaban — yehias21.github.io. Content is not licensed for copying or AI training; please cite and get in touch.'
+      );
+    };
+    const onDragStart = (e: DragEvent) => {
+      if ((e.target as HTMLElement)?.tagName === 'IMG') e.preventDefault();
+    };
+
+    document.addEventListener('contextmenu', onContextMenu);
+    document.addEventListener('copy', onCopyCut as EventListener);
+    document.addEventListener('cut', onCopyCut as EventListener);
+    document.addEventListener('dragstart', onDragStart);
+
+    // Quiet notice for anyone poking at the console.
+    try {
+      console.log(
+        '%c© Yahia Salaheldin Shaaban',
+        'font-weight:bold',
+        '\nContent on this site is not licensed for copying or AI/LLM training. Please cite and get in touch: /contact'
+      );
+    } catch { /* ignore */ }
+
+    return () => {
+      root.classList.remove('protect');
+      document.removeEventListener('contextmenu', onContextMenu);
+      document.removeEventListener('copy', onCopyCut as EventListener);
+      document.removeEventListener('cut', onCopyCut as EventListener);
+      document.removeEventListener('dragstart', onDragStart);
+    };
+  }, []);
 };
 
 // --- Layout & Navigation ---
@@ -102,6 +161,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
                 <Link
                   key={link.name}
                   to={link.path}
+                  aria-current={location.pathname === link.path ? 'page' : undefined}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
                     location.pathname === link.path
                       ? isMatrix ? 'bg-accent-900/30 text-accent-400' : 'bg-blue-100 text-blue-600'
@@ -148,6 +208,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
                 <Link
                   key={link.name}
                   to={link.path}
+                  aria-current={location.pathname === link.path ? 'page' : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${
                     location.pathname === link.path
@@ -170,7 +231,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       </main>
 
       {/* Footer */}
-      <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-400 border-slate-200'}`}>
+      <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-500 border-slate-200'}`}>
         <div className="flex justify-center gap-6 mb-4">
           {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
           {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
@@ -178,15 +239,28 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         </div>
         <p>&copy; {new Date().getFullYear()} {PROFILE.name}</p>
       </footer>
-
-      {/* Chat Widget — disabled for now */}
-      {/* <ChatWidget theme={theme} /> */}
     </div>
   );
 };
 
+// Initial theme: saved choice → OS preference → light.
+const getInitialTheme = (): ThemeMode => {
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === ThemeMode.MATRIX || saved === ThemeMode.LIGHT) return saved as ThemeMode;
+    if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return ThemeMode.MATRIX;
+  } catch { /* SSR / privacy mode */ }
+  return ThemeMode.LIGHT;
+};
+
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>(ThemeMode.LIGHT);
+  const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
+  useContentProtection();
+
+  // Persist the theme so a visitor's choice survives refresh/navigation.
+  useEffect(() => {
+    try { localStorage.setItem('theme', theme); } catch { /* ignore */ }
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === ThemeMode.LIGHT ? ThemeMode.MATRIX : ThemeMode.LIGHT));

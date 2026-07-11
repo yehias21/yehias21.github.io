@@ -29,7 +29,7 @@ const Projects: React.FC<ProjectsProps> = ({ theme }) => {
           <div key={proj.id} className={`rounded-xl overflow-hidden border transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} ${hoverCls}`}>
             <div className={`h-48 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
               {proj.image && (
-                <img src={proj.image} alt={proj.title} className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 ${isInteractive ? 'group-hover:scale-[1.03]' : ''} ${isMatrix ? 'opacity-90' : ''}`} />
+                <img src={proj.image} alt={proj.title} loading="lazy" className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 ${isInteractive ? 'group-hover:scale-[1.03]' : ''} ${isMatrix ? 'opacity-90' : ''}`} />
               )}
               {!proj.image && proj.placeholderLabel && (
                 <span className="font-mono text-white/90 text-sm tracking-widest uppercase drop-shadow-md">

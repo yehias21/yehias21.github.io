@@ -18,6 +18,12 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   const [newsCount, setNewsCount] = useState(3);
   const isMatrix = theme === ThemeMode.MATRIX;
 
+  // Honor reduced-motion: skip the auto-rotating name/quote timers (they also
+  // re-render the page on a loop), leaving the content static for those users.
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
   // Hero first name alternates between the full name and the nickname,
   // swapping in sync with the glitch ("vibration") animation cycle.
   const FIRST_NAMES = [PROFILE.name.split(' ')[0], 'Yaya'];
@@ -25,21 +31,23 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
   // Auto-rotate quotes every 8 seconds
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const interval = setInterval(() => {
       setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length);
     }, 8000); // 8 seconds for optimal readability
 
     return () => clearInterval(interval);
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Swap the hero first name every 2s — matches the .glitch-text animation
   // period, so the name changes right after each vibration.
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const interval = setInterval(() => {
       setNameIndex((prev) => (prev + 1) % FIRST_NAMES.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [prefersReducedMotion]);
 
   // 'Q' key listener for quotes
   useEffect(() => {
@@ -132,7 +140,8 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
               <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
               <img
                 src={PROFILE.image}
-                alt="Profile"
+                alt="Yahia Salaheldin Shaaban"
+                loading="lazy"
                 className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
               />
             </div>
@@ -161,7 +170,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             <Newspaper className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
             News
           </h2>
-          <span className={`text-xs font-mono uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
+          <span className={`text-xs font-mono uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
             {NEWS.length} updates
           </span>
         </div>
@@ -177,7 +186,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                 }`}
               />
               <div className="flex flex-wrap items-center gap-2 mb-1">
-                <time className={`text-xs font-mono ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
+                <time className={`text-xs font-mono ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
                   {item.date}
                 </time>
                 {item.tag && (
@@ -369,7 +378,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
             >
               <div className={`h-40 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
                 {proj.image && (
-                  <img src={proj.image} alt={proj.title} className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] ${isMatrix ? 'opacity-90' : ''}`} />
+                  <img src={proj.image} alt={proj.title} loading="lazy" className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] ${isMatrix ? 'opacity-90' : ''}`} />
                 )}
                 {!proj.image && proj.placeholderLabel && (
                   <span className="font-mono text-white/90 text-sm tracking-widest uppercase drop-shadow-md">
@@ -459,7 +468,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           {BLOG_POSTS.slice(0, 2).map((post) => (
             <article key={post.id} className={`flex flex-col md:flex-row gap-6 md:gap-12 items-start group p-6 rounded-xl border transition-all ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}>
               <div className="md:w-32 shrink-0 pt-1">
-                <span className={`text-sm font-mono block ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>{post.date}</span>
+                <span className={`text-sm font-mono block ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>{post.date}</span>
                 <span className={`text-xs block ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`}>{post.readTime}</span>
               </div>
               <div className="flex-1">
