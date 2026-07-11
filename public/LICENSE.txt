@@ -12,7 +12,7 @@ You MAY NOT, without prior written permission:
   - Copy, republish, or redistribute substantial portions of the content.
   - Create derivative works from the ideas, business concepts, figures, or text.
   - Use the content for commercial purposes.
-  - Use the content — in whole or in part — to train, fine-tune, evaluate, or
+  - Use the content, in whole or in part, to train, fine-tune, evaluate, or
     ground machine-learning / AI / LLM systems, or to build datasets for such
     purposes. This is an explicit reservation of text-and-data-mining rights
     (TDM) under applicable law.

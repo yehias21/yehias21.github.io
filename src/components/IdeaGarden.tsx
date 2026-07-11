@@ -54,8 +54,8 @@ const IdeaGarden: React.FC<IdeaGardenProps> = ({ theme, category }) => {
       {/* Intro line explaining the preregistration idea. */}
       <p className={`blog-meta text-base mb-3 ${muted}`}>
         {category === 'business'
-          ? 'Ventures and product ideas I am chewing on. Dated, authored, and protected — see the notice below.'
-          : 'Half-formed research ideas — things I want to build, prove, or disprove. Each is preregistered with the date I first wrote it down.'}
+          ? 'Ventures and product ideas I am chewing on. Dated, authored, and protected. See the notice below.'
+          : 'Half-formed research ideas: things I want to build, prove, or disprove. Each is preregistered with the date I first wrote it down.'}
       </p>
       <p className={`text-sm mb-6 ${muted}`}>
         <History className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
@@ -79,8 +79,8 @@ const IdeaGarden: React.FC<IdeaGardenProps> = ({ theme, category }) => {
                 version-controlled, dated records that establish authorship and priority. Items marked{' '}
                 <span className="inline-flex items-center gap-1 font-medium"><Lock className="w-3 h-3" />patent-pending</span>{' '}
                 are the subject of filings. You are welcome to read and discuss them, but any use, adaptation,
-                or commercialization requires <strong>attribution and citation</strong>, and — for the
-                business concepts — a <strong>license</strong>. If you cite or want to build on an idea, please{' '}
+                or commercialization requires <strong>attribution and citation</strong>, and (for the
+                business concepts) a <strong>license</strong>. If you cite or want to build on an idea, please{' '}
                 <Link to="/contact" className={`underline ${isMatrix ? 'text-amber-200' : 'text-amber-900'}`}>get in touch</Link> first.
               </p>
             </div>
@@ -182,12 +182,12 @@ const IdeaRow: React.FC<IdeaRowProps> = ({
           {idea.revisions.map((r, i) => (
             <li key={i} className="relative">
               <span className={`absolute -left-[21px] top-1.5 w-2 h-2 rounded-full ${isMatrix ? 'bg-slate-600' : 'bg-slate-300'}`} />
-              <span className="blog-meta">{r.date}</span> — {r.note}
+              <span className="blog-meta">{r.date}</span>: {r.note}
             </li>
           ))}
           <li className="relative">
             <span className={`absolute -left-[21px] top-1.5 w-2 h-2 rounded-full ${isMatrix ? 'bg-accent-600' : 'bg-[#0085a1]'}`} />
-            <span className="blog-meta">{idea.created}</span> — Preregistered.
+            <span className="blog-meta">{idea.created}</span>: Preregistered.
           </li>
         </ol>
       )}

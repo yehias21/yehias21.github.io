@@ -28,8 +28,8 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
     tab === 'posts'
       ? 'Notes on research, ML fundamentals, and the messy industrial datasets I care about.'
       : tab === 'ideas'
-        ? 'An idea garden — dated, half-formed research directions I want to explore.'
-        : 'Business and product concepts — dated, authored, and protected.';
+        ? 'An idea garden: dated, half-formed research directions I want to explore.'
+        : 'Business and product concepts: dated, authored, and protected.';
 
   return (
     <div className={`blog-article py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${isMatrix ? 'theme-dark' : ''}`}>
