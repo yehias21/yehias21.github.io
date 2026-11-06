@@ -156,7 +156,7 @@ export interface ServiceItem {
 
 export interface NewsItem {
   id: string;
-  date: string;            // YYYY-MM-DD (sorts well)
+  date: string;            // YYYY-MM-DD, or YYYY-MM when the day does not matter
   title: string;
   body?: string;
   link?: string;

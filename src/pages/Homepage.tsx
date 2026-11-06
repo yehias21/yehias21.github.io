@@ -5,10 +5,12 @@ import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE, NEWS } from '.
 import { FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
 import { Room, Frame, Authors } from '../components/GalleryUI';
 
-// "2026-07-07" -> "Jul 7, 2026"
+// "2026-07-07" -> "Jul 7, 2026"; "2026-06" -> "Jun 2026"
 const formatDate = (iso: string) => {
-  const d = new Date(iso + 'T00:00:00');
-  return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const monthOnly = /^\d{4}-\d{2}$/.test(iso);
+  const d = new Date(iso + (monthOnly ? '-01' : '') + 'T00:00:00');
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en-US', monthOnly ? { month: 'short', year: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
 interface HomepageProps {

@@ -29,9 +29,9 @@ import kalmanFiltersMd from '../blog/kalman-filters-deep-dive.md?raw';
 
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
-  role: "M.Sc. in Machine Learning",
-  institution: "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
-  email: "yahia.shaaban@mbzuai.ac.ae",
+  role: "Machine Learning Engineer",
+  institution: "9YardsX",
+  email: "yahia.shaaban@alumni.mbzuai.ac.ae",
   bio: "A physicist, polymath, and part time linguist who found himself doing ML for a living. Driven by a never ending curiosity to understand the beauty and simplicity of this world; I love connecting ideas and meeting people. On the technical side, I work on mathematical modeling (recently foundation models for time series), domain adaptation, and careful inductive bias injection in deep learning models.",
   image: profileImage,
   quotes,
@@ -69,13 +69,23 @@ export const EDUCATION: Education[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
+    id: "ex0",
+    company: "9YardsX",
+    role: "Machine Learning Engineer",
+    period: "Jun 2026 – Present",
+    location: "Abu Dhabi, UAE",
+    description: [
+      "Architecting an AI harness for 9Yards Communications, a creative and social media company."
+    ]
+  },
+  {
     id: "ex1",
-    company: "AIQ Intelligence",
-    role: "AI Researcher",
+    company: "AIQ Intelligence (G42 / ADNOC)",
+    role: "Research Scientist",
     period: "May 2025 – Apr 2026",
     location: "Abu Dhabi, UAE",
     description: [
-      "Developing time-series large language models for oil-well drilling sensor data as part of my master's thesis.",
+      "Developed time-series large language models for oil-well drilling sensor data as part of my master's thesis.",
       "Multimodal alignment of sensor streams and natural language reports; LiveDrill streaming pipeline and Flamingo-style cross-attention variant."
     ]
   },
@@ -489,7 +499,7 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
   {
     id: "840",
     name: "United States of America",
-    lastVisit: "2025-12",
+    lastVisit: "2026-07",
     cities: [
       { name: "San Diego", lon: -117.1611, lat: 32.7157 },
       { name: "New York", lon: -74.0060, lat: 40.7128, note: "MLSS 2026 at Columbia University" },
@@ -602,6 +612,20 @@ export const CERTIFICATES: Award[] = [
 // Latest first. Use absolute dates so they stay interpretable over time.
 export const NEWS: NewsItem[] = [
   {
+    id: "n-9yardsx-2026",
+    date: "2026-06",
+    title: "Joined 9YardsX as a Machine Learning Engineer",
+    body: "Now building AI systems in Abu Dhabi, starting with an AI harness for 9Yards Communications.",
+    tag: "Career"
+  },
+  {
+    id: "n-graduation-2026",
+    date: "2026-05",
+    title: "Graduated with an M.Sc. in Machine Learning from MBZUAI",
+    body: "Thesis: IndusTSLM, integrating raw drilling sensor signals as a native modality into pretrained LLMs.",
+    tag: "Milestone"
+  },
+  {
     id: "n-mlss-2026",
     date: "2026-07-07",
     title: "Attending MLSS 2026 at Columbia University",
@@ -645,8 +669,8 @@ export const NEWS: NewsItem[] = [
   {
     id: "n-aiq-intern-2025",
     date: "2025-05-01",
-    title: "Joined AIQ Intelligence as an AI researcher",
-    body: "Working on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis.",
+    title: "Joined AIQ Intelligence as a research scientist",
+    body: "Worked on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis, through April 2026.",
     tag: "Career"
   }
 ];

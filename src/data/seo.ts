@@ -3,7 +3,7 @@ import { PROFILE, BLOG_POSTS } from './content';
 const SITE = 'https://yehias21.github.io';
 const NAME = PROFILE.name;
 const DEFAULT_DESC =
-  'ML researcher and engineer working on time-series foundation models, multimodal learning, and dynamical systems.';
+  'Machine Learning Engineer at 9YardsX and MBZUAI M.Sc. graduate working on time-series foundation models, multimodal learning, and dynamical systems.';
 
 export interface PageMeta { path: string; title: string; description: string; url: string; lastmod?: string; }
 
