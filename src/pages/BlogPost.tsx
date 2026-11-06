@@ -181,121 +181,129 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   url     = "${url}"
 }`;
 
+  // Section list shared by the desktop sidebar and the mobile section bar.
+  const SectionList: React.FC<{ compact?: boolean }> = ({ compact }) => (
+    <ul className={compact ? 'py-3' : ''}>
+      {topLevel.map(h => {
+        const isActive = currentTop?.id === h.id;
+        return (
+          <li key={h.id} className={compact ? '' : 'border-t blog-rule'}>
+            <a
+              href={`#${h.id}`}
+              onClick={(e) => { e.preventDefault(); scrollToId(h.id); }}
+              className={`flex gap-3 py-2.5 text-[0.8125rem] leading-snug transition-colors ${isActive ? 'blog-ink' : 'blog-muted hover:text-[var(--blog-ink)]'}`}
+            >
+              <span className="blog-mono blog-faint w-5 shrink-0 text-[0.75rem] pt-px">{String(sectionNumber(h.id)).padStart(2, '0')}</span>
+              <span className={isActive ? 'font-medium' : ''}>{plain(h.text)}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  const metaRows: [string, React.ReactNode][] = [
+    ['Published', post.date],
+    ...(post.updated ? [['Updated', post.updated] as [string, React.ReactNode]] : []),
+    ['Reading time', post.readTime.replace(' read', '')],
+    ['Topics', <span className="flex flex-col gap-1">{post.tags.map(t => <span key={t}>{t}</span>)}</span>],
+  ];
+
   return (
-    <div className={`blog-article blog-sheet mt-10 ${isMatrix ? 'theme-dark' : ''}`}>
-      {/* Section bar: sticky under the navbar, shows where you are and opens
-          the full list of sections. Replaces the sidebar table of contents. */}
+    <div className={`blog-article blog-sheet blog-page mt-6 ${isMatrix ? 'theme-dark' : ''}`}>
+      {/* Mobile and tablet: section bar under the navbar */}
       {topLevel.length > 1 && (
-        <div className="blog-sectionbar fixed left-0 right-0 top-16 z-30">
+        <div className="blog-sectionbar xl:hidden fixed left-0 right-0 top-16 z-30">
           <div className="relative">
             <button
               type="button"
               onClick={() => setTocOpen(o => !o)}
               aria-expanded={tocOpen}
-              className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center gap-4 text-left"
+              className="w-full px-4 sm:px-6 h-11 flex items-center gap-4 text-left"
             >
               <span className="num w-6 shrink-0">{String(currentTop ? sectionNumber(currentTop.id) : 1).padStart(2, '0')}</span>
               <span className="blog-ink text-sm truncate flex-1">{plain(currentTop?.text ?? topLevel[0].text)}</span>
               {tocOpen ? <ChevronUp className="w-4 h-4 blog-muted shrink-0" /> : <ChevronDown className="w-4 h-4 blog-muted shrink-0" />}
             </button>
-            <div
-              className="absolute left-0 right-0 bottom-0 h-px origin-left"
-              style={{ transform: `scaleX(${progress})`, background: 'var(--blog-ink)' }}
-              aria-hidden="true"
-            />
+            <div className="absolute left-0 right-0 bottom-0 h-px origin-left" style={{ transform: `scaleX(${progress})`, background: 'var(--blog-ink)' }} aria-hidden="true" />
             {tocOpen && (
-              <nav className="blog-sectionbar-menu absolute left-0 right-0 top-full max-h-[70vh] overflow-y-auto">
-                <ul className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                  {topLevel.map(h => {
-                    const isActive = currentTop?.id === h.id;
-                    return (
-                      <li key={h.id}>
-                        <a
-                          href={`#${h.id}`}
-                          onClick={(e) => { e.preventDefault(); scrollToId(h.id); }}
-                          className="flex items-center gap-4 rounded-md px-2 -mx-2 py-2 text-sm"
-                        >
-                          <span className="num blog-mono blog-faint w-6 shrink-0 text-[0.8rem]">{String(sectionNumber(h.id)).padStart(2, '0')}</span>
-                          <span className={isActive ? 'blog-ink font-semibold' : 'blog-muted'}>{plain(h.text)}</span>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
+              <nav className="blog-sectionbar-menu absolute left-0 right-0 top-full max-h-[70vh] overflow-y-auto px-4 sm:px-6">
+                <SectionList compact />
               </nav>
             )}
           </div>
         </div>
       )}
 
-      <article ref={articleRef} className={topLevel.length > 1 ? 'pt-14' : 'pt-6'}>
+      <article ref={articleRef} className="pt-16 xl:pt-6">
         <header className="text-center">
-          <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 text-sm hover:underline underline-offset-4">
+          <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 hover:underline underline-offset-4">
             <ArrowLeft className="w-3.5 h-3.5" /> Blog
           </Link>
-          <h1 className="blog-title text-[2.6rem] sm:text-[3.4rem] md:text-[4rem] max-w-3xl mx-auto mt-6">
-            {post.title}
-          </h1>
-          <p className="blog-meta mt-6">
-            Published {post.date}
-            {post.updated && <> · Updated {post.updated}</>}
-            {' · '}{post.readTime}
-          </p>
+          <h1 className="blog-title text-[1.85rem] sm:text-[2.05rem] max-w-[46rem] mx-auto mt-5">{post.title}</h1>
         </header>
 
-        {post.cover && (
-          <figure className="blog-hero mt-12 max-w-5xl mx-auto" style={{ background: post.coverTint ?? 'var(--blog-panel)' }}>
-            <img src={post.cover} alt="" />
-          </figure>
-        )}
+        {/* Below xl: the metadata sits in a row under the title */}
+        <dl className="xl:hidden grid grid-cols-1 sm:grid-cols-3 gap-x-6 mt-12 text-[0.8125rem]">
+          {metaRows.filter(([k]) => k !== 'Updated').map(([k, v]) => (
+            <div key={k} className="border-t blog-rule pt-3 pb-4 grid grid-cols-[7rem_1fr] sm:block">
+              <dt className="blog-ink sm:mb-2">{k}</dt>
+              <dd className="blog-muted">{v}</dd>
+            </div>
+          ))}
+        </dl>
 
-        <div className="blog-column mt-14">
-          {post.excerpt && (
-            <p className="blog-serif text-[1.3rem] sm:text-[1.4rem] leading-snug blog-ink mb-10">
-              {post.excerpt}
-            </p>
-          )}
+        {/* Three columns on wide screens: sections, text, details */}
+        <div className="blog-grid mt-10 xl:mt-14">
+          <aside className="hidden xl:block">
+            {topLevel.length > 1 && (
+              <nav className="sticky top-24" aria-label="Sections">
+                <SectionList />
+              </nav>
+            )}
+          </aside>
 
-          <div className={`prose ${isMatrix ? 'prose-invert' : ''}`}>
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex]}
-              components={{
-                h2: headingRenderer(2),
-                h3: headingRenderer(3),
-                // The image's alt text doubles as its caption.
-                img: ({ src, alt }: any) => (
-                  <>
-                    <img src={src as string} alt={(alt as string) ?? ''} loading="lazy" />
-                    {alt ? <span className="prose-caption">{alt}</span> : null}
-                  </>
-                ),
-              }}
-            >
-              {bodyMd}
-            </ReactMarkdown>
+          <div className="min-w-0">
+            <div className={`prose ${isMatrix ? 'prose-invert' : ''}`}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                components={{
+                  h2: headingRenderer(2),
+                  h3: headingRenderer(3),
+                  img: ({ src, alt }: any) => (
+                    <span className="prose-figure">
+                      <img src={src as string} alt={(alt as string) ?? ''} loading="lazy" />
+                      {alt ? <span className="prose-caption">{alt}</span> : null}
+                    </span>
+                  ),
+                }}
+              >
+                {bodyMd}
+              </ReactMarkdown>
+            </div>
+
+            <section data-allow-copy className="blog-citation mt-16 pt-6 border-t blog-rule">
+              <h2 className="text-[0.8125rem] blog-ink mb-3">Cite this post</h2>
+              <p className="blog-serif text-[0.95rem] leading-relaxed blog-muted mb-4">
+                Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
+                <span className="italic">yehias21.github.io</span>.{' '}
+                <a href={url} className="underline underline-offset-2 break-all">{url}</a>
+              </p>
+              <pre className="blog-panel blog-ink text-xs rounded-lg p-4 overflow-x-auto">{bib}</pre>
+            </section>
           </div>
 
-          {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-14">
-              {post.tags.map(tag => (
-                <span key={tag} className="blog-panel blog-muted text-xs rounded-full px-3 py-1">
-                  {tag}
-                </span>
+          <aside className="hidden xl:block">
+            <dl className="sticky top-24 text-[0.8125rem]">
+              {metaRows.map(([k, v]) => (
+                <div key={k} className="border-t blog-rule py-3 grid grid-cols-[6.5rem_1fr] gap-2">
+                  <dt className="blog-ink">{k}</dt>
+                  <dd className="blog-muted">{v}</dd>
+                </div>
               ))}
-            </div>
-          )}
-
-          {/* Auto-generated citation footer. */}
-          <section data-allow-copy className="blog-citation mt-10 pt-8 border-t blog-rule">
-            <h2 className="blog-meta mb-3">Citation</h2>
-            <p className="blog-serif text-[0.98rem] leading-relaxed blog-muted mb-4">
-              Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
-              <span className="italic">yehias21.github.io</span>.{' '}
-              <a href={url} className="underline underline-offset-2 break-all">{url}</a>
-            </p>
-            <pre className="blog-panel blog-ink text-xs rounded-lg p-4 overflow-x-auto">{bib}</pre>
-          </section>
+            </dl>
+          </aside>
         </div>
       </article>
 

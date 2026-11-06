@@ -82,6 +82,8 @@ $$P_k = (I - K_k H) P_k^-$$
 
 That's the entire algorithm. Predict, update, repeat.
 
+![One predict and update cycle in one dimension. Predicting moves the belief forward and widens it (gold). The measurement (red) pulls the posterior (blue) toward it, and the posterior is narrower than both: here the standard deviation drops from 1.28 after the prediction to 0.74 after the update, with K = 0.67.](/blog/kalman_cycle.svg)
+
 ---
 
 ## 4. The Kalman Gain Is the Whole Story
@@ -97,6 +99,8 @@ $$K = \frac{P^-}{P^- + R}$$
 - In between, $K$ is a weighted blend — and crucially it is computed *optimally* from the current uncertainties, not hand-tuned.
 
 This is why the Kalman filter is called a **Bayesian** estimator: each update is exactly a Bayesian posterior, the product of a Gaussian prior (prediction) and a Gaussian likelihood (measurement), which is again Gaussian.
+
+![The Kalman gain in the scalar case, K = P / (P + R), as a function of how noisy the sensor is relative to the current uncertainty. When R is small the filter follows the measurement; when R is large it keeps its own prediction.](/blog/kalman_gain.svg)
 
 ---
 
@@ -141,6 +145,8 @@ for z in [1.2, 2.1, 2.7, 4.3, 5.0]:
 
 Start with a wild uncertainty ($P = 500 I$), and the gain stays near 1 — the filter leans hard on early measurements. As $P$ shrinks, the filter grows confident and starts smoothing through sensor jitter on its own.
 
+![The filter above, run for 60 steps on a simulated drone with exactly these F, H, Q and R. Top: the estimate tracks the true position and cuts the error from 1.33 (raw measurements) to 0.80 (filter, after the first five steps). Bottom: velocity is never measured, yet the filter recovers it through the dynamics, and its uncertainty band shrinks as evidence accumulates. The gain starts at 0.998 and settles near 0.44.](/blog/kalman_tracking.svg)
+
 ---
 
 ## 6. When the World Isn't Linear
@@ -168,6 +174,8 @@ Instead of linearizing, the UKF picks a deterministic set of **sigma points** ar
 | Failure mode | Diverges on strong nonlinearity | More robust |
 
 For very high dimensions or non-Gaussian noise, you eventually leave the Kalman family entirely for **particle filters**, which represent the belief with thousands of weighted samples.
+
+![Why the UKF often beats the EKF. A Gaussian with mean 1.0 and standard deviation 0.7 is pushed through a nonlinear f. The EKF linearizes at the mean (gold tangent) and predicts an output mean of 1.98; the UKF propagates three sigma points (blue) and gets 1.77, matching the Monte Carlo answer of 1.77.](/blog/kalman_ekf_ukf.svg)
 
 ---
 

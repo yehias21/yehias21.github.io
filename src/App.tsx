@@ -221,7 +221,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       </nav>
 
       {/* Main Content */}
-      <main className="relative flex-grow z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+      <main className={`relative flex-grow z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 ${isBlog ? 'max-w-[90rem]' : 'max-w-6xl'}`}>
         {children}
       </main>
 
@@ -230,7 +230,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs">
           <span className="g-muted">&copy; {new Date().getFullYear()} {PROFILE.name}</span>
           <span className="g-serif italic g-muted inline-flex items-center gap-2">
-            <span>On the wall: Van Gogh, <span className="g-soft">{painting.title}</span> ({painting.year})</span>
+            <span>On the wall: {painting.artist}, <span className="g-soft">{painting.title}</span> ({painting.year})</span>
             <button onClick={shufflePainting} className="g-link not-italic g-sans text-xs" title="Show another painting">Next</button>
           </span>
           <span className="flex items-center gap-1">
