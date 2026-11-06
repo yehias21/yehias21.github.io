@@ -12,9 +12,9 @@
   --blog-faint:    #87867f;
   --blog-rule:     #e8e6dc;
   --blog-panel:    #f0eee6;
-  --blog-accent:   #c6613f;
-  --blog-sans:  'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --blog-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --blog-accent:   #1f3c78;
+  --blog-sans:  'Instrument Sans Variable', 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --blog-serif: 'Source Serif 4 Variable', 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
   --blog-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -25,7 +25,7 @@
   --blog-faint:  #8a8780;
   --blog-rule:   #2e2d2b;
   --blog-panel:  #242321;
-  --blog-accent: #e08a6b;
+  --blog-accent: #9db4ef;
 }
 
 /* ---- Shell --------------------------------------------------------- */
@@ -35,7 +35,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.blog-article ::selection { background: #e8c4b4; color: #141413; }
+.blog-article ::selection { background: #f3dc8f; color: #141413; }
 
 .blog-sans  { font-family: var(--blog-sans); }
 .blog-serif { font-family: var(--blog-serif); }
@@ -254,3 +254,13 @@
 .blog-card:hover .blog-card-title { color: var(--blog-accent); }
 .blog-card:hover .blog-hero img { transform: scale(1.015); }
 .blog-hero img { transition: transform 0.4s ease; }
+
+/* The blog hangs on the gallery wall as a sheet of paper. */
+.blog-sheet {
+  background: var(--blog-paper);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -30px rgba(10,20,45,.5), 0 2px 8px -2px rgba(10,20,45,.15);
+  padding: 1.5rem 1.25rem 3rem;
+}
+@media (min-width: 640px) { .blog-sheet { padding: 2rem 2.5rem 3.5rem; } }
+@media (min-width: 1024px) { .blog-sheet { padding: 2.5rem 4rem 4rem; } }

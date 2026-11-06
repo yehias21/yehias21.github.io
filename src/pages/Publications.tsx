@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { ThemeMode } from '../types';
 import { PUBLICATIONS } from '../data/content';
-import { BookOpen, ChevronDown, ChevronUp, FileText, FileCode, BookText, X as XIcon } from 'lucide-react';
+import { ChevronDown, ChevronUp, FileText, FileCode, BookText, X as XIcon } from 'lucide-react';
+import { Room, Authors } from '../components/GalleryUI';
 
 interface PublicationsProps {
   theme: ThemeMode;
@@ -11,7 +12,6 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
-  const isMatrix = theme === ThemeMode.MATRIX;
 
   const copyBibtex = async (bibtex: string, pubId: string) => {
     try {
@@ -43,153 +43,81 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
   }, [activeTag]);
 
   return (
-    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-          <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-          Publications
-        </h2>
-        <div className={`text-sm font-mono ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-          {PUBLICATIONS.length} papers
-        </div>
-      </div>
+    <div className="py-12">
+      <Room as="h1" label="The collection" title="Publications" sub={`${PUBLICATIONS.length} papers, newest first. Filter by theme below.`} />
 
-      {/* Tag filter chips */}
-      <div className="flex flex-wrap items-center gap-2 mb-8">
-        <span className={`text-xs uppercase tracking-wider mr-1 ${isMatrix ? 'text-slate-500' : 'text-slate-400'}`}>
-          Filter:
-        </span>
+      {/* Theme filter */}
+      <div className="flex flex-wrap items-center gap-2 mb-12">
+        <span className="g-label mr-1">Theme</span>
         {allTags.map(tag => {
           const active = activeTag === tag;
           return (
             <button
               key={tag}
               onClick={() => setActiveTag(active ? null : tag)}
-              className={`text-xs px-3 py-1 rounded-full border transition-colors ${
-                active
-                  ? isMatrix
-                    ? 'bg-accent-600 text-black border-accent-500'
-                    : 'bg-blue-600 text-white border-blue-600'
-                  : isMatrix
-                    ? 'bg-slate-900 text-slate-400 border-slate-700 hover:border-accent-700 hover:text-accent-400'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'
-              }`}
+              aria-pressed={active}
+              className={`g-chip ${active ? 'g-chip-active' : 'g-chip-outline'}`}
             >
               {tag}
             </button>
           );
         })}
         {activeTag && (
-          <button
-            onClick={() => setActiveTag(null)}
-            className={`text-xs px-2 py-1 rounded-full flex items-center gap-1 ${isMatrix ? 'text-slate-400 hover:text-accent-400' : 'text-slate-500 hover:text-blue-600'}`}
-          >
+          <button onClick={() => setActiveTag(null)} className="g-chip g-chip-outline inline-flex items-center gap-1">
             <XIcon className="w-3 h-3" /> clear
           </button>
         )}
       </div>
 
       {grouped.length === 0 && (
-        <p className={`text-center py-8 ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
-          No publications match this filter.
-        </p>
+        <p className="g-serif italic g-muted text-center py-8">No publications match this theme.</p>
       )}
 
       {grouped.map(({ year, list }) => (
-        <section key={year} className="mb-10">
-          <h3 className={`text-sm font-mono tracking-widest uppercase mb-4 pb-1 border-b ${isMatrix ? 'text-slate-500 border-slate-800' : 'text-slate-400 border-slate-200'}`}>
-            {year} <span className={isMatrix ? 'text-slate-700' : 'text-slate-300'}>· {list.length} paper{list.length === 1 ? '' : 's'}</span>
-          </h3>
+        <section key={year} className="mb-14">
+          <div className="flex items-baseline gap-4 mb-6">
+            <h2 className="g-display text-[2.6rem] g-ink leading-none">{year}</h2>
+            <span className="flex-1 h-px bg-[var(--rule)]" />
+            <span className="g-label">{list.length} work{list.length === 1 ? '' : 's'}</span>
+          </div>
           <div className="space-y-6">
-            {list.map((pub) => (
-              <div key={pub.id} className={`group relative p-6 rounded-xl border transition-all duration-300 ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800 hover:shadow-lg hover:shadow-accent-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}>
-                <div className="flex flex-col md:flex-row justify-between md:items-start gap-2">
-                  <div className="flex-1 cursor-pointer" onClick={() => setExpandedId(expandedId === pub.id ? null : pub.id)}>
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} · {pub.year}</span>
-                      {pub.comment && (
-                        <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-accent-900/30 text-accent-400 border border-accent-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
-                          {pub.comment}
-                        </span>
-                      )}
+            {list.map((pub) => {
+              const open = expandedId === pub.id;
+              return (
+                <article key={pub.id} className="g-placard p-6 md:p-8 grid md:grid-cols-[1fr_auto] gap-x-8 gap-y-4">
+                  <div>
+                    <p className="g-label">{pub.venue}</p>
+                    <h3 className="g-placard-title text-[1.25rem] md:text-[1.35rem] mt-2">{pub.title}</h3>
+                    {pub.comment && <span className="g-chip mt-2">{pub.comment}</span>}
+                    <p className="g-muted text-sm leading-relaxed mt-2"><Authors authors={pub.authors} /></p>
+                    {open && (
+                      <p className="g-serif g-soft leading-relaxed mt-4 border-l-2 pl-4 border-[var(--gold)]">{pub.abstract}</p>
+                    )}
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {pub.tags.map(tag => (
+                        <button key={tag} onClick={() => setActiveTag(tag)} className="g-chip">{tag}</button>
+                      ))}
                     </div>
-                    <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
-                      {pub.title}
-                    </h3>
-                    <p className={`mt-1 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                      {pub.authors.map((author, idx) =>
-                        author === "Yahia Salaheldin Shaaban" || author === "Yahia Salaheldin Shaaban*" ?
-                          <span key={idx}><strong>{author}</strong>{idx < pub.authors.length - 1 ? ', ' : ''}</span> :
-                          <span key={idx}>{author}{idx < pub.authors.length - 1 ? ', ' : ''}</span>
-                      )}
-                    </p>
                   </div>
-                  <div className="flex gap-2 shrink-0 mt-2 md:mt-0">
-                    <button
-                      onClick={() => setExpandedId(expandedId === pub.id ? null : pub.id)}
-                      aria-label={expandedId === pub.id ? 'Hide abstract' : 'Show abstract'}
-                      className={`p-2 transition-colors ${isMatrix ? 'text-slate-400 hover:text-accent-400' : 'text-slate-400 hover:text-blue-600'}`}
-                      title="Read Abstract"
-                    >
-                      {expandedId === pub.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                  <div className="flex md:flex-col flex-wrap gap-2 md:items-stretch md:min-w-[9rem]">
+                    <button onClick={() => setExpandedId(open ? null : pub.id)} aria-expanded={open} className="g-btn g-btn-sm justify-center">
+                      {open ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />} Abstract
                     </button>
+                    {pub.pdf && pub.pdf !== '#' && (
+                      <a href={pub.pdf} target="_blank" rel="noreferrer" className="g-btn g-btn-sm justify-center"><FileText className="w-3.5 h-3.5" /> Paper</a>
+                    )}
+                    {pub.link && pub.link !== '#' && (
+                      <a href={pub.link} target="_blank" rel="noreferrer" className="g-btn g-btn-sm justify-center"><FileCode className="w-3.5 h-3.5" /> Code</a>
+                    )}
+                    {pub.bibtex && pub.bibtex !== '#' && (
+                      <button onClick={() => copyBibtex(pub.bibtex!, pub.id)} className="g-btn g-btn-sm justify-center">
+                        <BookText className="w-3.5 h-3.5" /> {copiedId === pub.id ? 'Copied' : 'BibTeX'}
+                      </button>
+                    )}
                   </div>
-                </div>
-
-                {expandedId === pub.id && (
-                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-accent-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
-                    <span className="font-bold block mb-1">Abstract</span>
-                    {pub.abstract}
-                  </div>
-                )}
-
-                <div className={`flex flex-wrap gap-2 mt-4 pt-4 border-t ${isMatrix ? 'border-slate-800' : 'border-slate-100'}`}>
-                  {pub.tags.map(tag => (
-                    <button
-                      key={tag}
-                      onClick={() => setActiveTag(tag)}
-                      className={`text-xs px-2 py-0.5 rounded-full border transition-colors ${isMatrix ? 'bg-accent-900/20 text-accent-400 border-accent-800/50 hover:bg-accent-900/40' : 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100'}`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-3 mt-4">
-                  {pub.pdf && pub.pdf !== "#" && (
-                    <a
-                      href={pub.pdf}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <FileText className="w-4 h-4" />
-                      Paper
-                    </a>
-                  )}
-                  {pub.link && pub.link !== "#" && (
-                    <a
-                      href={pub.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <FileCode className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
-                  {pub.bibtex && pub.bibtex !== "#" && (
-                    <button
-                      onClick={() => copyBibtex(pub.bibtex!, pub.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <BookText className="w-4 h-4" />
-                      {copiedId === pub.id ? 'Copied!' : 'BibTeX'}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </section>
       ))}

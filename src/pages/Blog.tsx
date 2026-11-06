@@ -42,7 +42,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
   );
 
   return (
-    <div className={`blog-article pt-14 pb-12 ${isMatrix ? 'theme-dark' : ''}`}>
+    <div className={`blog-article blog-sheet mt-10 ${isMatrix ? 'theme-dark' : ''}`}>
       {/* Intro statement: bold sans lead-in running into a serif sentence. */}
       <header className="max-w-4xl">
         <p className="text-[1.75rem] sm:text-[2.25rem] leading-[1.25] blog-muted">

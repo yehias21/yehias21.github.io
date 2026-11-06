@@ -182,7 +182,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
 }`;
 
   return (
-    <div className={`blog-article pb-12 ${isMatrix ? 'theme-dark' : ''}`}>
+    <div className={`blog-article blog-sheet mt-10 ${isMatrix ? 'theme-dark' : ''}`}>
       {/* Section bar: sticky under the navbar, shows where you are and opens
           the full list of sections. Replaces the sidebar table of contents. */}
       {topLevel.length > 1 && (
@@ -228,7 +228,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         </div>
       )}
 
-      <article ref={articleRef} className={topLevel.length > 1 ? 'pt-24' : 'pt-14'}>
+      <article ref={articleRef} className={topLevel.length > 1 ? 'pt-14' : 'pt-6'}>
         <header className="text-center">
           <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 text-sm hover:underline underline-offset-4">
             <ArrowLeft className="w-3.5 h-3.5" /> Blog

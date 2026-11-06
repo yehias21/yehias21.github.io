@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, Geometry } from 'geojson';
-import { MapPin, Plane, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import { MapPin, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import { Room } from '../components/GalleryUI';
 import { ThemeMode, VisitedCountry } from '../types';
 import { VISITED_COUNTRIES } from '../data/content';
 import worldTopo from '../assets/data/countries-110m.json';
@@ -131,14 +132,15 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
     if (el) el.setAttribute('viewBox', `${next.x} ${next.y} ${next.w} ${next.h}`);
   };
 
-  const fillFaded = isMatrix ? '#0b2540' : '#dbeafe';
-  const fillFresh = isMatrix ? '#3b82f6' : '#1d4ed8';
-  const fillUnvisited = isMatrix ? '#1f2937' : '#e2e8f0';
-  const strokeColor = isMatrix ? '#0f172a' : '#ffffff';
-  const cityColor = isMatrix ? '#f87171' : '#dc2626';
+  // Starry Night palette: ultramarine countries, chrome yellow cities.
+  const fillFaded = isMatrix ? '#1c2a4d' : '#d6deee';
+  const fillFresh = isMatrix ? '#5b7fd6' : '#1f3c78';
+  const fillUnvisited = isMatrix ? '#232a3c' : '#e3dac6';
+  const strokeColor = isMatrix ? '#151a28' : '#f6f1e4';
+  const cityColor = isMatrix ? '#e8b84a' : '#c9952b';
 
   const posFromEvent = (e: { clientX: number; clientY: number; currentTarget: any }) => {
-    const rect = (e.currentTarget as Element).ownerSVGElement?.getBoundingClientRect()
+    const rect = (e.currentTarget as SVGElement).ownerSVGElement?.getBoundingClientRect()
       ?? (e.currentTarget as Element).getBoundingClientRect();
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
@@ -307,17 +309,14 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
 
   const btnBase = `p-2 rounded-md border shadow-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed`;
   const btnStyle = isMatrix
-    ? `bg-slate-900/90 border-slate-700 text-slate-200 hover:bg-slate-800`
-    : `bg-white/90 border-slate-200 text-slate-700 hover:bg-slate-50`;
+    ? `bg-[#1d2130]/90 border-[#2c3245] text-[#f1e9d6] hover:bg-[#262b3d]`
+    : `bg-[#fffdf7]/90 border-[#d5cab4] text-[#48433a] hover:bg-white`;
 
   return (
-    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className={`text-3xl font-bold mb-6 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-        <Plane className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-        Places I've Been
-      </h2>
+    <div className="py-12">
+      <Room as="h1" label="The map room" title="Places I've been" sub="Colour fades with time since my last visit." />
 
-      <div className={`relative rounded-lg border overflow-hidden ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+      <div className="g-frame-wood"><div className={`relative overflow-hidden ${isMatrix ? 'bg-[#151a28]' : 'bg-[#f6f1e4]'}`}>
         {/* Zoom controls */}
         <div className="absolute top-3 right-3 z-20 flex flex-col gap-1.5">
           <button
@@ -425,7 +424,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
                     cy={p[1]}
                     r={CITY_BASE_R * zoomFactor}
                     fill={cityColor}
-                    stroke={isMatrix ? '#fef2f2' : '#ffffff'}
+                    stroke={isMatrix ? '#151a28' : '#3a2b1e'}
                     strokeWidth={1}
                     vectorEffect="non-scaling-stroke"
                     style={{ cursor: 'pointer' }}
@@ -445,7 +444,7 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
 
         {tipPos && tipContent && !isDragging && (
           <div
-            className={`pointer-events-none absolute px-2 py-1.5 rounded shadow-lg border ${isMatrix ? 'bg-slate-800 text-slate-100 border-slate-700' : 'bg-white text-slate-800 border-slate-200'}`}
+            className={`pointer-events-none absolute px-2 py-1.5 rounded shadow-lg border ${isMatrix ? 'bg-[#1a1e2b] text-[#f1e9d6] border-[#2c3245]' : 'bg-[#fffdf7] text-[#1f1c17] border-[#d5cab4]'}`}
             style={{
               left: tipPos.x + 12,
               top: tipPos.y + 12,
@@ -455,10 +454,10 @@ const Travel: React.FC<TravelProps> = ({ theme }) => {
             {tipContent}
           </div>
         )}
-      </div>
+      </div></div>
 
       {/* Legend */}
-      <div className={`mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs g-soft">
         <div className="flex items-center gap-2">
           <span>Fade scale:</span>
           <div className="flex h-3 w-32 rounded overflow-hidden border border-slate-300 dark:border-slate-700">

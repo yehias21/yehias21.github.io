@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeMode } from '../types';
 import { GALLERY, ROOM_ENCOUNTERS } from '../data/content';
-import { Camera, X, ChevronLeft, ChevronRight, Landmark, EyeOff } from 'lucide-react';
+import { Camera, X, ChevronLeft, ChevronRight, EyeOff } from 'lucide-react';
+import { Room } from '../components/GalleryUI';
 
 interface GalleryProps {
   theme: ThemeMode;
 }
 
 const Gallery: React.FC<GalleryProps> = ({ theme }) => {
-  const isMatrix = theme === ThemeMode.MATRIX;
+  // Natural aspect ratio of each photo, so every frame fits its picture
+  // exactly (no cropping of faces). Falls back to 4:5 until measured.
+  const [ratios, setRatios] = useState<Record<string, number>>({});
+  useEffect(() => {
+    let alive = true;
+    GALLERY.forEach(item => {
+      const img = new Image();
+      img.onload = () => {
+        if (alive && img.naturalWidth && img.naturalHeight) {
+          setRatios(r => ({ ...r, [item.id]: img.naturalWidth / img.naturalHeight }));
+        }
+      };
+      img.src = item.src;
+    });
+    return () => { alive = false; };
+  }, []);
 
   // Index of the photo open in the lightbox, or null when closed.
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
@@ -69,81 +85,57 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
   }, []);
 
   return (
-    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 select-none" onContextMenu={blockSave}>
-      <h2 className={`text-3xl font-bold mb-3 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-        <Camera className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-        Photographic Odyssey
-      </h2>
-      <p className={`mb-8 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-        Photos with researchers and academics I've had the chance to meet.
-      </p>
+    <div className="py-12 select-none" onContextMenu={blockSave}>
+      <Room as="h1" label="The portrait hall" title="Photographic odyssey" sub="Photos with researchers and academics I've had the chance to meet." />
 
       {GALLERY.length === 0 ? (
-        // Empty state — shown until the GALLERY array in src/data/content.ts is filled.
-        <div className={`rounded-xl border border-dashed p-12 text-center ${isMatrix ? 'bg-slate-900 border-slate-700 text-slate-400' : 'bg-slate-50 border-slate-300 text-slate-500'}`}>
-          <Camera className={`w-10 h-10 mx-auto mb-4 ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`} />
-          <p className="text-sm">
-            No photos yet: add entries to the <span className="font-mono">GALLERY</span> array
-            in <span className="font-mono">src/data/content.ts</span>.
-          </p>
+        <div className="g-placard p-12 text-center">
+          <Camera className="w-10 h-10 mx-auto mb-4 g-muted" />
+          <p className="g-serif g-soft">No photos yet: add entries to the <span className="g-mono">GALLERY</span> array in <span className="g-mono">src/data/content.ts</span>.</p>
         </div>
       ) : (
         <div className="relative">
-        <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 transition-[filter] duration-150 ${shielded ? 'blur-2xl pointer-events-none' : ''}`}>
-          {GALLERY.map((item, idx) => (
-            <button
-              key={item.id}
-              type="button"
-              aria-label={item.caption}
-              onClick={() => setActiveIdx(idx)}
-              className={`group relative rounded-xl overflow-hidden border transition-all duration-300 aspect-square ${
-                isMatrix
-                  ? 'bg-slate-900 border-slate-800 hover:border-accent-800 hover:shadow-2xl hover:shadow-accent-900/20'
-                  : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-2xl'
-              }`}
-            >
-              {/* Photo rendered as a CSS background — no <img> element, so the
-                  browser's "Save image as…" affordance never appears. */}
-              <div
-                className={`w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105 ${isMatrix ? 'opacity-90' : ''}`}
-                style={{ backgroundImage: `url(${item.src})` }}
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-xs text-white text-left leading-snug">{item.caption}</p>
-              </div>
-            </button>
-          ))}
-        </div>
-        {shielded && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium shadow-lg ${isMatrix ? 'bg-slate-800 text-slate-200 border border-slate-700' : 'bg-white text-slate-700 border border-slate-200'}`}>
-              <EyeOff className="w-4 h-4" />
-              Photos hidden while the window is inactive
-            </div>
+          <div className={`columns-2 lg:columns-3 gap-6 sm:gap-10 transition-[filter] duration-150 ${shielded ? 'blur-2xl pointer-events-none' : ''}`}>
+            {GALLERY.map((item, idx) => (
+              <figure key={item.id} className="break-inside-avoid mb-10">
+                <button
+                  type="button"
+                  aria-label={item.caption}
+                  onClick={() => setActiveIdx(idx)}
+                  className={`block w-full g-hang ${idx % 4 === 0 ? 'g-frame-gold' : 'g-frame-wood'}`}
+                >
+                  <span className="g-mat g-mat-tight block">
+                    {/* Photo as a CSS background (no <img>), so there is no "Save image as". */}
+                    <span
+                      className="block w-full bg-center bg-cover"
+                      style={{ backgroundImage: `url(${item.src})`, aspectRatio: String(ratios[item.id] ?? 0.8) }}
+                    />
+                  </span>
+                </button>
+                <figcaption className="g-serif italic g-soft text-sm leading-snug mt-3 text-center px-1">{item.caption}</figcaption>
+              </figure>
+            ))}
           </div>
-        )}
+          {shielded && (
+            <div className="absolute inset-0 flex items-start justify-center pt-24">
+              <div className="g-placard flex items-center gap-2 px-4 py-2 text-sm g-soft">
+                <EyeOff className="w-4 h-4" /> Photos hidden while the window is inactive
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {/* Heads of state & notable figures shared a room with — no photo, just the story. */}
       {ROOM_ENCOUNTERS.length > 0 && (
-        <section className="mt-16">
-          <h3 className={`text-2xl font-bold mb-2 flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Landmark className={`w-7 h-7 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            In the Same Room
-          </h3>
-          <p className={`mb-6 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-            Heads of state and notable figures I've shared a room with (no photo, just the story).
-          </p>
-          <div className="space-y-5">
+        <section className="mt-24">
+          <Room label="Wall text" title="In the same room" sub="Heads of state and notable figures I've shared a room with. No photo, just the story." />
+          <div className="grid sm:grid-cols-2 gap-5">
             {ROOM_ENCOUNTERS.map(enc => (
-              <div key={enc.id} className={`border-l-2 pl-4 ${isMatrix ? 'border-slate-700' : 'border-slate-200'}`}>
-                <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{enc.name}</h4>
-                {enc.title && (
-                  <div className={`text-sm font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{enc.title}</div>
-                )}
-                <p className={`text-sm mt-1 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>{enc.note}</p>
-              </div>
+              <article key={enc.id} className="g-placard p-6">
+                <h3 className="g-display text-[1.6rem] g-ink leading-tight">{enc.name}</h3>
+                {enc.title && <p className="g-label mt-1">{enc.title}</p>}
+                <p className="g-serif g-soft text-[0.95rem] leading-relaxed mt-3">{enc.note}</p>
+              </article>
             ))}
           </div>
         </section>

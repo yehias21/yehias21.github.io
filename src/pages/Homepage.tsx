@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE, NEWS } from '../data/content';
-import { BookOpen, Briefcase, FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText, Newspaper } from 'lucide-react';
+import { FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
+import { Room, Frame, Authors } from '../components/GalleryUI';
+
+// "2026-07-07" -> "Jul 7, 2026"
+const formatDate = (iso: string) => {
+  const d = new Date(iso + 'T00:00:00');
+  return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+};
 
 interface HomepageProps {
   theme: ThemeMode;
@@ -16,7 +23,6 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [expandedPubId, setExpandedPubId] = useState<string | null>(null);
   const [newsCount, setNewsCount] = useState(3);
-  const isMatrix = theme === ThemeMode.MATRIX;
 
   // Honor reduced-motion: skip the auto-rotating name/quote timers (they also
   // re-render the page on a loop), leaving the content static for those users.
@@ -71,444 +77,233 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
   };
 
   return (
-    <div className="relative isolate space-y-24 py-8">
-      {/* Hero/Intro Section */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center gap-10 pt-10 px-4 md:flex-row">
-        {/* Left: Text Info */}
-        <div className="flex-1 flex flex-col justify-center items-start z-10 order-2 md:order-1">
-          <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            Hello, I'm <br />
-            <span className={`glitch-text ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`}>
-              {FIRST_NAMES[nameIndex]}
-            </span>
+    <div className="relative isolate py-10 space-y-28">
+      {/* ---------- Hero: the exhibition entrance ---------- */}
+      <section className="relative grid md:grid-cols-[1.05fr_1fr] gap-12 md:gap-10 items-center pt-6 md:min-h-[78vh]">
+        {/* Text */}
+        <div className="order-2 md:order-1 relative z-10">
+          <p className="g-label mb-5">Machine learning · Time series · Dynamical systems</p>
+          <h1 className="g-display g-ink text-[3.4rem] sm:text-[4.6rem] lg:text-[5.6rem] leading-[0.95]">
+            Hello, I'm<br />
+            <span className="italic g-blue">{FIRST_NAMES[nameIndex]}</span>
           </h1>
 
-          <p className={`text-lg md:text-xl max-w-xl mb-8 leading-relaxed ${isMatrix ? 'text-slate-300' : 'text-slate-600'}`}>
+          <p className="g-serif g-soft text-lg md:text-[1.2rem] leading-relaxed mt-7 max-w-xl">
             {PROFILE.bio}
           </p>
 
-          {/* Quote Section (Press Q) */}
-          <div className="min-h-24 w-full max-w-lg mb-8 relative group cursor-pointer" onClick={() => setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length)}>
-            <p className={`text-md md:text-lg font-mono border-l-4 pl-4 italic transition-all duration-500 ease-in-out ${isMatrix ? 'text-accent-400 border-accent-500' : 'text-slate-500 border-blue-500'}`}>
+          {/* Quote as a wall inscription (click or press Q) */}
+          <button
+            type="button"
+            onClick={() => setQuoteIndex((prev) => (prev + 1) % PROFILE.quotes.length)}
+            className="group block text-left mt-8 max-w-lg"
+            title="Press Q for another"
+          >
+            <span className="g-divider text-xs mb-3 w-40"><span>✦</span></span>
+            <span className="block g-display italic text-[1.45rem] leading-snug g-ink min-h-[4.2rem] transition-opacity">
               {PROFILE.quotes[quoteIndex]}
-            </p>
-            <span className={`absolute -bottom-6 left-4 text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isMatrix ? 'text-accent-400' : 'text-slate-500'}`}>
-              Press 'Q' to change
             </span>
+            <span className="g-label opacity-0 group-hover:opacity-100 transition-opacity">Press Q for another</span>
+          </button>
+
+          <div className="flex flex-wrap items-center gap-3 mt-8">
+            <a
+              href="https://github.com/yehias21/yehias21.github.io#-research-background"
+              target="_blank"
+              rel="noreferrer"
+              className="g-btn g-btn-solid"
+            >
+              <BookText className="w-4 h-4" /> My research story
+            </a>
+            <Link to="/contact" className="g-btn">
+              <Calendar className="w-4 h-4" /> Get in touch
+            </Link>
           </div>
 
-          {/* Research story CTA */}
-          <a
-            href="https://github.com/yehias21/yehias21.github.io#-research-background"
-            target="_blank"
-            rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-6 transition-all ${isMatrix ? 'bg-accent-900/40 text-accent-300 border border-accent-800 hover:bg-accent-900/60' : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'}`}
-          >
-            <BookText className="w-4 h-4" />
-            Read my research background
-            <ArrowRight className="w-4 h-4" />
-          </a>
-
-          {/* Social Links & Contact */}
-          <div className="flex gap-4">
+          <div className="flex gap-3 mt-6">
             {PROFILE.socials.github && (
-              <a aria-label="GitHub" title="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
-                <Github className="w-5 h-5" />
-              </a>
+              <a aria-label="GitHub" title="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className="g-icon-btn"><Github className="w-4 h-4" /></a>
             )}
             {PROFILE.socials.linkedin && (
-              <a aria-label="LinkedIn" title="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
-                <Linkedin className="w-5 h-5" />
-              </a>
+              <a aria-label="LinkedIn" title="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className="g-icon-btn"><Linkedin className="w-4 h-4" /></a>
             )}
             {PROFILE.socials.scholar && (
-              <a aria-label="Google Scholar" title="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
-                <GraduationCap className="w-5 h-5" />
-              </a>
+              <a aria-label="Google Scholar" title="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className="g-icon-btn"><GraduationCap className="w-4 h-4" /></a>
             )}
-            <a aria-label="Email" title="Email" href={`mailto:${PROFILE.email}`} className={`p-3 rounded-lg transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-400 hover:text-accent-400' : 'bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600'}`}>
-              <Mail className="w-5 h-5" />
-            </a>
+            <a aria-label="Email" title="Email" href={`mailto:${PROFILE.email}`} className="g-icon-btn"><Mail className="w-4 h-4" /></a>
           </div>
         </div>
 
-        {/* Right: Profile Image - On mobile appears first (order-1), on desktop appears second */}
-        <div className="flex-1 flex justify-center z-10 md:justify-end order-1 md:order-2">
-          <div className="flex flex-col items-center">
-            <div className="relative w-72 md:w-[26rem] aspect-[1110/746]">
-              <div className={`absolute inset-0 rounded-2xl transform rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-accent-600' : 'bg-blue-200'}`}></div>
-              <div className={`absolute inset-0 rounded-2xl transform -rotate-3 transition-colors duration-500 ${isMatrix ? 'bg-slate-950 border border-accent-500' : 'bg-slate-200'}`}></div>
-              <img
-                src={PROFILE.image}
-                alt="Yahia Salaheldin Shaaban"
-                loading="lazy"
-                className={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 z-10 border-4 ${isMatrix ? 'border-slate-800' : 'border-white'}`}
-              />
+        {/* Portrait: a gilded frame hung over a brushed swatch of The Starry Night */}
+        <div className="order-1 md:order-2 relative flex justify-center md:justify-end">
+          <div
+            className="g-swatch absolute -inset-x-1 -inset-y-8 sm:-inset-x-6 md:-inset-x-10 md:-inset-y-14"
+            aria-hidden="true"
+          />
+          <figure className="relative w-[18.5rem] sm:w-[22rem] md:w-[26rem]">
+            <div className="g-frame-gold g-hang">
+              <div className="g-mat">
+                <img
+                  src={PROFILE.image}
+                  alt="Yahia Salaheldin Shaaban"
+                  className="block w-full aspect-[1110/746] object-cover"
+                />
+              </div>
             </div>
-            <p className={`mt-4 text-sm italic font-mono text-center inline-flex items-center justify-center gap-1.5 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-              Happy me in
-              {/* Inline SVG flag (Brazilian) — native emoji falls back to "BR" letters on systems without color-emoji fonts */}
-              <svg
-                viewBox="0 0 14 10"
-                aria-label="Brazil"
-                role="img"
-                style={{ width: '1.4em', height: '1em', verticalAlign: '-0.18em', borderRadius: 2, display: 'inline-block' }}
-              >
-                <rect width="14" height="10" fill="#009C3B" />
-                <polygon points="7,0.8 13.2,5 7,9.2 0.8,5" fill="#FFDF00" />
-                <circle cx="7" cy="5" r="2.2" fill="#002776" />
-              </svg>
-            </p>
-          </div>
+            <figcaption className="g-placard mx-auto mt-5 w-fit px-4 py-2.5 text-center">
+              <span className="g-placard-title italic text-[0.95rem] inline-flex items-center gap-1.5">
+                Happy me in
+                <svg viewBox="0 0 14 10" aria-label="Brazil" role="img" style={{ width: '1.3em', height: '0.95em', borderRadius: 2, display: 'inline-block' }}>
+                  <rect width="14" height="10" fill="#009C3B" />
+                  <polygon points="7,0.8 13.2,5 7,9.2 0.8,5" fill="#FFDF00" />
+                  <circle cx="7" cy="5" r="2.2" fill="#002776" />
+                </svg>
+              </span>
+              <span className="block g-label mt-1 !text-[0.62rem]">Photograph · Rio de Janeiro</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* News Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Newspaper className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            News
-          </h2>
-          <span className={`text-xs font-mono uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
-            {NEWS.length} updates
-          </span>
-        </div>
-
-        <ol className={`relative border-l-2 ml-3 space-y-6 ${isMatrix ? 'border-slate-800' : 'border-slate-200'}`}>
+      {/* ---------- Room I: News ---------- */}
+      <section>
+        <Room n={1} title="News" sub="Recent additions to the collection." />
+        <ol className="g-timeline space-y-8 max-w-3xl">
           {NEWS.slice(0, newsCount).map((item) => (
-            <li key={item.id} className="pl-6 relative group">
-              <span
-                className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 transition-colors ${
-                  isMatrix
-                    ? 'bg-slate-900 border-accent-500 group-hover:bg-accent-500/30'
-                    : 'bg-white border-blue-500 group-hover:bg-blue-100'
-                }`}
-              />
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <time className={`text-xs font-mono ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>
-                  {item.date}
-                </time>
-                {item.tag && (
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full border ${
-                      isMatrix
-                        ? 'bg-accent-900/30 text-accent-300 border-accent-700/50'
-                        : 'bg-blue-50 text-blue-600 border-blue-200'
-                    }`}
-                  >
-                    {item.tag}
-                  </span>
-                )}
+            <li key={item.id} className="relative">
+              <span className="g-dot" />
+              <div className="flex flex-wrap items-center gap-3 mb-1.5">
+                <time className="g-label">{formatDate(item.date)}</time>
+                {item.tag && <span className="g-chip">{item.tag}</span>}
               </div>
-              <h3 className={`text-base font-semibold mb-1 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-                {item.title}
-              </h3>
-              {item.body && (
-                <p className={`text-sm leading-relaxed ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {item.body}
-                </p>
-              )}
+              <h3 className="g-serif g-ink text-lg font-semibold leading-snug">{item.title}</h3>
+              {item.body && <p className="g-serif g-soft leading-relaxed mt-1">{item.body}</p>}
               {item.link && (
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`inline-flex items-center gap-1 text-xs font-medium mt-2 transition-colors ${
-                    isMatrix ? 'text-accent-400 hover:text-accent-300' : 'text-blue-600 hover:text-blue-500'
-                  }`}
-                >
-                  {item.linkLabel || 'Link'} <ArrowRight className="w-3 h-3" />
+                <a href={item.link} target="_blank" rel="noreferrer" className="g-arrow-link mt-2">
+                  {item.linkLabel || 'Link'} <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               )}
             </li>
           ))}
         </ol>
-
         {(newsCount < NEWS.length || newsCount > 3) && (
-          <div className="mt-6 flex justify-center gap-3">
+          <div className="mt-8 flex gap-3">
             {newsCount < NEWS.length && (
-              <button
-                onClick={() => setNewsCount((c) => Math.min(c + 5, NEWS.length))}
-                className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  isMatrix
-                    ? 'bg-accent-900/30 text-accent-300 border border-accent-800 hover:bg-accent-900/50'
-                    : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
-                }`}
-              >
-                See more (+{Math.min(5, NEWS.length - newsCount)})
+              <button onClick={() => setNewsCount((c) => Math.min(c + 5, NEWS.length))} className="g-btn g-btn-sm">
+                Show more ({NEWS.length - newsCount})
               </button>
             )}
             {newsCount > 3 && (
-              <button
-                onClick={() => setNewsCount(3)}
-                className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  isMatrix
-                    ? 'text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-500'
-                    : 'text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-400'
-                }`}
-              >
-                Show less
-              </button>
+              <button onClick={() => setNewsCount(3)} className="g-btn g-btn-sm">Show less</button>
             )}
           </div>
         )}
       </section>
 
-      {/* Publications Preview Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <BookOpen className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            Publications
-          </h2>
-          <Link
-            to="/publications"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
-          >
-            See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="space-y-4">
-          {PUBLICATIONS.slice(0, 3).map((pub) => {
+      {/* ---------- Room II: Publications ---------- */}
+      <section>
+        <Room n={2} title="Publications" sub="Selected papers, each with its museum label." to="/publications" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {PUBLICATIONS.slice(0, 3).map((pub, i) => {
             const isExpanded = expandedPubId === pub.id;
-
             return (
-              <div
-                key={pub.id}
-                className={`group p-6 rounded-xl border transition-all duration-300 cursor-pointer ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800 hover:shadow-lg hover:shadow-accent-900/10' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-lg'}`}
-                onClick={() => setExpandedPubId(isExpanded ? null : pub.id)}
-              >
-                <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <span className={`text-xs font-mono px-2 py-1 rounded inline-block ${isMatrix ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{pub.venue} • {pub.year}</span>
-                  {pub.comment && (
-                    <span className={`text-xs font-semibold px-2 py-1 rounded inline-block ${isMatrix ? 'bg-accent-900/30 text-accent-400 border border-accent-700' : 'bg-blue-100 text-blue-700 border border-blue-300'}`}>
-                      {pub.comment}
-                    </span>
+              <article key={pub.id} className="g-placard p-6 flex flex-col">
+                <p className="g-label">No. {String(i + 1).padStart(2, '0')} · {pub.year}</p>
+                <h3 className="g-placard-title text-[1.12rem] mt-3">{pub.title}</h3>
+                <p className="g-serif italic g-soft text-sm mt-2">{pub.venue}</p>
+                <p className="g-muted text-xs leading-relaxed mt-3"><Authors authors={pub.authors} /></p>
+                {isExpanded && <p className="g-serif g-soft text-sm leading-relaxed mt-4 border-l-2 pl-3 border-[var(--gold)]">{pub.abstract}</p>}
+                <div className="flex flex-wrap gap-2 mt-auto pt-5">
+                  <button onClick={() => setExpandedPubId(isExpanded ? null : pub.id)} className="g-btn g-btn-sm">
+                    {isExpanded ? 'Hide abstract' : 'Abstract'}
+                  </button>
+                  {pub.pdf && pub.pdf !== '#' && (
+                    <a href={pub.pdf} target="_blank" rel="noreferrer" className="g-btn g-btn-sm"><FileText className="w-3.5 h-3.5" /> Paper</a>
                   )}
-                </div>
-                <h3 className={`text-xl font-semibold transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
-                  {pub.title}
-                </h3>
-                <p className={`mt-1 text-sm ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {pub.authors.map((author, idx) =>
-                    author === "Yahia Salaheldin Shaaban" || author === "Yahia Salaheldin Shaaban*" ?
-                      <span key={idx}><strong>{author}</strong>{idx < pub.authors.length - 1 ? ', ' : ''}</span> :
-                      <span key={idx}>{author}{idx < pub.authors.length - 1 ? ', ' : ''}</span>
+                  {pub.link && pub.link !== '#' && (
+                    <a href={pub.link} target="_blank" rel="noreferrer" className="g-btn g-btn-sm"><FileCode className="w-3.5 h-3.5" /> Code</a>
                   )}
-                </p>
-
-                {/* Abstract Dropdown */}
-                {isExpanded && (
-                  <div className={`mt-4 p-4 rounded-lg text-sm leading-relaxed border-l-2 animate-in slide-in-from-top-2 fade-in ${isMatrix ? 'bg-slate-950/70 text-slate-300 border-accent-500' : 'bg-slate-50 text-slate-600 border-blue-500'}`}>
-                    <span className="font-bold block mb-1">Abstract:</span>
-                    {pub.abstract}
-                  </div>
-                )}
-
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {pub.tags.map(tag => (
-                    <span key={tag} className={`text-xs px-2 py-0.5 rounded-full border ${isMatrix ? 'bg-accent-900/20 text-accent-400 border-accent-800/50' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Paper, Code, and BibTeX Buttons */}
-                <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-opacity-50" onClick={(e) => e.stopPropagation()}>
-                  {pub.pdf && pub.pdf !== "#" && (
-                    <a
-                      href={pub.pdf}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <FileText className="w-4 h-4" />
-                      Paper
-                    </a>
-                  )}
-                  {pub.link && pub.link !== "#" && (
-                    <a
-                      href={pub.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <FileCode className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
-                  {pub.bibtex && pub.bibtex !== "#" && (
-                    <button
-                      onClick={() => copyBibtex(pub.bibtex!, pub.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isMatrix ? 'bg-slate-800 hover:bg-accent-900/50 text-slate-300 hover:text-accent-400 border border-slate-700 hover:border-accent-700' : 'bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <BookText className="w-4 h-4" />
-                      {copiedId === pub.id ? 'Copied!' : 'BibTeX'}
+                  {pub.bibtex && (
+                    <button onClick={() => copyBibtex(pub.bibtex!, pub.id)} className="g-btn g-btn-sm">
+                      {copiedId === pub.id ? 'Copied' : 'BibTeX'}
                     </button>
                   )}
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
       </section>
 
-      {/* Projects Preview Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            Projects
-          </h2>
-          <Link
-            to="/projects"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
-          >
-            See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ---------- Room III: Projects ---------- */}
+      <section>
+        <Room n={3} title="Projects" sub="Works in progress and finished pieces." to="/projects" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
           {PROJECTS.slice(0, 3).map((proj) => (
-            <div
-              key={proj.id}
-              className={`rounded-xl overflow-hidden border hover:shadow-2xl transition-all duration-300 group flex flex-col h-full ${isMatrix ? 'bg-slate-900 border-slate-800 hover:border-accent-800 hover:shadow-accent-900/20' : 'bg-white border-slate-200 hover:border-blue-300'}`}
-            >
-              <div className={`h-40 overflow-hidden relative flex items-center justify-center ${isMatrix ? 'bg-slate-950' : 'bg-slate-50'}`} style={proj.gradient ? { background: proj.gradient } : undefined}>
-                {proj.image && (
-                  <img src={proj.image} alt={proj.title} loading="lazy" className={`max-w-full max-h-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] ${isMatrix ? 'opacity-90' : ''}`} />
-                )}
-                {!proj.image && proj.placeholderLabel && (
-                  <span className="font-mono text-white/90 text-sm tracking-widest uppercase drop-shadow-md">
-                    {proj.placeholderLabel}
-                  </span>
-                )}
-              </div>
-              <div className="p-5 flex flex-col flex-grow">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className={`text-lg font-bold transition-colors flex-1 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{proj.title}</h3>
+            <figure key={proj.id} className="group">
+              <Frame className="g-hang aspect-[4/3]">
+                <div className="w-full h-full flex items-center justify-center" style={proj.gradient ? { background: proj.gradient } : undefined}>
+                  {proj.image
+                    ? <img src={proj.image} alt={proj.title} loading="lazy" className="g-art" />
+                    : <span className="g-display italic text-white text-2xl px-4 text-center">{proj.placeholderLabel}</span>}
+                </div>
+              </Frame>
+              <figcaption className="mt-5">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="g-display text-[1.7rem] g-ink leading-tight">{proj.title}</h3>
                   {proj.github && (
-                    <a
-                      href={proj.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`ml-2 p-2 rounded-lg transition-all ${isMatrix ? 'text-slate-400 hover:text-accent-400 hover:bg-accent-900/20' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-100'}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-5 h-5" />
-                    </a>
+                    <a href={proj.github} target="_blank" rel="noreferrer" aria-label={`${proj.title} on GitHub`} className="g-icon-btn !w-8 !h-8 shrink-0"><Github className="w-3.5 h-3.5" /></a>
                   )}
                 </div>
-                <p className={`text-sm mb-4 flex-grow overflow-y-auto max-h-20 pr-1 scroll-on-hover ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {proj.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {proj.techStack.slice(0, 3).map((tech) => (
-                    <span key={tech} className={`px-2 py-1 text-xs rounded-md font-mono border ${isMatrix ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+                <p className="g-label mt-1">{proj.techStack.slice(0, 3).join(' · ')}</p>
+                <p className="g-serif g-soft text-[0.95rem] leading-relaxed mt-2 line-clamp-4">{proj.description}</p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
 
-      {/* Experience Preview Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <Briefcase className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            Experience
-          </h2>
-          <Link
-            to="/about"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
-          >
-            See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="space-y-4">
+      {/* ---------- Room IV: Experience ---------- */}
+      <section>
+        <Room n={4} title="Experience" sub="Studios I have worked in." to="/about" toLabel="Full CV" />
+        <ol className="grid md:grid-cols-3 gap-6">
           {EXPERIENCE.slice(0, 3).map(exp => (
-            <div key={exp.id} className={`relative pl-6 border-l-2 transition-colors group ${isMatrix ? 'border-slate-700 hover:border-accent-600' : 'border-slate-200 hover:border-blue-500'}`}>
-              <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${isMatrix ? 'bg-slate-800 border-accent-600' : 'bg-white border-blue-500'}`}></div>
-              <h4 className={`font-bold text-lg ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{exp.role}</h4>
-              <div className={`flex flex-col sm:flex-row sm:justify-between text-sm mb-2 ${isMatrix ? 'text-slate-400' : 'text-slate-500'}`}>
-                <span className={`font-semibold ${isMatrix ? 'text-accent-400' : 'text-blue-600'}`}>{exp.company}</span>
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3"/> {exp.location}</span>
-                  <span>• {exp.period}</span>
-                </div>
-              </div>
-            </div>
+            <li key={exp.id} className="g-placard p-5">
+              <p className="g-label">{exp.period}</p>
+              <h3 className="g-placard-title text-lg mt-2">{exp.role}</h3>
+              <p className="g-serif italic g-blue mt-0.5">{exp.company}</p>
+              <p className="g-muted text-xs mt-2 inline-flex items-center gap-1"><MapPin className="w-3 h-3" /> {exp.location}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
-      {/* Blog Preview Section */}
-      <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className={`text-3xl font-bold flex items-center gap-3 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-            <FileText className={`w-8 h-8 ${isMatrix ? 'text-accent-500' : 'text-blue-600'}`} />
-            Blog
-          </h2>
-          <Link
-            to="/blog"
-            className={`flex items-center gap-2 transition-colors group ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
-          >
-            See all <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid gap-6">
+      {/* ---------- Room V: Writing ---------- */}
+      <section>
+        <Room n={5} title="Writing" sub="Long form notes from the blog." to="/blog" />
+        <div className="grid md:grid-cols-2 gap-10">
           {BLOG_POSTS.slice(0, 2).map((post) => (
-            <article key={post.id} className={`flex flex-col md:flex-row gap-6 md:gap-12 items-start group p-6 rounded-xl border transition-all ${isMatrix ? 'bg-slate-900/50 border-slate-800 hover:border-accent-800' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}>
-              <div className="md:w-32 shrink-0 pt-1">
-                <span className={`text-sm font-mono block ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>{post.date}</span>
-                <span className={`text-xs block ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`}>{post.readTime}</span>
-              </div>
-              <div className="flex-1 min-w-0 w-full">
-                <h3 className={`text-xl font-bold mb-2 transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
-                  {post.title}
-                </h3>
-                <p className={`leading-relaxed mb-3 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {post.excerpt}
-                </p>
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex flex-wrap gap-x-2 gap-y-1">
-                    {post.tags.map(tag => (
-                      <span key={tag} className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-accent-600' : 'text-blue-600'}`}>#{tag}</span>
-                    ))}
-                  </div>
-                  <Link
-                    to={`/blog/${post.id}`}
-                    className={`flex items-center gap-1 text-sm font-medium transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-blue-600 hover:text-blue-500'}`}
-                  >
-                    Read more <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            </article>
+            <Link key={post.id} to={`/blog/${post.id}`} className="group block">
+              <Frame kind="wood" className="g-hang aspect-[2/1]" matClassName="!p-0">
+                {post.cover
+                  ? <img src={post.cover} alt="" loading="lazy" className="g-art g-art-cover" style={{ background: post.coverTint }} />
+                  : <div className="w-full h-full" style={{ background: post.coverTint ?? 'var(--wall-2)' }} />}
+              </Frame>
+              <p className="g-label mt-5">{post.date} · {post.readTime}</p>
+              <h3 className="g-display text-[1.9rem] g-ink leading-tight mt-1 group-hover:text-[var(--blue)] transition-colors">{post.title}</h3>
+              <p className="g-serif g-soft leading-relaxed mt-2 line-clamp-3">{post.excerpt}</p>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="text-center py-12">
-        <h2 className={`text-3xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Let's Connect</h2>
-        <p className={`mb-8 max-w-md mx-auto ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
-          Open to collaborate. Just ping me.
-        </p>
-        <Link
-          to="/contact"
-          className={`inline-flex items-center gap-2 px-8 py-3 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl ${isMatrix ? 'bg-accent-700 hover:bg-accent-600' : 'bg-blue-600 hover:bg-blue-700'}`}
-        >
-          <Calendar className="w-5 h-5" />
-          Get in Touch
+      {/* ---------- Exit: guestbook ---------- */}
+      <section className="text-center py-6">
+        <p className="g-divider max-w-md mx-auto mb-8"><span>✦</span></p>
+        <h2 className="g-display text-[2.6rem] sm:text-[3.2rem] g-ink">Sign the guestbook</h2>
+        <p className="g-serif g-soft text-lg mt-3 max-w-md mx-auto">Open to collaborate. Just ping me.</p>
+        <Link to="/contact" className="g-btn g-btn-solid mt-8">
+          <Calendar className="w-4 h-4" /> Get in touch
         </Link>
       </section>
     </div>

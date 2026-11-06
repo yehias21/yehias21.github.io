@@ -13,15 +13,15 @@ import fedsecaggImg from '../assets/projects/fedsecagg.svg';
 import arabicColbertImg from '../assets/projects/arabic_colbert.png';
 
 // Gallery images
-import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.png';
-import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.png';
-import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.png';
-import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.png';
-import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.png';
-import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.png';
-import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.png';
-import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.png';
-import nicholasLanePhoto from '../assets/gallery/nicholas-lane-iclr-rio.png';
+import yannLeCunPhoto from '../assets/gallery/yann-lecun-iclr-rio.webp';
+import charlotteBunnePhoto from '../assets/gallery/charlotte-bunne-neurips-sandiego.webp';
+import lexFridmanPhoto from '../assets/gallery/lex-fridman-neurips-sandiego.webp';
+import jamesGatesPhoto from '../assets/gallery/sylvester-james-gates-mbzuai.webp';
+import careyBunksPhoto from '../assets/gallery/carey-bunks-eeml-bosnia.webp';
+import courvilleBengioPhoto from '../assets/gallery/aaron-courville-samy-bengio-eeml-bosnia.webp';
+import ivanVulicPhoto from '../assets/gallery/ivan-vulic-m2l-split-croatia.webp';
+import jessicaHamrickPhoto from '../assets/gallery/jessica-hamrick-m2l-split-croatia.webp';
+import nicholasLanePhoto from '../assets/gallery/nicholas-lane-iclr-rio.webp';
 
 // Blog markdown files (raw imports)
 import oilGasMd from '../blog/oil-gas-drilling-fundamentals.md?raw';
@@ -312,7 +312,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: kalmanFiltersMd,
     tags: ["Mathematics", "State Estimation", "Time Series", "Robotics"],
     cover: "/blog/kalman_cover.svg",
-    coverTint: "#d7dccf"
+    coverTint: "#2a4a8a"
   },
   {
     id: "oil-gas-drilling-fundamentals",
@@ -352,7 +352,7 @@ export const IDEAS: Idea[] = [];
 // To add a photo:
 //   1. Drop the image file into src/assets/gallery/.
 //   2. Import it at the top of this file, e.g.:
-//        import elonPhoto from '../assets/gallery/elon-musk.png';
+//        import elonPhoto from '../assets/gallery/elon-musk.webp';
 //   3. Add an entry to the array below, e.g.:
 //        { id: "cg1", src: elonPhoto, caption: "With Elon Musk — Dubai, 2025" }
 //

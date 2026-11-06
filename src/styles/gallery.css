@@ -1,0 +1,232 @@
+/* Painterly gallery: the site as a small exhibition.
+   Warm plaster walls by day, a Starry Night blue room by night. Headings are
+   gallery room signs, images hang in frames with mats, and text sits on
+   museum placards. Everything is driven by the custom properties below, so
+   dark mode is a token swap (the layout adds `.dark` to the wall). */
+
+.g-wall {
+  --wall:      #f5f3ee;
+  --wall-2:    #ebe8e1;
+  --ink:       #141823;
+  --ink-soft:  #3b4150;
+  --muted:     #687083;
+  --rule:      rgba(24, 36, 70, .16);
+  --mat:       #faf8f2;
+  --placard:   rgba(255, 255, 255, .93);
+  --blue:      #1f3c78;   /* Prussian blue from the Starry Night sky */
+  --blue-soft: #e2e8f5;
+  --gold:      #d9a521;   /* chrome yellow, the stars and the wheat */
+  --gold-ink:  #8a6510;
+  --wood:      #3a2b1e;
+  --shadow:    0 22px 40px -22px rgba(10,20,45,.55), 0 4px 10px -4px rgba(10,20,45,.25);
+  --veil-a:    rgba(245, 243, 238, .50);
+  --veil-b:    rgba(245, 243, 238, .80);
+
+  --g-display: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --g-serif:   'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --g-sans:    'Instrument Sans Variable', 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --g-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  color: var(--ink);
+  font-family: var(--g-sans);
+}
+
+.dark .g-wall, .g-wall.dark {
+  --wall:      #0d1220;
+  --wall-2:    #141b2e;
+  --ink:       #eef0f6;
+  --ink-soft:  #c5cad7;
+  --muted:     #8b93a6;
+  --rule:      rgba(255, 255, 255, .12);
+  --mat:       #e4dfd2;
+  --placard:   rgba(15, 21, 37, .92);
+  --blue:      #9db4ef;
+  --blue-soft: #1f2b4a;
+  --gold:      #f0c24b;
+  --gold-ink:  #f3cd6a;
+  --wood:      #0b0c10;
+  --shadow:    0 22px 44px -22px rgba(0,0,0,.85), 0 4px 12px -4px rgba(0,0,0,.6);
+  --veil-a:    rgba(9, 13, 26, .50);
+  --veil-b:    rgba(9, 13, 26, .80);
+}
+
+/* The painting: fixed behind everything (a fixed element, not
+   background-attachment: fixed, which breaks on iOS), with a veil on top so
+   text stays readable while the brushwork still shows at the edges. */
+.g-painting {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-size: cover; background-position: center;
+}
+.g-veil {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 75% 85% at 50% 45%, var(--veil-b) 0%, var(--veil-b) 45%, var(--veil-a) 100%);
+}
+
+/* ---- Type ---------------------------------------------------------- */
+.g-display { font-family: var(--g-display); font-weight: 600; letter-spacing: -0.01em; line-height: 1.02; }
+.g-serif   { font-family: var(--g-serif); }
+.g-sans    { font-family: var(--g-sans); }
+.g-mono    { font-family: var(--g-mono); }
+.g-ink     { color: var(--ink); }
+.g-soft    { color: var(--ink-soft); }
+.g-muted   { color: var(--muted); }
+.g-blue    { color: var(--blue); }
+.g-gold    { color: var(--gold-ink); }
+.g-rule    { border-color: var(--rule); }
+
+/* Small caps label used for room numbers, dates and placard meta. */
+.g-label {
+  font-family: var(--g-sans);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Room header (section title) ---------------------------------- */
+.g-room { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.g-room-title {
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  line-height: 1;
+  color: var(--ink);
+  position: relative;
+  padding-bottom: .35em;
+}
+/* A single dry brush stroke under each room title. */
+.g-room-title::after {
+  content: '';
+  position: absolute; left: -.1em; bottom: 0;
+  width: 3.2em; height: .32em;
+  background: var(--gold);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 30' preserveAspectRatio='none'%3E%3Cpath d='M4 18c40-9 85-12 140-10 50 2 95 4 152-3 3 4 1 9-3 11-58 8-104 6-152 5-48-1-92 0-133 7-5 1-8-6-4-10z' fill='%23000'/%3E%3Cpath d='M30 24c60-5 120-3 200-4' stroke='%23000' stroke-width='2' opacity='.5' fill='none'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 30' preserveAspectRatio='none'%3E%3Cpath d='M4 18c40-9 85-12 140-10 50 2 95 4 152-3 3 4 1 9-3 11-58 8-104 6-152 5-48-1-92 0-133 7-5 1-8-6-4-10z' fill='%23000'/%3E%3Cpath d='M30 24c60-5 120-3 200-4' stroke='%23000' stroke-width='2' opacity='.5' fill='none'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: .85;
+}
+.g-room-sub { font-family: var(--g-serif); font-style: italic; color: var(--ink-soft); margin-top: .6rem; }
+
+/* ---- Frames --------------------------------------------------------- */
+/* Gilded frame for the portrait and featured works. */
+.g-frame-gold {
+  padding: 12px;
+  background:
+    linear-gradient(135deg, #7d5b1f 0%, #e6c36d 18%, #a37a2c 36%, #f3dc95 52%, #9a7128 70%, #e3bf66 86%, #6f4f18 100%);
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.35), inset 0 0 0 4px rgba(0,0,0,.12);
+  border-radius: 3px;
+}
+/* Dark wood frame for project and gallery images. */
+.g-frame-wood {
+  padding: 8px;
+  background: linear-gradient(160deg, #4a3826, var(--wood) 55%, #24180e);
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.08);
+  border-radius: 2px;
+}
+.dark .g-frame-wood { background: linear-gradient(160deg, #2a2016, #0b0c10 60%); }
+/* The mat (passe-partout) inside any frame. */
+.g-mat {
+  background: var(--mat);
+  padding: clamp(10px, 2.2vw, 22px);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), inset 0 4px 10px rgba(0,0,0,.14);
+}
+.g-mat-tight { padding: 10px; }
+.g-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+.g-art-cover { object-fit: cover; }
+
+/* Hover: the work lifts a little off the wall. */
+.g-hang { transition: transform .35s ease, box-shadow .35s ease; }
+.g-hang:hover { transform: translateY(-3px) rotate(-.25deg); }
+
+/* ---- Placard (museum label) ---------------------------------------- */
+.g-placard {
+  background: var(--placard);
+  border: 1px solid var(--rule);
+  box-shadow: 0 10px 22px -18px rgba(40,30,15,.55);
+  border-radius: 2px;
+}
+.dark .g-placard { box-shadow: 0 12px 26px -18px rgba(0,0,0,.9); }
+.g-placard-title { font-family: var(--g-serif); font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+/* ---- Buttons, chips, links ----------------------------------------- */
+.g-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--g-sans); font-size: .82rem; font-weight: 600; letter-spacing: .04em;
+  padding: .55rem 1rem; border-radius: 999px;
+  border: 1px solid var(--ink); color: var(--ink); background: transparent;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.g-btn:hover { background: var(--ink); color: var(--wall); }
+.g-btn-solid { background: var(--blue); border-color: var(--blue); color: #fff; }
+.dark .g-btn-solid { color: #12151f; }
+.g-btn-solid:hover { background: var(--ink); border-color: var(--ink); color: var(--wall); }
+.g-btn-sm { padding: .35rem .75rem; font-size: .76rem; }
+
+.g-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.6rem; height: 2.6rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink-soft); background: var(--placard);
+  transition: color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.g-icon-btn:hover { color: var(--blue); border-color: var(--blue); transform: translateY(-1px); }
+
+.g-chip {
+  display: inline-flex; align-items: center;
+  font-family: var(--g-sans); font-size: .72rem; font-weight: 500;
+  padding: .18rem .6rem; border-radius: 999px;
+  background: var(--blue-soft); color: var(--blue);
+}
+.g-chip-outline { background: transparent; border: 1px solid var(--rule); color: var(--ink-soft); }
+button.g-chip { transition: filter .15s ease; }
+button.g-chip:hover { filter: brightness(.95); }
+.g-chip-active { background: var(--blue); color: #fff; }
+.dark .g-chip-active { color: #12151f; }
+
+.g-link {
+  color: var(--ink);
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+  text-decoration-color: var(--gold);
+  transition: color .15s ease;
+}
+.g-link:hover { color: var(--blue); }
+.g-arrow-link { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--g-sans); font-size: .85rem; font-weight: 600; color: var(--blue); }
+.g-arrow-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---- Wall text timeline (news, experience) ------------------------- */
+.g-timeline { position: relative; padding-left: 1.6rem; }
+.g-timeline::before { content: ''; position: absolute; left: .32rem; top: .4rem; bottom: .4rem; width: 1px; background: var(--rule); }
+.g-dot { position: absolute; left: -1.6rem; top: .45rem; width: .7rem; height: .7rem; border-radius: 999px; background: var(--gold); box-shadow: 0 0 0 4px var(--wall); }
+
+/* ---- Painted swatch: an image clipped to a brush stroke ------------ */
+.g-swatch {
+  background-image: var(--painting); background-size: cover; background-position: center;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500' preserveAspectRatio='none'%3E%3Cpath d='M58 92C120 30 236 18 338 26c96 8 186 28 226 96 36 62 22 132 8 196-14 66-46 128-118 150-84 26-176 18-262 8-74-8-150-34-178-102C-6 306 6 226 18 172c8-34 18-58 40-80z' fill='%23000'/%3E%3Cpath d='M20 120c30-20 50-40 90-56' stroke='%23000' stroke-width='14' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500' preserveAspectRatio='none'%3E%3Cpath d='M58 92C120 30 236 18 338 26c96 8 186 28 226 96 36 62 22 132 8 196-14 66-46 128-118 150-84 26-176 18-262 8-74-8-150-34-178-102C-6 306 6 226 18 172c8-34 18-58 40-80z' fill='%23000'/%3E%3Cpath d='M20 120c30-20 50-40 90-56' stroke='%23000' stroke-width='14' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+/* A thin rule with a centered ornament between rooms. */
+.g-divider { display: flex; align-items: center; gap: 1rem; color: var(--gold); }
+.g-divider::before, .g-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* Navbar, shared by every page. */
+.g-nav-link {
+  position: relative;
+  font-family: var(--g-sans); font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: .5rem .55rem;
+}
+.g-nav-link::after {
+  content: ''; position: absolute; left: .55rem; right: .55rem; bottom: .15rem; height: 2px;
+  background: var(--gold, #c9952b); transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+}
+.g-nav-link:hover::after, .g-nav-link[aria-current='page']::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .g-hang, .g-hang:hover { transform: none; }
+}
+
+/* Phones: text spans the full width, so the veil is even across the screen. */
+@media (max-width: 640px) {
+  .g-veil { background: var(--veil-b); }
+  .g-wall { --veil-b: rgba(245, 243, 238, .86); }
+  .dark .g-wall, .g-wall.dark { --veil-b: rgba(9, 13, 26, .86); }
+}

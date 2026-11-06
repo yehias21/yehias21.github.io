@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } f
 import { ThemeMode } from './types';
 import { PROFILE } from './data/content';
 import brainIcon from './assets/figures/brain-icon.png';
-import starryNightBg from './assets/figures/starry-night.jpg';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
 import Publications from './pages/Publications';
@@ -13,7 +12,9 @@ import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Travel from './pages/Travel';
 import Gallery from './pages/Gallery';
-import { User, BookOpen, Briefcase, FileText, Calendar, Menu, X, Github, Linkedin, GraduationCap, Sun, Moon, Home, Plane, Camera } from 'lucide-react';
+import { Menu, X, Github, Linkedin, GraduationCap, Sun, Moon } from 'lucide-react';
+import './styles/gallery.css';
+import { PAINTINGS, pickPainting } from './data/paintings';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -94,117 +95,100 @@ const shortName = nameParts.length > 2 ? `${nameParts[0]} ${nameParts[nameParts.
 const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleTheme: () => void }> = ({ children, theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  // A different Van Gogh on every visit; the footer button shuffles it.
+  const [paintingIdx, setPaintingIdx] = useState(pickPainting);
+  const painting = PAINTINGS[paintingIdx];
+  const shufflePainting = () => setPaintingIdx(i => (i + 1 + Math.floor(Math.random() * (PAINTINGS.length - 1))) % PAINTINGS.length);
   const isMatrix = theme === ThemeMode.MATRIX;
-  // Blog routes use a plain paper background (no painting behind the text)
-  // so long-form reading stays high contrast.
   const isBlog = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
-  const paper = isMatrix ? '#1a1918' : '#faf9f5';
+  const wall = isMatrix ? '#0d1220' : '#f5f3ee';
 
-  // Sync the html/body background to the current theme. Without this, iOS
-  // Safari's fast-scroll repaints (and rubber-band overscroll) flash the
-  // body's static stone-50 through in dark mode, which reads as a brief
-  // white box.
+  // Sync the html/body background to the current wall color so iOS overscroll
+  // and fast-scroll repaints never flash a different color.
   useEffect(() => {
-    const bg = isBlog ? paper : isMatrix ? '#020617' : '#fafaf9';
-    const fg = isMatrix ? '#f1f5f9' : '#0f172a';
-    document.documentElement.style.backgroundColor = bg;
-    document.body.style.backgroundColor = bg;
-    document.body.style.color = fg;
-    // Disable iOS rubber-band so even if a flash slipped through, it doesn't
-    // expose anything below.
+    document.documentElement.style.backgroundColor = wall;
+    document.body.style.backgroundColor = wall;
+    document.body.style.color = isMatrix ? '#eef0f6' : '#141823';
     document.documentElement.style.overscrollBehavior = 'none';
     document.body.style.overscrollBehavior = 'none';
-  }, [isMatrix, isBlog, paper]);
+  }, [isMatrix, wall]);
+
+  useEffect(() => { setIsMobileMenuOpen(false); }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Home', path: '/home', icon: <Home className="w-4 h-4" /> },
-    { name: 'About', path: '/about', icon: <User className="w-4 h-4" /> },
-    { name: 'Publications', path: '/publications', icon: <BookOpen className="w-4 h-4" /> },
-    { name: 'Projects', path: '/projects', icon: <Briefcase className="w-4 h-4" /> },
-    { name: 'Blog', path: '/blog', icon: <FileText className="w-4 h-4" /> },
-    { name: 'Travel', path: '/travel', icon: <Plane className="w-4 h-4" /> },
-    { name: 'Gallery', path: '/gallery', icon: <Camera className="w-4 h-4" /> },
-    { name: 'Contact', path: '/contact', icon: <Calendar className="w-4 h-4" /> },
+    { name: 'Home', path: '/home' },
+    { name: 'About', path: '/about' },
+    { name: 'Publications', path: '/publications' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Travel', path: '/travel' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Contact', path: '/contact' },
   ];
-
-  // Light/dark base colors as RGBA so we can stack a translucent veil
-  // on top of the starry-night image (image as bg-image of the wrapper).
-  const veil = isMatrix
-    ? 'rgba(2,6,23,0.86)'        // slate-950 cool veil for dark mode
-    : 'rgba(250,250,249,0.82)';  // stone-50 tinted veil for light mode
+  const isActive = (path: string) => location.pathname === path || (path === '/blog' && isBlog);
 
   return (
     <div
-      className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? `dark ${isBlog ? '' : 'font-mono'} text-slate-100` : 'text-slate-900'}`}
-      style={isBlog ? { backgroundColor: paper } : {
-        backgroundImage: `linear-gradient(${veil}, ${veil}), url(${starryNightBg})`,
-        // Per-layer sizing: the veil gradient still covers the whole page,
-        // while the starry-night image is zoomed out to 60% width. Lower the
-        // percentage to zoom out further, raise it to zoom back in.
-        backgroundSize: 'cover, 60%',
-        backgroundPosition: 'center center',
-        // 'fixed' is broken on iOS Safari and was the source of the white
-        // flash on fast scroll. 'scroll' (the default) renders reliably and
-        // the image just scrolls with the page — acceptable trade-off.
-        backgroundAttachment: 'scroll',
-        // Veil never repeats; the zoomed-out image tiles to fill the page
-        // (the heavy veil opacity hides the seams).
-        backgroundRepeat: 'no-repeat, repeat',
-      }}
+      className={`g-wall min-h-screen relative flex flex-col ${isMatrix ? 'dark' : ''}`}
+      style={{ ['--painting' as any]: `url(${painting.src})` }}
     >
+      <div className="g-painting" style={{ backgroundImage: `url(${painting.src})` }} aria-hidden="true" />
+      <div className="g-veil" aria-hidden="true" />
+
       {/* Navbar */}
-      <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isBlog ? (isMatrix ? 'bg-[#1a1918]/90 border-[#2e2d2b]' : 'bg-[#faf9f5]/90 border-[#e8e6dc]') : isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
+      <nav
+        className="sticky top-0 z-40 w-full border-b g-rule backdrop-blur-md"
+        style={{ background: isMatrix ? 'rgba(13,18,32,.86)' : 'rgba(245,243,238,.86)' }}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between gap-6 h-16 items-center">
-            <Link to="/home" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
-              <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-accent-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
-                <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
+            <Link to="/home" className="flex items-center gap-3 g-ink">
+              <span className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center bg-black ring-2 ring-[var(--gold)] ring-offset-2 ring-offset-[var(--wall)]">
+                <img src={brainIcon} alt="" className="w-full h-full object-cover" />
               </span>
-              {/* Full name only where it fits on one line; a short form elsewhere. */}
-              <span className="hidden 2xl:inline whitespace-nowrap tracking-tight">{PROFILE.name}</span>
-              <span className="hidden sm:inline 2xl:hidden whitespace-nowrap tracking-tight">{shortName}</span>
+              <span className="hidden 2xl:inline whitespace-nowrap g-display text-[1.45rem]">{PROFILE.name}</span>
+              <span className="hidden sm:inline 2xl:hidden whitespace-nowrap g-display text-[1.45rem]">{shortName}</span>
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center space-x-1">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
-                  aria-current={location.pathname === link.path ? 'page' : undefined}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
-                    location.pathname === link.path
-                      ? isMatrix ? 'bg-accent-900/30 text-accent-400' : 'bg-blue-100 text-blue-600'
-                      : isMatrix ? 'text-slate-400 hover:text-accent-300' : 'text-slate-600 hover:text-blue-600'
-                  }`}
+                  aria-current={isActive(link.path) ? 'page' : undefined}
+                  className={`g-nav-link transition-colors ${isActive(link.path) ? 'g-ink' : 'g-muted hover:text-[var(--ink)]'}`}
                 >
-                  <span className="hidden xl:inline-flex">{link.icon}</span>
                   {link.name}
                 </Link>
               ))}
-              <div className={`h-6 w-px mx-2 ${isMatrix ? 'bg-slate-700' : 'bg-slate-200'}`}></div>
+              <span className="h-6 w-px mx-3 bg-[var(--rule)]" />
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-accent-500 hover:bg-accent-900/20' : 'text-slate-600 hover:bg-slate-100'}`}
-                title={isMatrix ? 'Switch to Day Mode' : 'Switch to Night Mode'}
+                className="g-icon-btn !w-9 !h-9"
+                title={isMatrix ? 'Switch to day gallery' : 'Switch to night gallery'}
+                aria-label={isMatrix ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {isMatrix ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                {isMatrix ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="lg:hidden flex items-center gap-4">
+            {/* Mobile controls */}
+            <div className="lg:hidden flex items-center gap-3">
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-accent-500' : 'text-slate-600'}`}
+                className="g-icon-btn !w-9 !h-9"
+                aria-label={isMatrix ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {isMatrix ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                {isMatrix ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`${isMatrix ? 'text-slate-300 hover:text-slate-100' : 'text-slate-600 hover:text-slate-900'}`}
+                className="g-icon-btn !w-9 !h-9"
+                aria-label="Menu"
+                aria-expanded={isMobileMenuOpen}
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -212,21 +196,15 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
 
         {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className={`lg:hidden border-b animate-in slide-in-from-top-2 ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="lg:hidden border-t g-rule" style={{ background: 'var(--wall)' }}>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 grid grid-cols-2 gap-x-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
-                  aria-current={location.pathname === link.path ? 'page' : undefined}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${
-                    location.pathname === link.path
-                      ? isMatrix ? 'bg-accent-900/30 text-accent-400' : 'bg-blue-100 text-blue-600'
-                      : isMatrix ? 'text-slate-400 hover:text-accent-300' : 'text-slate-600 hover:text-blue-600'
-                  }`}
+                  aria-current={isActive(link.path) ? 'page' : undefined}
+                  className={`g-display text-2xl py-2 border-b g-rule ${isActive(link.path) ? 'g-blue' : 'g-ink'}`}
                 >
-                  {link.icon}
                   {link.name}
                 </Link>
               ))}
@@ -236,18 +214,27 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       </nav>
 
       {/* Main Content */}
-      <main className={`flex-grow z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 ${isBlog ? 'max-w-6xl' : 'max-w-5xl'}`}>
+      <main className="relative flex-grow z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isBlog ? (isMatrix ? 'text-[#8a8780] border-[#2e2d2b]' : 'text-[#87867f] border-[#e8e6dc]') : isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-500 border-slate-200'}`}>
-        <div className="flex justify-center gap-6 mb-4">
-          {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
-          {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}
-          {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><GraduationCap className="w-5 h-5"/></a>}
+      <footer className="relative z-10 pt-10 pb-10 mt-16 border-t g-rule" style={{ background: isMatrix ? 'rgba(13,18,32,.9)' : 'rgba(245,243,238,.9)' }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="g-display text-xl g-ink">{PROFILE.name}</p>
+          <div className="flex gap-3">
+            {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className="g-icon-btn"><Github className="w-4 h-4"/></a>}
+            {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className="g-icon-btn"><Linkedin className="w-4 h-4"/></a>}
+            {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className="g-icon-btn"><GraduationCap className="w-4 h-4"/></a>}
+          </div>
+          <p className="g-label">&copy; {new Date().getFullYear()}</p>
         </div>
-        <p>&copy; {new Date().getFullYear()} {PROFILE.name}</p>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
+          <span className="g-serif italic g-soft text-sm">
+            On the wall: Vincent van Gogh, <span className="g-ink">{painting.title}</span> ({painting.year})
+          </span>
+          <button onClick={shufflePainting} className="g-btn g-btn-sm">Next painting</button>
+        </div>
       </footer>
     </div>
   );

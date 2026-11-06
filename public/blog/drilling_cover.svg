@@ -9,11 +9,11 @@
   <path d="M280 150 L320 20 L360 150" fill="none" stroke="#141413" stroke-width="4"/>
   <path d="M292 110 H348 M304 70 H336" stroke="#141413" stroke-width="3"/>
   <rect x="314" y="150" width="12" height="380" fill="#141413"/>
-  <path d="M308 530 L332 530 L320 560Z" fill="#d97757"/>
+  <path d="M308 530 L332 530 L320 560Z" fill="#e3b23c"/>
   <!-- sensor panel -->
   <rect x="640" y="0" width="560" height="600" fill="#141413"/>
   <g fill="none" stroke-width="3">
-    <path d="M680 110 L740 110 L760 70 L790 140 L820 100 L900 100 L920 80 L960 125 L1040 108 L1090 108 L1110 75 L1160 112" stroke="#d97757"/>
+    <path d="M680 110 L740 110 L760 70 L790 140 L820 100 L900 100 L920 80 L960 125 L1040 108 L1090 108 L1110 75 L1160 112" stroke="#e3b23c"/>
     <path d="M680 230 C 720 200, 760 260, 800 230 S 880 200, 920 230 S 1000 260, 1040 230 S 1120 200, 1160 230" stroke="#e3dacb"/>
     <path d="M680 350 H800 V310 H900 V370 H1010 V330 H1160" stroke="#9fb08c"/>
     <path d="M680 480 L760 470 L830 440 L900 450 L980 400 L1060 410 L1160 360" stroke="#e3dacb" stroke-dasharray="8 7"/>
