@@ -4,6 +4,7 @@ import { ThemeMode } from '../types';
 import { BLOG_POSTS, IDEAS } from '../data/content';
 import IdeaGarden from '../components/IdeaGarden';
 import '../styles/markdown.css';
+import { Room } from '../components/GalleryUI';
 
 interface BlogProps {
   theme: ThemeMode;
@@ -26,10 +27,10 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
 
   const subtitle =
     tab === 'posts'
-      ? 'collects long form notes on research, ML fundamentals, and the messy industrial datasets I care about.'
+      ? 'Research topics and some scattered midnight ideas.'
       : tab === 'ideas'
-        ? 'also keeps an idea garden: dated, half formed research directions I want to explore.'
-        : 'also records business and product concepts, each dated, authored, and protected.';
+        ? 'An idea garden: dated, half formed research directions I want to explore.'
+        : 'Business and product concepts, each dated, authored, and protected.';
 
   const [featured, ...rest] = BLOG_POSTS;
 
@@ -43,16 +44,10 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
 
   return (
     <div className={`blog-article blog-sheet mt-10 ${isMatrix ? 'theme-dark' : ''}`}>
-      {/* Intro statement: bold sans lead-in running into a serif sentence. */}
-      <header className="max-w-4xl">
-        <p className="text-[1.75rem] sm:text-[2.25rem] leading-[1.25] blog-muted">
-          <span className="blog-title blog-ink">The Blog</span>{' '}
-          <span className="blog-serif">{subtitle}</span>
-        </p>
-      </header>
+      <Room as="h1" label="The reading room" title="Blog" sub={subtitle} />
 
       {/* Tabs: Posts · Ideas · Business */}
-      <div className="flex gap-6 mt-14 border-b blog-rule">
+      <div className="flex gap-6 mt-2 border-b blog-rule">
         {tabs.map(t => {
           const active = tab === t.key;
           return (
@@ -81,20 +76,20 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
               <Hero post={featured} />
               <div>
                 <p className="blog-meta text-sm">{featured.date} · {featured.readTime}</p>
-                <h2 className="blog-title blog-card-title text-[1.75rem] sm:text-[2.1rem] mt-3">{featured.title}</h2>
+                <h2 className="blog-title blog-card-title text-[2.1rem] sm:text-[2.6rem] mt-3">{featured.title}</h2>
                 <p className="blog-serif blog-muted text-[1.1rem] leading-relaxed mt-4">{featured.excerpt}</p>
               </div>
             </Link>
 
             {rest.length > 0 && (
               <>
-                <h3 className="text-sm font-semibold blog-ink mt-20 mb-6 pb-3 border-b blog-rule">More posts</h3>
+                <h3 className="blog-meta mt-20 mb-6 pb-3 border-b blog-rule">More posts</h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                   {rest.map(post => (
                     <Link key={post.id} to={`/blog/${post.id}`} className="blog-card group block">
                       <Hero post={post} />
                       <p className="blog-meta text-sm mt-4">{post.date} · {post.readTime}</p>
-                      <h2 className="blog-title blog-card-title text-xl mt-2">{post.title}</h2>
+                      <h2 className="blog-title blog-card-title text-[1.6rem] mt-2">{post.title}</h2>
                       <p className="blog-serif blog-muted leading-relaxed mt-2 line-clamp-3">{post.excerpt}</p>
                     </Link>
                   ))}

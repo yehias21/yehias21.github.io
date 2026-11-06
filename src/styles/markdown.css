@@ -15,6 +15,7 @@
   --blog-accent:   #1f3c78;
   --blog-sans:  'Instrument Sans Variable', 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --blog-serif: 'Source Serif 4 Variable', 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --blog-display: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
   --blog-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -46,10 +47,14 @@
 .blog-rule  { border-color: var(--blog-rule); }
 .blog-panel { background: var(--blog-panel); }
 
-/* Small sans dateline used across the blog and the idea garden. */
+/* Small caps dateline, the same museum label style as the rest of the site. */
 .blog-meta {
   font-family: var(--blog-sans);
   font-style: normal;
+  font-size: .72rem !important;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
   color: var(--blog-faint);
 }
 
@@ -58,10 +63,10 @@
 
 /* ---- Post header -------------------------------------------------- */
 .blog-title {
-  font-family: var(--blog-sans);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.12;
+  font-family: var(--blog-display);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.05;
   color: var(--blog-ink);
 }
 
@@ -91,8 +96,8 @@
 /* ---- Prose body ---------------------------------------------------- */
 .prose {
   font-family: var(--blog-serif);
-  font-size: 1.125rem;
-  line-height: 1.65;
+  font-size: 1.1rem;
+  line-height: 1.75;
   font-weight: 400;
   color: var(--blog-ink);
   font-optical-sizing: auto;
@@ -101,19 +106,23 @@
 .prose p { margin: 0 0 1.4rem; }
 
 .prose h1,
-.prose h2,
-.prose h3,
-.prose h4 {
-  font-family: var(--blog-sans);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+.prose h2 {
+  font-family: var(--blog-display);
+  font-weight: 600;
+  line-height: 1.15;
   color: var(--blog-ink);
 }
-.prose h1 { font-size: 2rem;     margin: 3.5rem 0 1rem; }
-.prose h2 { font-size: 1.625rem; margin: 3.5rem 0 1rem; }
-.prose h3 { font-size: 1.2rem;   margin: 2.5rem 0 0.75rem; font-weight: 600; }
-.prose h4 { font-size: 1.05rem;  margin: 2rem 0 0.5rem; font-weight: 600; }
+.prose h3,
+.prose h4 {
+  font-family: var(--blog-serif);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--blog-ink);
+}
+.prose h1 { font-size: 2.5rem;   margin: 3.5rem 0 1rem; }
+.prose h2 { font-size: 2.1rem;   margin: 3.5rem 0 .9rem; }
+.prose h3 { font-size: 1.2rem;   margin: 2.4rem 0 .6rem; }
+.prose h4 { font-size: 1.05rem;  margin: 2rem 0 .5rem; }
 .prose > h2:first-child, .prose > h3:first-child { margin-top: 0; }
 
 .prose ul,
@@ -179,8 +188,8 @@
   width: 100%;
   margin: 2rem 0;
   border-collapse: collapse;
-  font-family: var(--blog-sans);
-  font-size: 0.92rem;
+  font-family: var(--blog-serif);
+  font-size: 0.95rem;
   display: block;
   overflow-x: auto;
 }

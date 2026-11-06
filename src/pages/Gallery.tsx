@@ -95,26 +95,35 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
         </div>
       ) : (
         <div className="relative">
-          <div className={`columns-2 lg:columns-3 gap-6 sm:gap-10 transition-[filter] duration-150 ${shielded ? 'blur-2xl pointer-events-none' : ''}`}>
-            {GALLERY.map((item, idx) => (
-              <figure key={item.id} className="break-inside-avoid mb-10">
-                <button
-                  type="button"
-                  aria-label={item.caption}
-                  onClick={() => setActiveIdx(idx)}
-                  className={`block w-full g-hang ${idx % 4 === 0 ? 'g-frame-gold' : 'g-frame-wood'}`}
+          <div className={`flex flex-wrap gap-x-6 gap-y-8 sm:gap-x-8 transition-[filter] duration-150 ${shielded ? 'blur-2xl pointer-events-none' : ''}`}>
+            {GALLERY.map((item, idx) => {
+              const r = item.ratio ?? ratios[item.id] ?? 1;
+              return (
+                <figure
+                  key={item.id}
+                  className="flex flex-col"
+                  style={{ flexGrow: r, flexBasis: `${r * 15}rem`, maxWidth: `${r * 24}rem` }}
                 >
-                  <span className="g-mat g-mat-tight block">
-                    {/* Photo as a CSS background (no <img>), so there is no "Save image as". */}
-                    <span
-                      className="block w-full bg-center bg-cover"
-                      style={{ backgroundImage: `url(${item.src})`, aspectRatio: String(ratios[item.id] ?? 0.8) }}
-                    />
-                  </span>
-                </button>
-                <figcaption className="g-serif italic g-soft text-sm leading-snug mt-3 text-center px-1">{item.caption}</figcaption>
-              </figure>
-            ))}
+                  <button
+                    type="button"
+                    aria-label={item.caption}
+                    onClick={() => setActiveIdx(idx)}
+                    className={`block w-full g-hang ${idx % 4 === 0 ? 'g-frame-gold' : 'g-frame-wood'}`}
+                  >
+                    <span className="g-mat g-mat-tight block">
+                      {/* Photo as a CSS background (no <img>), so there is no "Save image as". */}
+                      <span
+                        className="block w-full bg-center bg-cover"
+                        style={{ backgroundImage: `url(${item.src})`, aspectRatio: String(r) }}
+                      />
+                    </span>
+                  </button>
+                  <figcaption className="g-serif italic g-soft text-sm leading-snug mt-3 text-center px-1">{item.caption}</figcaption>
+                </figure>
+              );
+            })}
+            {/* Keeps the last row from stretching its photos to full width. */}
+            <span aria-hidden="true" style={{ flexGrow: 10, flexBasis: 0 }} />
           </div>
           {shielded && (
             <div className="absolute inset-0 flex items-start justify-center pt-24">

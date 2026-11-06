@@ -18,7 +18,7 @@ export const pages = (): PageMeta[] => {
     ['/about', `About | ${NAME}`, 'Education, experience, awards, and academic service of Yahia Salaheldin Shaaban.'],
     ['/publications', `Publications | ${NAME}`, 'Papers on time-series foundation models, dynamical systems, routing benchmarks, and watermarking.'],
     ['/projects', `Projects | ${NAME}`, 'Research and engineering projects: HyperKKL, IndusTSLM, SVRPBench, watermark analysis, and more.'],
-    ['/blog', `Blog | ${NAME}`, 'Long form notes on research, ML fundamentals, and industrial datasets.'],
+    ['/blog', `Blog | ${NAME}`, 'Research topics and some scattered midnight ideas.'],
     ['/travel', `Travel | ${NAME}`, 'Places I have visited for conferences, summer schools, and life.'],
     ['/gallery', `Gallery | ${NAME}`, 'Photos with researchers and academics I have met.'],
     ['/contact', `Contact | ${NAME}`, 'Book a call or write to Yahia Salaheldin Shaaban.'],

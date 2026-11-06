@@ -225,22 +225,19 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
         {children}
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 pt-10 pb-10 mt-16 border-t g-rule" style={{ background: isMatrix ? 'rgba(13,18,32,.9)' : 'rgba(245,243,238,.9)' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="g-display text-xl g-ink">{PROFILE.name}</p>
-          <div className="flex gap-3">
-            {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className="g-icon-btn"><Github className="w-4 h-4"/></a>}
-            {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className="g-icon-btn"><Linkedin className="w-4 h-4"/></a>}
-            {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className="g-icon-btn"><GraduationCap className="w-4 h-4"/></a>}
-          </div>
-          <p className="g-label">&copy; {new Date().getFullYear()}</p>
-        </div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
-          <span className="g-serif italic g-soft text-sm">
-            On the wall: Vincent van Gogh, <span className="g-ink">{painting.title}</span> ({painting.year})
+      {/* Footer: one compact row (wraps on small screens) */}
+      <footer className="relative z-10 mt-12 border-t g-rule" style={{ background: isMatrix ? 'rgba(13,18,32,.9)' : 'rgba(245,243,238,.9)' }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs">
+          <span className="g-muted">&copy; {new Date().getFullYear()} {PROFILE.name}</span>
+          <span className="g-serif italic g-muted inline-flex items-center gap-2">
+            <span>On the wall: Van Gogh, <span className="g-soft">{painting.title}</span> ({painting.year})</span>
+            <button onClick={shufflePainting} className="g-link not-italic g-sans text-xs" title="Show another painting">Next</button>
           </span>
-          <button onClick={shufflePainting} className="g-btn g-btn-sm">Next painting</button>
+          <span className="flex items-center gap-1">
+            {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className="g-icon-btn !w-7 !h-7 !border-0 !bg-transparent"><Github className="w-3.5 h-3.5"/></a>}
+            {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className="g-icon-btn !w-7 !h-7 !border-0 !bg-transparent"><Linkedin className="w-3.5 h-3.5"/></a>}
+            {PROFILE.socials.scholar && <a aria-label="Google Scholar" href={PROFILE.socials.scholar} target="_blank" rel="noreferrer" className="g-icon-btn !w-7 !h-7 !border-0 !bg-transparent"><GraduationCap className="w-3.5 h-3.5"/></a>}
+          </span>
         </div>
       </footer>
     </div>

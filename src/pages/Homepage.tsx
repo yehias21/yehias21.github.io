@@ -282,7 +282,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
       {/* ---------- Room V: Writing ---------- */}
       <section>
-        <Room n={5} title="Writing" sub="Long form notes from the blog." to="/blog" />
+        <Room n={5} title="Writing" sub="Research topics and scattered midnight ideas." to="/blog" />
         <div className="grid md:grid-cols-2 gap-10">
           {BLOG_POSTS.slice(0, 2).map((post) => (
             <Link key={post.id} to={`/blog/${post.id}`} className="group block">

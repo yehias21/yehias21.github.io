@@ -233,10 +233,10 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
           <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 text-sm hover:underline underline-offset-4">
             <ArrowLeft className="w-3.5 h-3.5" /> Blog
           </Link>
-          <h1 className="blog-title text-[2.1rem] sm:text-[2.75rem] md:text-[3.25rem] max-w-3xl mx-auto mt-6">
+          <h1 className="blog-title text-[2.6rem] sm:text-[3.4rem] md:text-[4rem] max-w-3xl mx-auto mt-6">
             {post.title}
           </h1>
-          <p className="blog-meta text-sm mt-6">
+          <p className="blog-meta mt-6">
             Published {post.date}
             {post.updated && <> · Updated {post.updated}</>}
             {' · '}{post.readTime}
@@ -288,7 +288,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
 
           {/* Auto-generated citation footer. */}
           <section data-allow-copy className="blog-citation mt-10 pt-8 border-t blog-rule">
-            <h2 className="text-sm font-semibold blog-ink mb-3">Citation</h2>
+            <h2 className="blog-meta mb-3">Citation</h2>
             <p className="blog-serif text-[0.98rem] leading-relaxed blog-muted mb-4">
               Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
               <span className="italic">yehias21.github.io</span>.{' '}

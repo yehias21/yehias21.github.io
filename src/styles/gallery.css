@@ -230,3 +230,7 @@ button.g-chip:hover { filter: brightness(.95); }
   .g-wall { --veil-b: rgba(245, 243, 238, .86); }
   .dark .g-wall, .g-wall.dark { --veil-b: rgba(9, 13, 26, .86); }
 }
+
+/* Keyboard focus only: no outline box after a mouse click. */
+.g-wall a:focus:not(:focus-visible), .g-wall button:focus:not(:focus-visible) { outline: none; }
+.g-wall a:focus-visible, .g-wall button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }

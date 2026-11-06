@@ -93,6 +93,7 @@ export interface GalleryItem {
   id: string;
   src: string;
   caption: string;
+  ratio?: number;        // width / height, so frames fit without cropping
 }
 
 // A notable figure shared a room/event with — no photo, just the story.
