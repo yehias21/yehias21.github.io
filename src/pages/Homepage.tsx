@@ -471,15 +471,15 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                 <span className={`text-sm font-mono block ${isMatrix ? 'text-slate-500' : 'text-slate-500'}`}>{post.date}</span>
                 <span className={`text-xs block ${isMatrix ? 'text-slate-600' : 'text-slate-400'}`}>{post.readTime}</span>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0 w-full">
                 <h3 className={`text-xl font-bold mb-2 transition-colors ${isMatrix ? 'text-slate-100 group-hover:text-accent-400' : 'text-slate-900 group-hover:text-blue-600'}`}>
                   {post.title}
                 </h3>
                 <p className={`leading-relaxed mb-3 ${isMatrix ? 'text-slate-400' : 'text-slate-600'}`}>
                   {post.excerpt}
                 </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1">
                     {post.tags.map(tag => (
                       <span key={tag} className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-accent-600' : 'text-blue-600'}`}>#{tag}</span>
                     ))}

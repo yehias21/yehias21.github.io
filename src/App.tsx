@@ -87,6 +87,10 @@ const useContentProtection = () => {
 
 // --- Layout & Navigation ---
 
+// "Yahia Salaheldin Shaaban" -> "Yahia Shaaban" for narrower navbars.
+const nameParts = PROFILE.name.split(' ');
+const shortName = nameParts.length > 2 ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}` : PROFILE.name;
+
 const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleTheme: () => void }> = ({ children, theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -156,11 +160,13 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
               <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-accent-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
                 <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
-              <span className="hidden sm:inline tracking-tight">{PROFILE.name}</span>
+              {/* Full name only where it fits on one line; a short form elsewhere. */}
+              <span className="hidden xl:inline whitespace-nowrap tracking-tight">{PROFILE.name}</span>
+              <span className="hidden sm:inline xl:hidden whitespace-nowrap tracking-tight">{shortName}</span>
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -172,7 +178,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
                       : isMatrix ? 'text-slate-400 hover:text-accent-300' : 'text-slate-600 hover:text-blue-600'
                   }`}
                 >
-                  {link.icon}
+                  <span className="hidden xl:inline-flex">{link.icon}</span>
                   {link.name}
                 </Link>
               ))}
@@ -187,7 +193,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center gap-4">
+            <div className="lg:hidden flex items-center gap-4">
               <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-full transition-colors ${isMatrix ? 'text-accent-500' : 'text-slate-600'}`}
@@ -206,7 +212,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
 
         {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className={`md:hidden border-b animate-in slide-in-from-top-2 ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <div className={`lg:hidden border-b animate-in slide-in-from-top-2 ${isMatrix ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navLinks.map((link) => (
                 <Link
