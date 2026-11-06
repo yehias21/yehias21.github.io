@@ -155,14 +155,14 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       {/* Navbar */}
       <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isBlog ? (isMatrix ? 'bg-[#1a1918]/90 border-[#2e2d2b]' : 'bg-[#faf9f5]/90 border-[#e8e6dc]') : isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
+          <div className="flex justify-between gap-6 h-16 items-center">
             <Link to="/home" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
               <span className={`w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md ${isMatrix ? 'bg-black ring-1 ring-accent-600/40' : 'bg-black ring-1 ring-blue-600/30'}`}>
                 <img src={brainIcon} alt={PROFILE.name} className="w-full h-full object-cover" />
               </span>
               {/* Full name only where it fits on one line; a short form elsewhere. */}
-              <span className="hidden xl:inline whitespace-nowrap tracking-tight">{PROFILE.name}</span>
-              <span className="hidden sm:inline xl:hidden whitespace-nowrap tracking-tight">{shortName}</span>
+              <span className="hidden 2xl:inline whitespace-nowrap tracking-tight">{PROFILE.name}</span>
+              <span className="hidden sm:inline 2xl:hidden whitespace-nowrap tracking-tight">{shortName}</span>
             </Link>
 
             {/* Desktop Nav */}
