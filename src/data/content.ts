@@ -310,7 +310,9 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: "16 min read",
     excerpt: "Rebuilding the Kalman filter from the ground up: the predict-update rhythm, the Kalman gain as a dial between model and measurement, a worked tracking example, and the nonlinear extensions (EKF, UKF) you reach for in practice.",
     content: kalmanFiltersMd,
-    tags: ["Mathematics", "State Estimation", "Time Series", "Robotics"]
+    tags: ["Mathematics", "State Estimation", "Time Series", "Robotics"],
+    cover: "/blog/kalman_cover.svg",
+    coverTint: "#d7dccf"
   },
   {
     id: "oil-gas-drilling-fundamentals",
@@ -319,7 +321,9 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: "18 min read",
     excerpt: "A field guide to drilling operations, sensors, and why this domain is such a rich testbed for time-series foundation models: drawn from my M.Sc. thesis on IndusTSLM with AIQ Intelligence.",
     content: oilGasMd,
-    tags: ["Oil & Gas", "Time Series", "Multimodal", "Industry 4.0"]
+    tags: ["Oil & Gas", "Time Series", "Multimodal", "Industry 4.0"],
+    cover: "/blog/drilling_cover.svg",
+    coverTint: "#e3dacb"
   }
 ];
 

@@ -91,13 +91,17 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isMatrix = theme === ThemeMode.MATRIX;
+  // Blog routes use a plain paper background (no painting behind the text)
+  // so long-form reading stays high contrast.
+  const isBlog = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
+  const paper = isMatrix ? '#1a1918' : '#faf9f5';
 
   // Sync the html/body background to the current theme. Without this, iOS
   // Safari's fast-scroll repaints (and rubber-band overscroll) flash the
   // body's static stone-50 through in dark mode, which reads as a brief
   // white box.
   useEffect(() => {
-    const bg = isMatrix ? '#020617' : '#fafaf9';
+    const bg = isBlog ? paper : isMatrix ? '#020617' : '#fafaf9';
     const fg = isMatrix ? '#f1f5f9' : '#0f172a';
     document.documentElement.style.backgroundColor = bg;
     document.body.style.backgroundColor = bg;
@@ -106,7 +110,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     // expose anything below.
     document.documentElement.style.overscrollBehavior = 'none';
     document.body.style.overscrollBehavior = 'none';
-  }, [isMatrix]);
+  }, [isMatrix, isBlog, paper]);
 
   const navLinks = [
     { name: 'Home', path: '/home', icon: <Home className="w-4 h-4" /> },
@@ -127,8 +131,8 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
 
   return (
     <div
-      className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? 'dark font-mono text-slate-100' : 'text-slate-900'}`}
-      style={{
+      className={`min-h-screen relative flex flex-col transition-colors duration-300 ${isMatrix ? `dark ${isBlog ? '' : 'font-mono'} text-slate-100` : 'text-slate-900'}`}
+      style={isBlog ? { backgroundColor: paper } : {
         backgroundImage: `linear-gradient(${veil}, ${veil}), url(${starryNightBg})`,
         // Per-layer sizing: the veil gradient still covers the whole page,
         // while the starry-night image is zoomed out to 60% width. Lower the
@@ -145,7 +149,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       }}
     >
       {/* Navbar */}
-      <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
+      <nav className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300 ${isBlog ? (isMatrix ? 'bg-[#1a1918]/90 border-[#2e2d2b]' : 'bg-[#faf9f5]/90 border-[#e8e6dc]') : isMatrix ? 'bg-slate-950/70 border-slate-800' : 'bg-white/70 border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <Link to="/home" className={`text-lg font-bold flex items-center gap-2 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>
@@ -226,12 +230,12 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className={`flex-grow z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 ${isBlog ? 'max-w-6xl' : 'max-w-5xl'}`}>
         {children}
       </main>
 
       {/* Footer */}
-      <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-500 border-slate-200'}`}>
+      <footer className={`z-10 py-8 text-center text-sm border-t mt-12 ${isBlog ? (isMatrix ? 'text-[#8a8780] border-[#2e2d2b]' : 'text-[#87867f] border-[#e8e6dc]') : isMatrix ? 'text-slate-600 border-slate-800' : 'text-slate-500 border-slate-200'}`}>
         <div className="flex justify-center gap-6 mb-4">
           {PROFILE.socials.github && <a aria-label="GitHub" href={PROFILE.socials.github} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Github className="w-5 h-5"/></a>}
           {PROFILE.socials.linkedin && <a aria-label="LinkedIn" href={PROFILE.socials.linkedin} target="_blank" rel="noreferrer" className={`transition-colors ${isMatrix ? 'hover:text-accent-400' : 'hover:text-blue-600'}`}><Linkedin className="w-5 h-5"/></a>}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="Prior, measurement and posterior distributions over a noisy trajectory">
+  <rect width="1200" height="600" fill="#d7dccf"/>
+  <!-- left panel: noisy track -->
+  <rect x="0" y="0" width="400" height="600" fill="#c9cfbf"/>
+  <g stroke="#3d3d3a" stroke-width="1" opacity="0.25">
+    <path d="M0 100H400M0 200H400M0 300H400M0 400H400M0 500H400M100 0V600M200 0V600M300 0V600"/>
+  </g>
+  <path d="M30 520 C 110 470, 150 360, 210 320 S 320 180, 380 90" fill="none" stroke="#141413" stroke-width="3"/>
+  <g fill="#141413">
+    <circle cx="48" cy="488" r="5"/><circle cx="92" cy="476" r="5"/><circle cx="118" cy="420" r="5"/>
+    <circle cx="160" cy="392" r="5"/><circle cx="198" cy="306" r="5"/><circle cx="236" cy="318" r="5"/>
+    <circle cx="270" cy="236" r="5"/><circle cx="310" cy="214" r="5"/><circle cx="342" cy="142" r="5"/><circle cx="372" cy="118" r="5"/>
+  </g>
+  <!-- middle panel: clay block with the three gaussians -->
+  <rect x="400" y="0" width="400" height="600" fill="#d97757"/>
+  <path d="M420 500 C 520 500, 540 300, 600 300 S 680 500, 780 500" fill="none" stroke="#faf9f5" stroke-width="3" stroke-dasharray="10 8"/>
+  <path d="M420 500 C 560 500, 590 200, 640 200 S 720 500, 780 500" fill="none" stroke="#141413" stroke-width="3"/>
+  <path d="M420 500 C 590 500, 600 110, 622 110 S 660 500, 780 500" fill="#141413" fill-opacity="0.85"/>
+  <line x1="420" y1="500" x2="780" y2="500" stroke="#141413" stroke-width="3"/>
+  <!-- right panel: covariance ellipses shrinking -->
+  <rect x="800" y="0" width="400" height="600" fill="#ebe7da"/>
+  <g fill="none" stroke="#141413" stroke-width="2.5">
+    <ellipse cx="1000" cy="300" rx="170" ry="95" transform="rotate(-28 1000 300)"/>
+    <ellipse cx="1000" cy="300" rx="125" ry="66" transform="rotate(-28 1000 300)" opacity="0.8"/>
+    <ellipse cx="1000" cy="300" rx="82" ry="40" transform="rotate(-28 1000 300)" opacity="0.6"/>
+  </g>
+  <ellipse cx="1000" cy="300" rx="40" ry="18" transform="rotate(-28 1000 300)" fill="#d97757"/>
+  <circle cx="1000" cy="300" r="5" fill="#141413"/>
+</svg>

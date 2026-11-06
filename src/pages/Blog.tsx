@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, FlaskConical, Briefcase } from 'lucide-react';
 import { ThemeMode } from '../types';
 import { BLOG_POSTS, IDEAS } from '../data/content';
 import IdeaGarden from '../components/IdeaGarden';
+import '../styles/markdown.css';
 
 interface BlogProps {
   theme: ThemeMode;
@@ -18,32 +18,41 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
   const researchCount = IDEAS.filter(i => i.category === 'research').length;
   const businessCount = IDEAS.filter(i => i.category === 'business').length;
 
-  const tabs: { key: Tab; label: string; icon: React.ReactNode; count: number }[] = [
-    { key: 'posts',    label: 'Posts',    icon: <FileText className="w-4 h-4" />,     count: BLOG_POSTS.length },
-    { key: 'ideas',    label: 'Ideas',    icon: <FlaskConical className="w-4 h-4" />, count: researchCount },
-    { key: 'business', label: 'Business', icon: <Briefcase className="w-4 h-4" />,    count: businessCount },
+  const tabs: { key: Tab; label: string; count: number }[] = [
+    { key: 'posts',    label: 'Posts',    count: BLOG_POSTS.length },
+    { key: 'ideas',    label: 'Ideas',    count: researchCount },
+    { key: 'business', label: 'Business', count: businessCount },
   ];
 
   const subtitle =
     tab === 'posts'
-      ? 'Notes on research, ML fundamentals, and the messy industrial datasets I care about.'
+      ? 'collects long form notes on research, ML fundamentals, and the messy industrial datasets I care about.'
       : tab === 'ideas'
-        ? 'An idea garden: dated, half-formed research directions I want to explore.'
-        : 'Business and product concepts: dated, authored, and protected.';
+        ? 'also keeps an idea garden: dated, half formed research directions I want to explore.'
+        : 'also records business and product concepts, each dated, authored, and protected.';
+
+  const [featured, ...rest] = BLOG_POSTS;
+
+  const Hero: React.FC<{ post: typeof BLOG_POSTS[number]; className?: string }> = ({ post, className = '' }) => (
+    <div className={`blog-hero ${className}`} style={{ background: post.coverTint ?? 'var(--blog-panel)' }}>
+      {post.cover
+        ? <img src={post.cover} alt="" loading="lazy" />
+        : <span className="blog-title text-2xl px-8 text-center">{post.title}</span>}
+    </div>
+  );
 
   return (
-    <div className={`blog-article py-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${isMatrix ? 'theme-dark' : ''}`}>
-      <header className={`mb-6 pb-8 border-b ${isMatrix ? 'border-slate-800' : 'border-[#e3e3e3]'}`}>
-        <h1 className={`text-[2rem] md:text-[2.4rem] font-bold leading-tight mb-2 ${isMatrix ? 'text-slate-100' : 'text-[#2b2b2b]'}`}>
-          Blog
-        </h1>
-        <p className={`blog-meta text-base ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
-          {subtitle}
+    <div className={`blog-article pt-14 pb-12 ${isMatrix ? 'theme-dark' : ''}`}>
+      {/* Intro statement: bold sans lead-in running into a serif sentence. */}
+      <header className="max-w-4xl">
+        <p className="text-[1.75rem] sm:text-[2.25rem] leading-[1.25] blog-muted">
+          <span className="blog-title blog-ink">The Blog</span>{' '}
+          <span className="blog-serif">{subtitle}</span>
         </p>
       </header>
 
       {/* Tabs: Posts · Ideas · Business */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex gap-6 mt-14 border-b blog-rule">
         {tabs.map(t => {
           const active = tab === t.key;
           return (
@@ -51,63 +60,53 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
               key={t.key}
               onClick={() => setTab(t.key)}
               aria-pressed={active}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
-                active
-                  ? isMatrix
-                    ? 'bg-accent-900/30 text-accent-300 border-accent-700/50'
-                    : 'bg-[#0085a1] text-white border-[#0085a1]'
-                  : isMatrix
-                    ? 'bg-slate-900/40 text-slate-400 border-slate-700 hover:text-slate-200'
-                    : 'bg-white/60 text-slate-600 border-slate-200 hover:text-[#0085a1]'
+              className={`-mb-px pb-3 text-sm border-b-2 transition-colors ${
+                active ? 'blog-ink font-semibold border-current' : 'blog-faint border-transparent hover:text-[var(--blog-ink)]'
               }`}
             >
-              {t.icon}
               {t.label}
-              <span className={`text-xs ${active && !isMatrix ? 'text-white/80' : isMatrix ? 'text-slate-500' : 'text-[#808080]'}`}>
-                {t.count}
-              </span>
+              <span className="blog-mono blog-faint text-xs ml-1.5">{t.count}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Panel */}
       {tab === 'posts' ? (
-        <div className="max-w-3xl">
-          {BLOG_POSTS.map((post, idx) => (
-            <article
-              key={post.id}
-              className={idx > 0 ? `pt-8 mt-8 border-t ${isMatrix ? 'border-slate-800' : 'border-[#ededed]'}` : ''}
-            >
-              <Link to={`/blog/${post.id}`} className="group block">
-                <h2
-                  className={`text-[1.5rem] md:text-[1.7rem] font-semibold leading-snug mb-2 transition-colors ${
-                    isMatrix
-                      ? 'text-slate-100 group-hover:text-[#34b6d1]'
-                      : 'text-[#2b2b2b] group-hover:text-[#0085a1]'
-                  }`}
-                >
-                  {post.title}
-                </h2>
-                <p className={`font-light leading-relaxed mb-3 ${isMatrix ? 'text-slate-400' : 'text-[#5a5a5a]'}`}>
-                  {post.excerpt}
-                </p>
-              </Link>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                <span className={`blog-meta text-sm ${isMatrix ? 'text-slate-500' : 'text-[#808080]'}`}>
-                  {post.date} · {post.readTime}
-                </span>
-                {post.tags.length > 0 && (
-                  <span className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-slate-600' : 'text-[#999999]'}`}>
-                    {post.tags.map(t => `#${t}`).join('  ')}
-                  </span>
-                )}
+        BLOG_POSTS.length === 0 ? (
+          <p className="blog-muted mt-10">No posts yet.</p>
+        ) : (
+          <div className="mt-10">
+            {/* Featured: the newest post, large. */}
+            <Link to={`/blog/${featured.id}`} className="blog-card group grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+              <Hero post={featured} />
+              <div>
+                <p className="blog-meta text-sm">{featured.date} · {featured.readTime}</p>
+                <h2 className="blog-title blog-card-title text-[1.75rem] sm:text-[2.1rem] mt-3">{featured.title}</h2>
+                <p className="blog-serif blog-muted text-[1.1rem] leading-relaxed mt-4">{featured.excerpt}</p>
               </div>
-            </article>
-          ))}
-        </div>
+            </Link>
+
+            {rest.length > 0 && (
+              <>
+                <h3 className="text-sm font-semibold blog-ink mt-20 mb-6 pb-3 border-b blog-rule">More posts</h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                  {rest.map(post => (
+                    <Link key={post.id} to={`/blog/${post.id}`} className="blog-card group block">
+                      <Hero post={post} />
+                      <p className="blog-meta text-sm mt-4">{post.date} · {post.readTime}</p>
+                      <h2 className="blog-title blog-card-title text-xl mt-2">{post.title}</h2>
+                      <p className="blog-serif blog-muted leading-relaxed mt-2 line-clamp-3">{post.excerpt}</p>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )
       ) : (
-        <IdeaGarden theme={theme} category={tab === 'ideas' ? 'research' : 'business'} />
+        <div className="mt-10">
+          <IdeaGarden theme={theme} category={tab === 'ideas' ? 'research' : 'business'} />
+        </div>
       )}
     </div>
   );

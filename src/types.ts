@@ -34,6 +34,8 @@ export interface BlogPost {
   excerpt: string;
   content: string;
   tags: string[];
+  cover?: string;        // optional hero image shown in a tinted panel (absolute path)
+  coverTint?: string;    // panel background behind the cover image
 }
 
 // --- Idea garden -----------------------------------------------------------

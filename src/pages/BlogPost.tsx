@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
 import { BLOG_POSTS } from '../data/content';
-import { ArrowLeft, ArrowUp, List, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ArrowUp, ChevronDown, ChevronUp } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -65,7 +65,6 @@ const bibKey = (title: string, year: string): string =>
 
 const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const isMatrix = theme === ThemeMode.MATRIX;
 
   const post = BLOG_POSTS.find(p => p.id === id);
@@ -76,7 +75,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   const [progress, setProgress] = useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [showTop, setShowTop] = useState(false);
-  const [tocOpen, setTocOpen] = useState(true);
+  const [tocOpen, setTocOpen] = useState(false);
   const articleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
       setShowTop(doc.scrollTop > 600);
 
       // Scroll-spy: first heading whose top is just above viewport fold.
-      const fold = 120;
+      const fold = 140;
       let current: string | null = null;
       for (const h of headings) {
         const el = document.getElementById(h.id);
@@ -122,8 +121,8 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
       const n = counters[base] ?? 0;
       counters[base] = n + 1;
       const id = n === 0 ? base : `${base}-${n}`;
-      const Tag = (`h${level}` as any) as keyof JSX.IntrinsicElements;
-      return <Tag id={id} className="scroll-mt-24">{children}</Tag>;
+      const Tag = (`h${level}` as any) as keyof React.JSX.IntrinsicElements;
+      return <Tag id={id} className="scroll-mt-32">{children}</Tag>;
     };
 
   if (!post) {
@@ -143,175 +142,170 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
     );
   }
 
-  const progressColor = isMatrix ? '#22c55e' : '#0085a1';
+  const activeIdx = Math.max(0, headings.findIndex(h => h.id === activeId));
+  const topLevel = headings.filter(h => h.level === 2);
+  // Number top-level sections 01, 02, ... the way the section bar shows them.
+  const sectionNumber = (id: string) => {
+    let n = 0;
+    for (const h of headings) {
+      if (h.level === 2) n++;
+      if (h.id === id) return n;
+    }
+    return n;
+  };
+  const current = headings[activeIdx];
+  const currentTop = current
+    ? (current.level === 2 ? current : [...headings.slice(0, activeIdx + 1)].reverse().find(h => h.level === 2) ?? current)
+    : undefined;
 
-  return (
-    <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Reading progress bar fixed at top */}
-      <div
-        className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
-        aria-hidden="true"
-      >
-        <div
-          className="h-[3px] origin-left transition-[transform] duration-100"
-          style={{ transform: `scaleX(${progress})`, background: progressColor }}
-        />
-      </div>
+  // Headings may already carry their own number ("3. Predict"); the bar adds one.
+  const plain = (t: string) => t.replace(/^\s*\d+[.)]\s+/, '');
 
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-10">
-        {/* Article */}
-        <div className="max-w-3xl mx-auto lg:mx-0 w-full">
-          <button
-            onClick={() => navigate('/blog')}
-            className={`flex items-center gap-2 mb-6 transition-colors ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-[#0085a1] hover:text-[#006d82]'}`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Blog
-          </button>
+  const scrollToId = (hid: string) => {
+    const el = document.getElementById(hid);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 128;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    setTocOpen(false);
+  };
 
-          <article ref={articleRef} className={`blog-article ${isMatrix ? 'theme-dark' : ''}`}>
-            <header className={`mb-10 pb-8 border-b ${isMatrix ? 'border-slate-800' : 'border-[#e3e3e3]'}`}>
-              <h1 className={`text-[1.9rem] md:text-[2.6rem] font-bold leading-[1.2] mb-4 ${isMatrix ? 'text-slate-100' : 'text-[#2b2b2b]'}`}>
-                {post.title}
-              </h1>
-
-              {post.excerpt && (
-                <p className={`text-lg font-light leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-[#5a5a5a]'}`}>
-                  {post.excerpt}
-                </p>
-              )}
-
-              <p className={`blog-meta text-base ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
-                Posted on {post.date} · {post.readTime}
-                {post.updated && <> · Updated on {post.updated}</>}
-              </p>
-
-              {post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-4">
-                  {post.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className={`text-xs font-semibold uppercase tracking-wider ${isMatrix ? 'text-slate-500' : 'text-[#999999]'}`}
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </header>
-
-            <div className={`prose prose-lg max-w-none ${isMatrix ? 'prose-invert prose-slate' : 'prose-slate'}`}>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-                  h2: headingRenderer(2),
-                  h3: headingRenderer(3),
-                  // Render an image's alt text as a centered italic caption
-                  // beneath it — the Clean Blog ".caption" treatment.
-                  img: ({ src, alt }: any) => (
-                    <>
-                      <img src={src as string} alt={(alt as string) ?? ''} loading="lazy" />
-                      {alt ? <span className="prose-caption">{alt}</span> : null}
-                    </>
-                  ),
-                }}
-              >
-                {bodyMd}
-              </ReactMarkdown>
-            </div>
-
-            {/* Auto-generated "Cited as:" block — Lilian-Weng signature footer. */}
-            {(() => {
-              const year = yearOf(post.date);
-              const url = `${SITE_ORIGIN}/blog/${post.id}`;
-              const bib =
+  const year = yearOf(post.date);
+  const url = `${SITE_ORIGIN}/blog/${post.id}`;
+  const bib =
 `@article{${bibKey(post.title, year)},
   title   = "${post.title}",
   author  = "${CITE_AUTHOR}",
   journal = "yehias21.github.io",
   year    = "${year}",
-  url      = "${url}"
+  url     = "${url}"
 }`;
-              return (
-                <section data-allow-copy className={`blog-citation not-prose mt-16 pt-8 border-t ${isMatrix ? 'border-slate-800' : 'border-[#e3e3e3]'}`}>
-                  <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isMatrix ? 'text-slate-400' : 'text-[#808080]'}`}>
-                    Cited as:
-                  </h3>
-                  <p className={`text-sm leading-relaxed mb-4 ${isMatrix ? 'text-slate-300' : 'text-[#5a5a5a]'}`}>
-                    Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
-                    <span className="italic">yehias21.github.io</span>.{' '}
-                    <a href={url} className={isMatrix ? 'text-accent-400 underline' : 'text-[#0085a1] underline'}>{url}</a>
-                  </p>
-                  <p className={`text-xs mb-2 ${isMatrix ? 'text-slate-500' : 'text-[#808080]'}`}>Or</p>
-                  <pre className={`text-xs rounded-md p-4 overflow-x-auto ${isMatrix ? 'bg-slate-900 border border-slate-800 text-slate-300' : 'bg-[#f4f4f4] border border-[#e4e4e4] text-[#404040]'}`}>{bib}</pre>
-                </section>
-              );
-            })()}
-          </article>
-        </div>
 
-        {/* TOC sidebar (desktop only) */}
-        {headings.length > 2 && (
-          <aside className="hidden lg:block">
-            <div className="sticky top-24">
-              <button
-                type="button"
-                onClick={() => setTocOpen((o) => !o)}
-                aria-expanded={tocOpen}
-                className={`w-full flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider mb-3 transition-colors ${isMatrix ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                <span className="flex items-center gap-2">
-                  <List className="w-4 h-4" />
-                  On this page
-                </span>
-                {tocOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-              {tocOpen && (
-              <nav className={`border-l pl-4 space-y-2 text-sm ${isMatrix ? 'border-slate-800' : 'border-slate-200'}`}>
-                {headings.map(h => {
-                  const isActive = activeId === h.id;
-                  return (
-                    <a
-                      key={h.id}
-                      href={`#${h.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const el = document.getElementById(h.id);
-                        if (el) {
-                          const y = el.getBoundingClientRect().top + window.scrollY - 96;
-                          window.scrollTo({ top: y, behavior: 'smooth' });
-                        }
-                      }}
-                      className={`block leading-snug transition-colors ${h.level === 3 ? 'pl-3' : ''} ${
-                        isActive
-                          ? isMatrix
-                            ? 'text-accent-400 font-medium'
-                            : 'text-[#0085a1] font-medium'
-                          : isMatrix
-                            ? 'text-slate-400 hover:text-slate-200'
-                            : 'text-slate-500 hover:text-slate-800'
-                      }`}
-                    >
-                      {h.text}
-                    </a>
-                  );
-                })}
+  return (
+    <div className={`blog-article pb-12 ${isMatrix ? 'theme-dark' : ''}`}>
+      {/* Section bar: sticky under the navbar, shows where you are and opens
+          the full list of sections. Replaces the sidebar table of contents. */}
+      {topLevel.length > 1 && (
+        <div className="blog-sectionbar fixed left-0 right-0 top-16 z-30">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setTocOpen(o => !o)}
+              aria-expanded={tocOpen}
+              className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center gap-4 text-left"
+            >
+              <span className="num w-6 shrink-0">{String(currentTop ? sectionNumber(currentTop.id) : 1).padStart(2, '0')}</span>
+              <span className="blog-ink text-sm truncate flex-1">{plain(currentTop?.text ?? topLevel[0].text)}</span>
+              {tocOpen ? <ChevronUp className="w-4 h-4 blog-muted shrink-0" /> : <ChevronDown className="w-4 h-4 blog-muted shrink-0" />}
+            </button>
+            <div
+              className="absolute left-0 right-0 bottom-0 h-px origin-left"
+              style={{ transform: `scaleX(${progress})`, background: 'var(--blog-ink)' }}
+              aria-hidden="true"
+            />
+            {tocOpen && (
+              <nav className="blog-sectionbar-menu absolute left-0 right-0 top-full max-h-[70vh] overflow-y-auto">
+                <ul className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                  {topLevel.map(h => {
+                    const isActive = currentTop?.id === h.id;
+                    return (
+                      <li key={h.id}>
+                        <a
+                          href={`#${h.id}`}
+                          onClick={(e) => { e.preventDefault(); scrollToId(h.id); }}
+                          className="flex items-center gap-4 rounded-md px-2 -mx-2 py-2 text-sm"
+                        >
+                          <span className="num blog-mono blog-faint w-6 shrink-0 text-[0.8rem]">{String(sectionNumber(h.id)).padStart(2, '0')}</span>
+                          <span className={isActive ? 'blog-ink font-semibold' : 'blog-muted'}>{plain(h.text)}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
               </nav>
-              )}
-            </div>
-          </aside>
-        )}
-      </div>
+            )}
+          </div>
+        </div>
+      )}
 
-      {/* Back-to-top floating button */}
+      <article ref={articleRef} className={topLevel.length > 1 ? 'pt-24' : 'pt-14'}>
+        <header className="text-center">
+          <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 text-sm hover:underline underline-offset-4">
+            <ArrowLeft className="w-3.5 h-3.5" /> Blog
+          </Link>
+          <h1 className="blog-title text-[2.1rem] sm:text-[2.75rem] md:text-[3.25rem] max-w-3xl mx-auto mt-6">
+            {post.title}
+          </h1>
+          <p className="blog-meta text-sm mt-6">
+            Published {post.date}
+            {post.updated && <> · Updated {post.updated}</>}
+            {' · '}{post.readTime}
+          </p>
+        </header>
+
+        {post.cover && (
+          <figure className="blog-hero mt-12 max-w-5xl mx-auto" style={{ background: post.coverTint ?? 'var(--blog-panel)' }}>
+            <img src={post.cover} alt="" />
+          </figure>
+        )}
+
+        <div className="blog-column mt-14">
+          {post.excerpt && (
+            <p className="blog-serif text-[1.3rem] sm:text-[1.4rem] leading-snug blog-ink mb-10">
+              {post.excerpt}
+            </p>
+          )}
+
+          <div className={`prose ${isMatrix ? 'prose-invert' : ''}`}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={{
+                h2: headingRenderer(2),
+                h3: headingRenderer(3),
+                // The image's alt text doubles as its caption.
+                img: ({ src, alt }: any) => (
+                  <>
+                    <img src={src as string} alt={(alt as string) ?? ''} loading="lazy" />
+                    {alt ? <span className="prose-caption">{alt}</span> : null}
+                  </>
+                ),
+              }}
+            >
+              {bodyMd}
+            </ReactMarkdown>
+          </div>
+
+          {post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-14">
+              {post.tags.map(tag => (
+                <span key={tag} className="blog-panel blog-muted text-xs rounded-full px-3 py-1">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Auto-generated citation footer. */}
+          <section data-allow-copy className="blog-citation mt-10 pt-8 border-t blog-rule">
+            <h2 className="text-sm font-semibold blog-ink mb-3">Citation</h2>
+            <p className="blog-serif text-[0.98rem] leading-relaxed blog-muted mb-4">
+              Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
+              <span className="italic">yehias21.github.io</span>.{' '}
+              <a href={url} className="underline underline-offset-2 break-all">{url}</a>
+            </p>
+            <pre className="blog-panel blog-ink text-xs rounded-lg p-4 overflow-x-auto">{bib}</pre>
+          </section>
+        </div>
+      </article>
+
       {showTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
-          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-lg transition-all ${isMatrix ? 'bg-accent-700 hover:bg-accent-600 text-black' : 'bg-[#0085a1] hover:bg-[#006d82] text-white'}`}
+          className="fixed bottom-6 right-6 z-40 p-3 rounded-full blog-panel blog-ink border blog-rule shadow-sm hover:shadow transition-shadow"
         >
-          <ArrowUp className="w-5 h-5" />
+          <ArrowUp className="w-4 h-4" />
         </button>
       )}
     </div>
