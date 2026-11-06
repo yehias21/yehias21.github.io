@@ -15,6 +15,7 @@ import Gallery from './pages/Gallery';
 import { Menu, X, Github, Linkedin, GraduationCap, Sun, Moon } from 'lucide-react';
 import './styles/gallery.css';
 import { PAINTINGS, pickPainting } from './data/paintings';
+import { titleFor } from './data/seo';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -95,12 +96,14 @@ const shortName = nameParts.length > 2 ? `${nameParts[0]} ${nameParts[nameParts.
 const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleTheme: () => void }> = ({ children, theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  // GitHub Pages serves pre-rendered pages at "/about/"; treat it as "/about".
+  const pathname = location.pathname.replace(/\/+$/, '') || '/';
   // A different Van Gogh on every visit; the footer button shuffles it.
   const [paintingIdx, setPaintingIdx] = useState(pickPainting);
   const painting = PAINTINGS[paintingIdx];
   const shufflePainting = () => setPaintingIdx(i => (i + 1 + Math.floor(Math.random() * (PAINTINGS.length - 1))) % PAINTINGS.length);
   const isMatrix = theme === ThemeMode.MATRIX;
-  const isBlog = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
+  const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
   const wall = isMatrix ? '#0d1220' : '#f5f3ee';
 
   // Sync the html/body background to the current wall color so iOS overscroll
@@ -113,7 +116,11 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     document.body.style.overscrollBehavior = 'none';
   }, [isMatrix, wall]);
 
-  useEffect(() => { setIsMobileMenuOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    const t = titleFor(pathname);
+    if (t) document.title = t;
+  }, [pathname]);
 
   const navLinks = [
     { name: 'Home', path: '/home' },
@@ -125,7 +132,7 @@ const Layout: React.FC<{ children: React.ReactNode; theme: ThemeMode; toggleThem
     { name: 'Gallery', path: '/gallery' },
     { name: 'Contact', path: '/contact' },
   ];
-  const isActive = (path: string) => location.pathname === path || (path === '/blog' && isBlog);
+  const isActive = (path: string) => pathname === path || (path === '/blog' && isBlog);
 
   return (
     <div
@@ -250,7 +257,9 @@ const getInitialTheme = (): ThemeMode => {
   return ThemeMode.LIGHT;
 };
 
-const App: React.FC = () => {
+// The whole app minus the router, so the same tree can be rendered in the
+// browser (BrowserRouter) and at build time for pre-rendering (StaticRouter).
+export const AppRoutes: React.FC = () => {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   useContentProtection();
 
@@ -264,7 +273,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Layout theme={theme} toggleTheme={toggleTheme}>
         <Routes>
@@ -281,8 +290,14 @@ const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Layout>
-    </Router>
+    </>
   );
 };
+
+const App: React.FC = () => (
+  <Router>
+    <AppRoutes />
+  </Router>
+);
 
 export default App;
