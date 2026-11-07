@@ -1,4 +1,4 @@
-import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, Award, VisitedCountry, ServiceItem, NewsItem, Idea } from '../types';
+import { BlogPost, Profile, Project, Publication, Experience, Education, GalleryItem, RoomEncounter, Award, VisitedCountry, ServiceItem, NewsItem, Idea, Thought } from '../types';
 import profileImage from '../assets/figures/profile_image.jpg';
 import { quotes } from './quotes';
 
@@ -385,6 +385,18 @@ export const BLOG_POSTS: BlogPost[] = BLOG_POSTS_EN.map(p => ({ ...p, fr: p.fr ?
 //
 // (Seed placeholders removed. Add your own entries below.)
 export const IDEAS: Idea[] = [];
+
+// Scattered thoughts and opinions: the Blog page's Thoughts tab, newest first
+// by date. Example entry:
+//   {
+//     id: "t-2026-11-07-sampling",
+//     date: "2026-11-07",
+//     kind: "opinion",                // or "thought"
+//     text: "Markdown text, $math$ works too.",
+//     textFr: "Version française (optionnelle).",
+//     tags: ["Diffusion"],
+//   },
+export const THOUGHTS: Thought[] = [];
 
 // Top Academics gallery — photos with researchers and academics, rendered on
 // the /gallery page.

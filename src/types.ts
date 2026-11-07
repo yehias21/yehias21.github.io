@@ -58,6 +58,17 @@ export type IdeaStatus =
   | 'parked'      // shelved for now
   | 'shipped';    // turned into a paper / project / venture
 
+// --- Scattered thoughts ----------------------------------------------------
+// Short dated notes and opinions, shown in the Blog page's Thoughts tab.
+export interface Thought {
+  id: string;
+  date: string;            // YYYY-MM-DD
+  kind?: 'thought' | 'opinion';
+  text: string;            // markdown, a few sentences to a few paragraphs
+  textFr?: string;         // optional French version for the EN/FR switch
+  tags?: string[];
+}
+
 export interface IdeaRevision {
   date: string;   // YYYY-MM-DD
   note: string;   // what changed in this edit

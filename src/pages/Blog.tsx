@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
-import { BLOG_POSTS, IDEAS } from '../data/content';
+import { BLOG_POSTS, IDEAS, THOUGHTS } from '../data/content';
 import IdeaGarden from '../components/IdeaGarden';
+import ThoughtStream from '../components/ThoughtStream';
 import '../styles/markdown.css';
 import { Room } from '../components/GalleryUI';
 import { useBlogLang, localize, LangSwitch, UI } from '../components/BlogLang';
@@ -11,7 +12,7 @@ interface BlogProps {
   theme: ThemeMode;
 }
 
-type Tab = 'posts' | 'ideas' | 'business';
+type Tab = 'posts' | 'thoughts' | 'ideas' | 'business';
 
 const Blog: React.FC<BlogProps> = ({ theme }) => {
   const isMatrix = theme === ThemeMode.MATRIX;
@@ -26,6 +27,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
 
   const tabs: { key: Tab; label: string; count: number }[] = [
     { key: 'posts',    label: t.posts,    count: BLOG_POSTS.length },
+    { key: 'thoughts', label: t.thoughts, count: THOUGHTS.length },
     { key: 'ideas',    label: t.ideas,    count: researchCount },
     { key: 'business', label: t.business, count: businessCount },
   ];
@@ -33,6 +35,8 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
   const subtitle =
     tab === 'posts'
       ? t.postsSub
+      : tab === 'thoughts'
+        ? t.thoughtsSub
       : tab === 'ideas'
         ? 'An idea garden: dated, half formed research directions I want to explore.'
         : 'Business and product concepts, each dated, authored, and protected.';
@@ -49,7 +53,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
 
   return (
     <div className={`blog-article blog-sheet mt-10 ${isMatrix ? 'theme-dark' : ''}`}>
-      <Room as="h1" label={lang === 'fr' && tab === 'posts' ? 'La salle de lecture' : 'The reading room'} title="Blog" sub={subtitle} />
+      <Room as="h1" label={lang === 'fr' && (tab === 'posts' || tab === 'thoughts') ? 'La salle de lecture' : 'The reading room'} title="Blog" sub={subtitle} />
 
       {/* Tabs: Posts · Ideas · Business */}
       <div className="flex items-end gap-6 mt-2 border-b blog-rule">
@@ -69,7 +73,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
             </button>
           );
         })}
-        {tab === 'posts' && <LangSwitch lang={lang} onChange={setLang} className="ml-auto mb-2" />}
+        {(tab === 'posts' || tab === 'thoughts') && <LangSwitch lang={lang} onChange={setLang} className="ml-auto mb-2" />}
       </div>
 
       {tab === 'posts' ? (
@@ -105,6 +109,11 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
             )}
           </div>
         )
+      ) : tab === 'thoughts' ? (
+        <div className="mt-6">
+          <p className="blog-serif blog-muted italic text-[0.95rem] mb-8">{t.thoughtsAuthorship}</p>
+          <ThoughtStream theme={theme} lang={lang} />
+        </div>
       ) : (
         <div className="mt-10">
           <IdeaGarden theme={theme} category={tab === 'ideas' ? 'research' : 'business'} />
