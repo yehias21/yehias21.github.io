@@ -922,7 +922,7 @@
 <circle cx="893.1" cy="212.6" r="2.5" fill="#faf9f5" opacity="0.55"/>
 <circle cx="885.4" cy="190.0" r="2.5" fill="#faf9f5" opacity="0.55"/>
 <circle cx="869.4" cy="230.9" r="2.5" fill="#faf9f5" opacity="0.55"/>
-<text x="962" y="205" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="14" fill="#faf9f5" opacity="0.75">x_T</text>
+<text x="962" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="14" fill="#faf9f5" opacity="0.75">x_T</text>
 <circle cx="1035.6" cy="365.3" r="2.5" fill="#faf9f5" opacity="0.97"/>
 <circle cx="1032.8" cy="342.5" r="2.5" fill="#faf9f5" opacity="0.97"/>
 <circle cx="974.1" cy="326.5" r="2.5" fill="#faf9f5" opacity="0.97"/>
@@ -1325,8 +1325,6 @@
 <circle cx="1088.5" cy="463.3" r="2.5" fill="#faf9f5" opacity="1.00"/>
 <circle cx="1102.2" cy="432.9" r="2.5" fill="#faf9f5" opacity="1.00"/>
 <text x="1012" y="461" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="14" fill="#faf9f5" opacity="0.75">x_0</text>
-<path d="M962 238 Q1022 236 1030 282" fill="none" stroke="#faf9f5" stroke-width="2.6" stroke-linecap="round" opacity="0.9"/><path d="M1023.6 273.1 L1030 282 L1033.0 271.4" fill="none" stroke="#faf9f5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-<path d="M1068 356 Q1124 356 1130 398" fill="none" stroke="#faf9f5" stroke-width="2.6" stroke-linecap="round" opacity="0.9"/><path d="M1123.9 388.9 L1130 398 L1133.3 387.5" fill="none" stroke="#faf9f5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
 <text x="840" y="76" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22" fill="#faf9f5" opacity="1.0">2020s</text>
 <text x="840" y="104" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="14" fill="#faf9f5" opacity="0.75">diffusion: learn to denoise</text>
 <text x="840" y="566" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="14" fill="#faf9f5" opacity="0.75">noise  →  data</text>
