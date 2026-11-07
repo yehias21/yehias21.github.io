@@ -36,6 +36,12 @@ export interface BlogPost {
   tags: string[];
   cover?: string;        // optional hero image shown in a tinted panel (absolute path)
   coverTint?: string;    // panel background behind the cover image
+  fr?: {                 // optional French version, shown by the blog's EN/FR switch
+    title: string;
+    excerpt?: string;    // falls back to the English excerpt
+    content: string;
+    tags?: string[];
+  };
 }
 
 // --- Idea garden -----------------------------------------------------------

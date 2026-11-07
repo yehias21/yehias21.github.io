@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import '../styles/markdown.css';
+import { useBlogLang, localize, LangSwitch, UI } from '../components/BlogLang';
 
 interface BlogPostProps {
   theme: ThemeMode;
@@ -67,7 +68,10 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   const { id } = useParams<{ id: string }>();
   const isMatrix = theme === ThemeMode.MATRIX;
 
-  const post = BLOG_POSTS.find(p => p.id === id);
+  const [lang, setLang] = useBlogLang();
+  const t = UI[lang];
+  const source = BLOG_POSTS.find(p => p.id === id);
+  const post = useMemo(() => (source ? localize(source, lang) : undefined), [source, lang]);
   const bodyMd = useMemo(() => (post ? stripLeadingH1(post.content) : ''), [post]);
   const headings = useMemo(() => (post ? parseHeadings(bodyMd) : []), [post, bodyMd]);
 
@@ -129,13 +133,13 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
     return (
       <div className="py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="text-center">
-          <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>Blog post not found</h2>
+          <h2 className={`text-2xl font-bold mb-4 ${isMatrix ? 'text-slate-100' : 'text-slate-900'}`}>{t.notFound}</h2>
           <Link
             to="/blog"
             className={`inline-flex items-center gap-2 ${isMatrix ? 'text-accent-500 hover:text-accent-400' : 'text-[#0085a1] hover:text-[#006d82]'}`}
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            {t.backToBlog}
           </Link>
         </div>
       </div>
@@ -203,14 +207,14 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
   );
 
   const metaRows: [string, React.ReactNode][] = [
-    ['Published', post.date],
-    ...(post.updated ? [['Updated', post.updated] as [string, React.ReactNode]] : []),
-    ['Reading time', post.readTime.replace(' read', '')],
-    ['Topics', <span className="flex flex-col gap-1">{post.tags.map(t => <span key={t}>{t}</span>)}</span>],
+    [t.published, post.date],
+    ...(post.updated ? [[t.updated, post.updated] as [string, React.ReactNode]] : []),
+    [t.readingTime, post.readTime.replace(/ (read|de lecture)$/, '')],
+    [t.topics, <span className="flex flex-col gap-1">{post.tags.map(t => <span key={t}>{t}</span>)}</span>],
   ];
 
   return (
-    <div className={`blog-article blog-sheet blog-page mt-6 ${isMatrix ? 'theme-dark' : ''}`}>
+    <div lang={post.lang} className={`blog-article blog-sheet blog-page mt-6 ${isMatrix ? 'theme-dark' : ''}`}>
       {/* Mobile and tablet: section bar under the navbar */}
       {topLevel.length > 1 && (
         <div className="blog-sectionbar xl:hidden fixed left-0 right-0 top-16 z-30">
@@ -237,15 +241,18 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
 
       <article ref={articleRef} className="pt-16 xl:pt-6">
         <header className="text-center">
-          <Link to="/blog" className="blog-meta inline-flex items-center gap-1.5 hover:underline underline-offset-4">
-            <ArrowLeft className="w-3.5 h-3.5" /> Blog
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to={lang === 'fr' ? '/blog?lang=fr' : '/blog'} className="blog-meta inline-flex items-center gap-1.5 hover:underline underline-offset-4">
+              <ArrowLeft className="w-3.5 h-3.5" /> {t.blog}
+            </Link>
+            <LangSwitch lang={lang} onChange={setLang} />
+          </div>
           <h1 className="blog-title text-[1.85rem] sm:text-[2.05rem] max-w-[46rem] mx-auto mt-5">{post.title}</h1>
         </header>
 
         {/* Below xl: the metadata sits in a row under the title */}
         <dl className="xl:hidden grid grid-cols-1 sm:grid-cols-3 gap-x-6 mt-12 text-[0.8125rem]">
-          {metaRows.filter(([k]) => k !== 'Updated').map(([k, v]) => (
+          {metaRows.filter(([k]) => k !== t.updated).map(([k, v]) => (
             <div key={k} className="border-t blog-rule pt-3 pb-4 grid grid-cols-[7rem_1fr] sm:block">
               <dt className="blog-ink sm:mb-2">{k}</dt>
               <dd className="blog-muted">{v}</dd>
@@ -257,13 +264,16 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
         <div className="blog-grid mt-10 xl:mt-14">
           <aside className="hidden xl:block">
             {topLevel.length > 1 && (
-              <nav className="sticky top-24" aria-label="Sections">
+              <nav className="sticky top-24" aria-label={t.sections}>
                 <SectionList />
               </nav>
             )}
           </aside>
 
           <div className="min-w-0">
+            {lang === 'fr' && post.lang === 'en' && (
+              <p lang="fr" className="blog-panel blog-muted text-sm rounded-lg px-4 py-3 mb-8">{t.noTranslation}</p>
+            )}
             <div className={`prose ${isMatrix ? 'prose-invert' : ''}`}>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
@@ -284,7 +294,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
             </div>
 
             <section data-allow-copy className="blog-citation mt-16 pt-6 border-t blog-rule">
-              <h2 className="text-[0.8125rem] blog-ink mb-3">Cite this post</h2>
+              <h2 className="text-[0.8125rem] blog-ink mb-3">{t.cite}</h2>
               <p className="blog-serif text-[0.95rem] leading-relaxed blog-muted mb-4">
                 Shaaban, Yahia Salaheldin. ({post.date}). {post.title}.{' '}
                 <span className="italic">yehias21.github.io</span>.{' '}
@@ -310,7 +320,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ theme }) => {
       {showTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Back to top"
+          aria-label={t.backToTop}
           className="fixed bottom-6 right-6 z-40 p-3 rounded-full blog-panel blog-ink border blog-rule shadow-sm hover:shadow transition-shadow"
         >
           <ArrowUp className="w-4 h-4" />

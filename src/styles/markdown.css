@@ -284,3 +284,25 @@
   .prose h2 { font-size: 1.4rem; }
   .prose h3 { font-size: 1.1rem; }
 }
+
+/* EN / FR switch on the blog */
+.blog-langswitch {
+  display: inline-flex;
+  border: 1px solid var(--blog-rule, currentColor);
+  border-radius: 999px;
+  padding: 2px;
+  font-family: var(--blog-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+.blog-langswitch button {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  color: var(--blog-muted, inherit);
+  transition: background-color .15s, color .15s;
+}
+.blog-langswitch button:hover { color: var(--blog-ink); }
+.blog-langswitch button[aria-pressed="true"] {
+  background: var(--blog-ink);
+  color: var(--blog-paper, #faf9f5);
+}

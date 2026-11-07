@@ -313,7 +313,7 @@ export const PROJECTS: Project[] = [
   }
 ];
 
-export const BLOG_POSTS: BlogPost[] = [
+const BLOG_POSTS_EN: BlogPost[] = [
   {
     id: "monte-carlo-to-diffusion",
     title: "From Monte Carlo to Diffusion: Eighty Years of Learning to Sample",
@@ -348,6 +348,24 @@ export const BLOG_POSTS: BlogPost[] = [
     coverTint: "#e3dacb"
   }
 ];
+
+// French versions: drop a file named src/blog/<post id>.fr.md and the blog's
+// EN/FR switch picks it up. Its first "# " heading is the French title, and the
+// first paragraph after it (unless it is the "En cours" placeholder) is the
+// French excerpt shown on the blog list.
+const FR_FILES = import.meta.glob('../blog/*.fr.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+
+const frenchFor = (id: string): BlogPost['fr'] => {
+  const md = FR_FILES[`../blog/${id}.fr.md`];
+  if (!md) return undefined;
+  const title = /^\s*#\s+(.+)$/m.exec(md)?.[1].trim() ?? '';
+  const afterTitle = md.replace(/^\s*#\s+[^\n]+\n/, '');
+  const first = afterTitle.split(/\n\s*\n/).map(x => x.trim()).find(x => x && !x.startsWith('#') && !x.startsWith('>') && x !== '---');
+  const excerpt = first && !/^\*?en cours\.?\*?$/i.test(first) ? first.replace(/[*_`]/g, '') : undefined;
+  return { title, excerpt, content: md };
+};
+
+export const BLOG_POSTS: BlogPost[] = BLOG_POSTS_EN.map(p => ({ ...p, fr: p.fr ?? frenchFor(p.id) }));
 
 // ---------------------------------------------------------------------------
 // Idea garden: half-formed research and business ideas.
