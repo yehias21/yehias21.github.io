@@ -69,7 +69,7 @@ export const UI = {
     thoughts: 'Thoughts', thought: 'Thought', opinion: 'Opinion',
     thoughtsSub: 'Scattered thoughts and opinions, jotted down as they come.',
     noThoughts: 'Nothing jotted down yet.',
-    creditLead: 'Design inspired by', creditBlog: 'the Anthropic blog', creditMid: ', whose visual identity and website were designed by the studio',
+    creditLead: 'Design inspired by', creditBlog: 'the Anthropic blog'
   },
   fr: {
     published: 'Publié', updated: 'Mis à jour', readingTime: 'Temps de lecture', topics: 'Sujets',
@@ -80,7 +80,7 @@ export const UI = {
     thoughts: 'Pensées', thought: 'Pensée', opinion: 'Opinion',
     thoughtsSub: 'Pensées éparses et opinions, notées au fil de l’eau.',
     noThoughts: 'Rien de noté pour l’instant.',
-    creditLead: 'Design inspiré par', creditBlog: 'le blog d’Anthropic', creditMid: ', dont l’identité visuelle et le site ont été conçus par le studio',
+    creditLead: 'Design inspiré par', creditBlog: 'le blog d’Anthropic'
     noTranslation: 'La version française de cet article arrive bientôt. En attendant, voici la version anglaise.',
   },
 } as const;

@@ -122,8 +122,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
       <p lang={lang} className="blog-meta blog-faint text-xs normal-case tracking-normal mt-20 pt-5 border-t blog-rule">
         {t.creditLead}{' '}
         <a href="https://www.anthropic.com/news" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[var(--blog-ink)]">{t.creditBlog}</a>
-        {t.creditMid}{' '}
-        <a href="https://geist.co/work/anthropic" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[var(--blog-ink)]">Geist</a>.
+.
       </p>
     </div>
   );
