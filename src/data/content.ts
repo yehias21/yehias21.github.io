@@ -26,6 +26,7 @@ import nicholasLanePhoto from '../assets/gallery/nicholas-lane-iclr-rio.webp';
 // Blog markdown files (raw imports)
 import oilGasMd from '../blog/oil-gas-drilling-fundamentals.md?raw';
 import kalmanFiltersMd from '../blog/kalman-filters-deep-dive.md?raw';
+import samplingMd from '../blog/monte-carlo-to-diffusion.md?raw';
 
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
@@ -313,6 +314,17 @@ export const PROJECTS: Project[] = [
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    id: "monte-carlo-to-diffusion",
+    title: "From Monte Carlo to Diffusion: Eighty Years of Learning to Sample",
+    date: "Nov 7, 2026",
+    readTime: "In progress",
+    excerpt: "How one question from 1940s Los Alamos, how to draw samples from a distribution you can only describe, runs through Metropolis, Gibbs, Langevin dynamics and score matching all the way to today's diffusion models.",
+    content: samplingMd,
+    tags: ["Sampling", "Generative Models", "Diffusion", "History of ML"],
+    cover: "/blog/sampling_cover.svg",
+    coverTint: "#2a4a8a"
+  },
   {
     id: "kalman-filters-deep-dive",
     title: "A Deep Dive into Kalman Filters",
