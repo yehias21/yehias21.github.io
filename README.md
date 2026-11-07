@@ -30,15 +30,15 @@ My own focus was implementation and *personalization*. I implemented cPCA, then 
 
 At AIC, Egypt's national applied AI lab, I led the geospatial crop segmentation pipeline end to end: data annotation orchestration, training dataset and benchmark construction, and model training. The best model reached **~80% IoU** on our held out benchmark and was deployed internally.
 
-### 2024–2025. Learned observers for non autonomous systems (with Dr. Muhamed Umar Niazi)
+### 2024–2025. Learned observers for non autonomous systems (HyperKKL)
 
-Working closely with Dr. Muhamed Umar Niazi, we extended **neural KKL observers to non autonomous systems**. I combined **curriculum learning** with **hypernetworks** so that the observer weights are generated as a function of the exogenous input signal, producing genuinely time varying transformation maps. We paused the project for a few months; the extended paper is targeted for **CDC 2026**, and an intermediate workshop paper has been accepted at the **ICLR 2026 Workshop on AI and PDE**.
+We extended **neural KKL observers to non autonomous systems**. I combined **curriculum learning** with **hypernetworks** so that the observer weights are generated as a function of the exogenous input signal, producing genuinely time varying transformation maps. A workshop paper was accepted at the **ICLR 2026 Workshop on AI and PDE**, and the extended **TMLR** version is coauthored with Dr. Muhamed Umar Niazi.
 
 ### 2025. MBZUAI
 
 - 🥇 **1st place** at the InSilico hackathon for drug discovery.
 - 🥇 Collaborated with **Dr. Nils Lukas**'s team and won both tracks of the **NeurIPS 2024 *Erasing the Invisible*** watermark removal challenge (published at ICLR 2025 workshop).
-- 🥇 At the **Rotman International Trading Competition** in Toronto, our team ranked **1st** in the Equities Trading Case.
+- 🏅 At the **Rotman International Trading Competition** in Toronto, our team ranked **9th** in the Liquidity Case.
 - 🎓 Ranked **1st in my cohort** after the first semester, graduating with **Honored Distinction**.
 - 📄 Co authored **SVRPBench**, accepted at **NeurIPS 2025 Datasets & Benchmarks** (main conference).
 - 🛢️ Thesis with **AIQ Intelligence (G42 / ADNOC)** on multimodal time series + text. I started by extending the team's existing CLIP style alignment (DriMM) with hard negative mining, then proposed and implemented an encoder to decoder architecture (LiveDrill + Flamingo variant). The new pipeline yields an average **+30% improvement** over the CLIP baseline and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.

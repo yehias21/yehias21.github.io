@@ -75,7 +75,7 @@ export const EXPERIENCE: Experience[] = [
     period: "Jun 2026 – Present",
     location: "Abu Dhabi, UAE",
     description: [
-      "Architecting an AI harness for 9Yards Communications, a creative and social media company."
+      "Building a media and creative harness for 9Yards Communications, a creative and social media company."
     ]
   },
   {
@@ -125,7 +125,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: "ex5",
     company: "DELL Technologies",
-    role: "Full-Time Software Engineer",
+    role: "Software Engineer (Research)",
     period: "Sept 2022 – Aug 2023",
     location: "Cairo, Egypt",
     description: [
@@ -570,7 +570,7 @@ export const AWARDS: Award[] = [
   {
     id: "aw-rotman-2025",
     title: "Rotman Trading Competition",
-    description: "Top 10 in the Liquidity Case (2025).",
+    description: "9th place in the Liquidity Case (2025).",
     link: "https://www.rotman.utoronto.ca/faculty-and-research/education-labs/bmo-financial-group-finance-research-and-trading-lab/rotman-international-trading-competition/"
   },
   {
@@ -624,7 +624,7 @@ export const NEWS: NewsItem[] = [
     id: "n-9yardsx-2026",
     date: "2026-06",
     title: "Joined 9YardsX as a Machine Learning Engineer",
-    body: "Now building AI systems in Abu Dhabi, starting with an AI harness for 9Yards Communications.",
+    body: "Now building AI systems in Abu Dhabi, starting with a media and creative harness for 9Yards Communications.",
     tag: "Career"
   },
   {
