@@ -66,6 +66,7 @@ export const UI = {
     noPosts: 'No posts yet.', notFound: 'Blog post not found', backToBlog: 'Back to Blog',
     postsSub: 'Research topics and some scattered midnight ideas.', language: 'Language',
     noTranslation: '',
+    authorship: 'Every post here is fully written by me. Claude only helps correct it.',
   },
   fr: {
     published: 'Publié', updated: 'Mis à jour', readingTime: 'Temps de lecture', topics: 'Sujets',
@@ -73,6 +74,7 @@ export const UI = {
     morePosts: 'Autres articles', posts: 'Articles', ideas: 'Idées', business: 'Business',
     noPosts: 'Pas encore d’articles.', notFound: 'Article introuvable', backToBlog: 'Retour au blog',
     postsSub: 'Des sujets de recherche et quelques idées nées tard dans la nuit.', language: 'Langue',
+    authorship: 'Chaque article ici est entièrement écrit par moi. Claude m’aide seulement à le corriger.',
     noTranslation: 'La version française de cet article arrive bientôt. En attendant, voici la version anglaise.',
   },
 } as const;

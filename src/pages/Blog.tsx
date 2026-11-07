@@ -76,7 +76,8 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
         BLOG_POSTS.length === 0 ? (
           <p className="blog-muted mt-10">{t.noPosts}</p>
         ) : (
-          <div className="mt-10">
+          <div className="mt-6">
+            <p className="blog-serif blog-muted italic text-[0.95rem] mb-10">{t.authorship}</p>
             {/* Featured: the newest post, large. */}
             <Link to={postLink(featured.id)} lang={featured.lang} className="blog-card group grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <Hero post={featured} />
