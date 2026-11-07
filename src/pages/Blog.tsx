@@ -80,8 +80,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
         BLOG_POSTS.length === 0 ? (
           <p className="blog-muted mt-10">{t.noPosts}</p>
         ) : (
-          <div className="mt-6">
-            <p className="blog-serif blog-muted italic text-[0.95rem] mb-10">{t.authorship}</p>
+          <div className="mt-10">
             {/* Featured: the newest post, large. */}
             <Link to={postLink(featured.id)} lang={featured.lang} className="blog-card group grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <Hero post={featured} />
@@ -110,8 +109,7 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
           </div>
         )
       ) : tab === 'thoughts' ? (
-        <div className="mt-6">
-          <p className="blog-serif blog-muted italic text-[0.95rem] mb-8">{t.thoughtsAuthorship}</p>
+        <div className="mt-10">
           <ThoughtStream theme={theme} lang={lang} />
         </div>
       ) : (
@@ -119,6 +117,14 @@ const Blog: React.FC<BlogProps> = ({ theme }) => {
           <IdeaGarden theme={theme} category={tab === 'ideas' ? 'research' : 'business'} />
         </div>
       )}
+
+      {/* Design credit */}
+      <p lang={lang} className="blog-meta blog-faint text-xs normal-case tracking-normal mt-20 pt-5 border-t blog-rule">
+        {t.creditLead}{' '}
+        <a href="https://www.anthropic.com/news" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[var(--blog-ink)]">{t.creditBlog}</a>
+        {t.creditMid}{' '}
+        <a href="https://geist.co/work/anthropic" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[var(--blog-ink)]">Geist</a>.
+      </p>
     </div>
   );
 };

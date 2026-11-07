@@ -69,8 +69,7 @@ export const UI = {
     thoughts: 'Thoughts', thought: 'Thought', opinion: 'Opinion',
     thoughtsSub: 'Scattered thoughts and opinions, jotted down as they come.',
     noThoughts: 'Nothing jotted down yet.',
-    thoughtsAuthorship: 'Every note here is fully written by me. Claude only helps correct it.',
-    authorship: 'Every post here is fully written by me. Claude only helps correct it.',
+    creditLead: 'Design inspired by', creditBlog: 'the Anthropic blog', creditMid: ', whose visual identity and website were designed by the studio',
   },
   fr: {
     published: 'Publié', updated: 'Mis à jour', readingTime: 'Temps de lecture', topics: 'Sujets',
@@ -81,8 +80,7 @@ export const UI = {
     thoughts: 'Pensées', thought: 'Pensée', opinion: 'Opinion',
     thoughtsSub: 'Pensées éparses et opinions, notées au fil de l’eau.',
     noThoughts: 'Rien de noté pour l’instant.',
-    thoughtsAuthorship: 'Chaque note ici est entièrement écrite par moi. Claude m’aide seulement à la corriger.',
-    authorship: 'Chaque article ici est entièrement écrit par moi. Claude m’aide seulement à le corriger.',
+    creditLead: 'Design inspiré par', creditBlog: 'le blog d’Anthropic', creditMid: ', dont l’identité visuelle et le site ont été conçus par le studio',
     noTranslation: 'La version française de cet article arrive bientôt. En attendant, voici la version anglaise.',
   },
 } as const;
