@@ -415,55 +415,64 @@ export const GALLERY: GalleryItem[] = [
     id: "cg1",
     src: yannLeCunPhoto,
     ratio: 1.333,
-    caption: "With Yann LeCun at ICLR's AMI Lab event in Rio, Brazil"
+    caption: "With Yann LeCun at ICLR's AMI Lab event in Rio, Brazil",
+    date: "2026-04"
   },
   {
     id: "cg2",
     src: charlotteBunnePhoto,
     ratio: 2.144,
-    caption: "With Charlotte Bunne at NeurIPS in San Diego"
+    caption: "With Charlotte Bunne at NeurIPS in San Diego",
+    date: "2025-12"
   },
   {
     id: "cg3",
     src: lexFridmanPhoto,
     ratio: 2.144,
-    caption: "With Lex Fridman at NeurIPS in San Diego"
+    caption: "With Lex Fridman at NeurIPS in San Diego",
+    date: "2025-12"
   },
   {
     id: "cg4",
     src: jamesGatesPhoto,
     ratio: 2.144,
-    caption: "With Sylvester James Gates at MBZUAI"
+    caption: "With Sylvester James Gates at MBZUAI",
+    date: "2025-01"
   },
   {
     id: "cg5",
     src: careyBunksPhoto,
     ratio: 2.144,
-    caption: "With Carey Bunks and friends Berra and Ertugrul at EEML in Bosnia"
+    caption: "With Carey Bunks and friends Berra and Ertugrul at EEML in Bosnia",
+    date: "2025-07"
   },
   {
     id: "cg6",
     src: courvilleBengioPhoto,
     ratio: 0.75,
-    caption: "With Aaron Courville and Samy Bengio at EEML in Bosnia"
+    caption: "With Aaron Courville and Samy Bengio at EEML in Bosnia",
+    date: "2025-07"
   },
   {
     id: "cg7",
     src: ivanVulicPhoto,
     ratio: 0.466,
-    caption: "With Ivan Vulić at M2L in Split, Croatia"
+    caption: "With Ivan Vulić at M2L in Split, Croatia",
+    date: "2025-09"
   },
   {
     id: "cg8",
     src: jessicaHamrickPhoto,
     ratio: 2.144,
-    caption: "With Jessica Hamrick at M2L in Split, Croatia"
+    caption: "With Jessica Hamrick at M2L in Split, Croatia",
+    date: "2025-09"
   },
   {
     id: "cg9",
     src: nicholasLanePhoto,
     ratio: 1.333,
-    caption: "With Nicholas Lane at ICLR in Rio, Brazil"
+    caption: "With Nicholas Lane at ICLR in Rio, Brazil",
+    date: "2026-04"
   },
 ];
 

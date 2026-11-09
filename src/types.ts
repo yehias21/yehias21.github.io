@@ -111,6 +111,7 @@ export interface GalleryItem {
   src: string;
   caption: string;
   ratio?: number;        // width / height, so frames fit without cropping
+  date?: string;         // YYYY-MM when the photo was taken; the gallery shows newest first
 }
 
 // A notable figure shared a room/event with — no photo, just the story.

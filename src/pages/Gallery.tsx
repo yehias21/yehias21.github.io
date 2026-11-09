@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeMode } from '../types';
-import { GALLERY, ROOM_ENCOUNTERS } from '../data/content';
+import { GALLERY as GALLERY_ITEMS, ROOM_ENCOUNTERS } from '../data/content';
+
+// Newest photos first (stable, so photos from the same event keep their order).
+const GALLERY = [...GALLERY_ITEMS].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+
+// "2026-04" -> "Apr 2026"
+const monthYear = (d?: string) => {
+  if (!d) return '';
+  const [y, m] = d.split('-').map(Number);
+  return new Date(y, (m || 1) - 1, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+};
 import { Camera, X, ChevronLeft, ChevronRight, EyeOff } from 'lucide-react';
 import { Room } from '../components/GalleryUI';
 
@@ -118,7 +128,10 @@ const Gallery: React.FC<GalleryProps> = ({ theme }) => {
                       />
                     </span>
                   </button>
-                  <figcaption className="g-serif italic g-soft text-sm leading-snug mt-3 text-center px-1">{item.caption}</figcaption>
+                  <figcaption className="mt-3 text-center px-1">
+                    <span className="block g-serif italic g-soft text-sm leading-snug">{item.caption}</span>
+                    {item.date && <span className="block g-label mt-1 !text-[0.62rem]">{monthYear(item.date)}</span>}
+                  </figcaption>
                 </figure>
               );
             })}
