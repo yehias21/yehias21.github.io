@@ -437,7 +437,7 @@ export const GALLERY: GalleryItem[] = [
     src: jamesGatesPhoto,
     ratio: 2.144,
     caption: "With Sylvester James Gates at MBZUAI",
-    date: "2025-01"
+    date: "2026-01"
   },
   {
     id: "cg5",
