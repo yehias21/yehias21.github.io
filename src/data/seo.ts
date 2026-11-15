@@ -21,6 +21,7 @@ export const pages = (): PageMeta[] => {
     ['/blog', `Blog | ${NAME}`, 'Research topics and some scattered midnight ideas.'],
     ['/travel', `Travel | ${NAME}`, 'Places I have visited for conferences, summer schools, and life.'],
     ['/gallery', `Gallery | ${NAME}`, 'Photos with researchers and academics I have met.'],
+    ['/research', `My research story | ${NAME}`, 'A year by year walk through how Yahia Salaheldin Shaaban got into research, what he built, and what he learned.'],
     ['/contact', `Contact | ${NAME}`, 'Book a call or write to Yahia Salaheldin Shaaban.'],
   ];
   const list: PageMeta[] = base.map(([path, title, description]) => ({ path, title, description, url: `${SITE}${path}/` }));

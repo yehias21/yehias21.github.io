@@ -28,6 +28,10 @@ import oilGasMd from '../blog/oil-gas-drilling-fundamentals.md?raw';
 import kalmanFiltersMd from '../blog/kalman-filters-deep-dive.md?raw';
 import samplingMd from '../blog/monte-carlo-to-diffusion.md?raw';
 
+// Downloadable CV, served from public/cv/. Rebuild it from the Overleaf
+// "CV" project (website version, without Aionic Labs) when the CV changes.
+export const CV_PDF = '/cv/Yahia_Shaaban_CV.pdf';
+
 export const PROFILE: Profile = {
   name: "Yahia Salaheldin Shaaban",
   role: "Machine Learning Engineer",
@@ -109,8 +113,9 @@ export const EXPERIENCE: Experience[] = [
     period: "Jul 2023 – Sept 2024",
     location: "Remote",
     description: [
-      "Extended learning-based KKL observers to non-autonomous nonlinear dynamical systems using low-rank meta-learning; ~9% improvement.",
-      "Built Python framework for PINN experiments. Published at ICLR 2026 Workshop on AI and PDE."
+      "HyperKKL: hypernetwork-conditioned KKL observers for non-autonomous nonlinear systems. Published at ICLR 2026 Workshop on AI and PDE.",
+      "Extended version (TMLR, in preparation): injecting the input history into the observer's weights beats latent-dynamics injection at equal parameter count on 5 of 6 held-out systems.",
+      "Pre-registered benchmark of learned observers against 8 model-based filters (EKF, UKF, particle filter, and others) on 12 nonlinear systems; on real lithium-ion battery data the learned observer beat a tuned EKF on 3 of 3 held-out cycles."
     ]
   },
   {
@@ -147,6 +152,17 @@ export const EXPERIENCE: Experience[] = [
 ];
 
 export const PUBLICATIONS: Publication[] = [
+  {
+    id: "hyperkkl-tmlr",
+    title: "Where Should the Input Enter a Learned KKL Observer?",
+    authors: ["Yahia Salaheldin Shaaban", "Abdelrahman Sayed Sayed", "M. Umar B. Niazi", "Karl Henrik Johansson"],
+    venue: "In preparation for Transactions on Machine Learning Research (TMLR)",
+    year: 2026,
+    abstract: "The extended version of HyperKKL. KKL theory says a forced system needs an input-dependent observer map, but not how a learned observer should depend on the input. A controlled study shows that injecting the input history into the observer's weights through a hypernetwork outperforms latent-dynamics injection at equal parameter count on 5 of 6 held-out systems. A pre-registered benchmark against 8 model-based filters (EKF, UKF, particle filter, and others) on 12 nonlinear systems shows learned observers winning under realistic model error, including 3 of 3 held-out drive cycles of real lithium-ion battery data against a tuned EKF.",
+    tags: ["Dynamical Systems", "Observers", "Hypernetworks", "Benchmarks"],
+    link: "https://github.com/yehias21/HyperKKL",
+    comment: "In preparation"
+  },
   {
     id: "hyperkkl",
     title: "HyperKKL: Enabling Non-Autonomous State Estimation through Dynamic Weight Conditioning",
@@ -228,7 +244,7 @@ export const PUBLICATIONS: Publication[] = [
   {
     id: "watermark-removal",
     title: "First-Place Solution to NeurIPS 2024 Invisible Watermark Removal Challenge",
-    authors: ["Fahad Shamshad", "Tewodros Bakr", "Yahia Salaheldin Shaaban", "Noor Hazim Hussein", "Karthik Nandakumar", "Nils Lukas"],
+    authors: ["Fahad Shamshad", "Tameem Bakr", "Yahia Salaheldin Shaaban", "Noor Hazim Hussein", "Karthik Nandakumar", "Nils Lukas"],
     venue: "ICLR 2025 Workshop on GenAI Watermarking",
     year: 2025,
     abstract: "Winning approach combining frequency-domain analysis, adaptive VAE inversion of StegaStamp watermarks, and cluster-specific diffusion regeneration attacks. Ranked 1st in both tracks of the NeurIPS 2024 challenge.",
@@ -236,7 +252,7 @@ export const PUBLICATIONS: Publication[] = [
     link: "https://github.com/yehias21/watermark-analysis",
     bibtex: `@inproceedings{shamshad2025watermark,
   title={First-Place Solution to NeurIPS 2024 Invisible Watermark Removal Challenge},
-  author={Shamshad, Fahad and Bakr, Tewodros and Shaaban, Yahia Salaheldin and Hussein, Noor Hazim and Nandakumar, Karthik and Lukas, Nils},
+  author={Shamshad, Fahad and Bakr, Tameem and Shaaban, Yahia Salaheldin and Hussein, Noor Hazim and Nandakumar, Karthik and Lukas, Nils},
   booktitle={ICLR 2025 Workshop on GenAI Watermarking},
   year={2025}
 }`
@@ -621,7 +637,7 @@ export const AWARDS: Award[] = [
   {
     id: "aw-rotman-2025",
     title: "Rotman Trading Competition",
-    description: "9th place in the Liquidity Case (2025).",
+    description: "Top 10 in the Liquidity Case (2025).",
     link: "https://www.rotman.utoronto.ca/faculty-and-research/education-labs/bmo-financial-group-finance-research-and-trading-lab/rotman-international-trading-competition/"
   },
   {
@@ -672,6 +688,15 @@ export const CERTIFICATES: Award[] = [
 // Latest first. Use absolute dates so they stay interpretable over time.
 export const NEWS: NewsItem[] = [
   {
+    id: "n-mlss-2026",
+    date: "2026-07-07",
+    title: "Attending MLSS 2026 at Columbia University",
+    body: "Selected with a full travel award for the Machine Learning Summer School in New York.",
+    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026",
+    linkLabel: "MLSS 2026",
+    tag: "Event"
+  },
+  {
     id: "n-9yardsx-2026",
     date: "2026-06",
     title: "Joined 9YardsX as a Machine Learning Engineer",
@@ -684,15 +709,6 @@ export const NEWS: NewsItem[] = [
     title: "Graduated with an M.Sc. in Machine Learning from MBZUAI",
     body: "Thesis: IndusTSLM, integrating raw drilling sensor signals as a native modality into pretrained LLMs.",
     tag: "Milestone"
-  },
-  {
-    id: "n-mlss-2026",
-    date: "2026-07-07",
-    title: "Attending MLSS 2026 at Columbia University",
-    body: "Selected with a full travel award for the Machine Learning Summer School in New York.",
-    link: "https://cfe.columbia.edu/events/machine-learning-summer-school-2026",
-    linkLabel: "MLSS 2026",
-    tag: "Event"
   },
   {
     id: "n-reviewer-2026",

@@ -23,11 +23,15 @@ export const Room: React.FC<{
         <Tag className="g-room-title">{title}</Tag>
         {sub && <p className="g-room-sub">{sub}</p>}
       </div>
-      {to && (
+      {to && (/^https?:|\.pdf$/.test(to) ? (
+        <a href={to} target="_blank" rel="noreferrer" className="g-arrow-link mb-2">
+          {toLabel} <ArrowRight className="w-4 h-4" />
+        </a>
+      ) : (
         <Link to={to} className="g-arrow-link mb-2">
           {toLabel} <ArrowRight className="w-4 h-4" />
         </Link>
-      )}
+      ))}
     </header>
   );
 };

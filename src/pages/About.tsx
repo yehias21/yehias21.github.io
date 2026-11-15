@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeMode } from '../types';
-import { EDUCATION, EXPERIENCE, SERVICE, AWARDS, CERTIFICATES } from '../data/content';
-import { MapPin, ExternalLink } from 'lucide-react';
+import { EDUCATION, EXPERIENCE, SERVICE, AWARDS, CERTIFICATES, CV_PDF } from '../data/content';
+import { MapPin, ExternalLink, Download } from 'lucide-react';
 import { Room } from '../components/GalleryUI';
 
 interface AboutProps {
@@ -31,6 +31,9 @@ const TitleLink: React.FC<{ title: string; href?: string }> = ({ title, href }) 
 const About: React.FC<AboutProps> = () => (
   <div className="py-12">
     <Room as="h1" label="The artist" title="About me" sub="Education, studios, and the honors along the way." />
+    <a href={CV_PDF} target="_blank" rel="noreferrer" className="g-btn g-btn-solid -mt-4 mb-10 inline-flex">
+      <Download className="w-4 h-4" /> Download CV (PDF)
+    </a>
 
     <div className="grid lg:grid-cols-[1fr_20rem] gap-12">
       <div className="space-y-16">

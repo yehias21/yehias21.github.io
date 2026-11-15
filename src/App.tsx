@@ -12,6 +12,7 @@ import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Travel from './pages/Travel';
 import Gallery from './pages/Gallery';
+import ResearchStory from './pages/ResearchStory';
 import { Menu, X, Github, Linkedin, GraduationCap, Sun, Moon } from 'lucide-react';
 import './styles/gallery.css';
 import { PAINTINGS, pickPainting } from './data/paintings';
@@ -284,6 +285,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="/travel" element={<Travel theme={theme} />} />
           <Route path="/gallery" element={<Gallery theme={theme} />} />
           <Route path="/contact" element={<Contact theme={theme} />} />
+          <Route path="/research" element={<ResearchStory theme={theme} />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Layout>

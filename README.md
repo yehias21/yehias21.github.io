@@ -30,15 +30,17 @@ My own focus was implementation and *personalization*. I implemented cPCA, then 
 
 At AIC, Egypt's national applied AI lab, I led the geospatial crop segmentation pipeline end to end: data annotation orchestration, training dataset and benchmark construction, and model training. The best model reached **~80% IoU** on our held out benchmark and was deployed internally.
 
-### 2024–2025. Learned observers for non autonomous systems (HyperKKL)
+### 2024–2026. Learned observers for non autonomous systems (HyperKKL)
 
-We extended **neural KKL observers to non autonomous systems**. I combined **curriculum learning** with **hypernetworks** so that the observer weights are generated as a function of the exogenous input signal, producing genuinely time varying transformation maps. A workshop paper was accepted at the **ICLR 2026 Workshop on AI and PDE**, and the extended **TMLR** version is coauthored with Dr. Muhamed Umar Niazi.
+We extended **neural KKL observers to non autonomous systems**: a hypernetwork generates the observer weights as a function of the exogenous input signal, producing genuinely time varying transformation maps. A workshop paper was accepted at the **ICLR 2026 Workshop on AI and PDE**.
+
+The extended version, now **in preparation for TMLR** with Dr. Muhamed Umar Niazi and Prof. Karl Henrik Johansson (KTH), asks *where* the input should enter a learned observer. Injecting the input history into the observer's **weights** beats injecting it into the latent dynamics at equal parameter count on **5 of 6** held out systems. Against **8** model based filters (EKF, UKF, particle filter and others) on **12** nonlinear systems, with a pre registered protocol and half the systems held out, learned observers win under realistic model error, and on real lithium ion battery drive cycle data the learned observer beats a tuned EKF on **3 of 3** held out cycles.
 
 ### 2025. MBZUAI
 
 - 🥇 **1st place** at the InSilico hackathon for drug discovery.
 - 🥇 Collaborated with **Dr. Nils Lukas**'s team and won both tracks of the **NeurIPS 2024 *Erasing the Invisible*** watermark removal challenge (published at ICLR 2025 workshop).
-- 🏅 At the **Rotman International Trading Competition** in Toronto, our team ranked **9th** in the Liquidity Case.
+- 🏅 At the **Rotman International Trading Competition** in Toronto, our team placed in the **top 10** of the Liquidity Case.
 - 🎓 Ranked **1st in my cohort** after the first semester, graduating with **Honored Distinction**.
 - 📄 Co authored **SVRPBench**, accepted at **NeurIPS 2025 Datasets & Benchmarks** (main conference).
 - 🛢️ Thesis with **AIQ Intelligence (G42 / ADNOC)** on multimodal time series + text. I started by extending the team's existing CLIP style alignment (DriMM) with hard negative mining, then proposed and implemented an encoder to decoder architecture (LiveDrill + Flamingo variant). The new pipeline yields an average **+30% improvement** over the CLIP baseline and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.

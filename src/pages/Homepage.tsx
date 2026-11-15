@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeMode } from '../types';
-import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE, NEWS } from '../data/content';
-import { FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText } from 'lucide-react';
+import { PROFILE, PUBLICATIONS, PROJECTS, BLOG_POSTS, EXPERIENCE, NEWS, CV_PDF } from '../data/content';
+import { FileText, Calendar, Github, Linkedin, GraduationCap, MapPin, ArrowRight, Mail, FileCode, BookText, Download } from 'lucide-react';
 import { Room, Frame, Authors } from '../components/GalleryUI';
 
 // "2026-07-07" -> "Jul 7, 2026"; "2026-06" -> "Jun 2026"
@@ -109,13 +109,11 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
           </button>
 
           <div className="flex flex-wrap items-center gap-3 mt-8">
-            <a
-              href="https://github.com/yehias21/yehias21.github.io#-research-background"
-              target="_blank"
-              rel="noreferrer"
-              className="g-btn g-btn-solid"
-            >
+            <Link to="/research" className="g-btn g-btn-solid">
               <BookText className="w-4 h-4" /> My research story
+            </Link>
+            <a href={CV_PDF} target="_blank" rel="noreferrer" className="g-btn">
+              <Download className="w-4 h-4" /> CV (PDF)
             </a>
             <Link to="/contact" className="g-btn">
               <Calendar className="w-4 h-4" /> Get in touch
@@ -267,7 +265,7 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
 
       {/* ---------- Room IV: Experience ---------- */}
       <section>
-        <Room n={4} title="Experience" sub="Studios I have worked in." to="/about" toLabel="Full CV" />
+        <Room n={4} title="Experience" sub="Studios I have worked in." to={CV_PDF} toLabel="Full CV (PDF)" />
         <ol className="grid md:grid-cols-3 gap-6">
           {EXPERIENCE.slice(0, 3).map(exp => (
             <li key={exp.id} className="g-placard p-5">
