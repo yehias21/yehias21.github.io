@@ -115,7 +115,7 @@ export const EXPERIENCE: Experience[] = [
     description: [
       "HyperKKL: hypernetwork-conditioned KKL observers for non-autonomous nonlinear systems. Published at ICLR 2026 Workshop on AI and PDE.",
       "Extended version (TMLR, in preparation): a fading-memory summary of the input drives a low-rank hypernetwork that adapts the observer's decoder, with error bounds for input-conditioned KKL observers.",
-      "Built HyperKKL-Bench 2.0, a pre-registered state-estimation benchmark (13 input-driven plants, 7 autonomous systems, real-data tracks). On equal data HyperKKL ties corrected grey-box filters in most driven settings, is best on 5 of 13, and beats published learned KKL observers."
+      "Built HyperKKL-Bench 2.0, a state-estimation benchmark (13 input-driven plants, 7 autonomous systems, real-data tracks). On equal data HyperKKL ties corrected grey-box filters in most driven settings, is best on 5 of 13, and beats published learned KKL observers."
     ]
   },
   {
@@ -158,7 +158,7 @@ export const PUBLICATIONS: Publication[] = [
     authors: ["Yahia Salaheldin Shaaban", "Abdelrahman Sayed Sayed", "M. Umar B. Niazi", "Karl Henrik Johansson"],
     venue: "In preparation for Transactions on Machine Learning Research (TMLR)",
     year: 2026,
-    abstract: "The extended version of HyperKKL. A fading-memory summary of the input history drives a low-rank (LoRA) hypernetwork that adapts the decoder of a learned KKL observer, backed by fading-memory theory and error bounds. Alongside it we built HyperKKL-Bench 2.0, a pre-registered benchmark of 13 input-driven plants under realistic conditions (imperfect model, 30% parameter mismatch, coloured heavy-tailed noise), 7 autonomous systems and real-data tracks (the v1 data is public on Hugging Face). On equal data, HyperKKL is statistically tied with corrected grey-box filters (UDE + gated EKF/UKF) in most driven settings, is best on 5 of 13, and outperforms published learned KKL observers and a GRU in most settings; EKF and UKF on the imperfect model are an order of magnitude worse.",
+    abstract: "The extended version of HyperKKL. A fading-memory summary of the input history drives a low-rank (LoRA) hypernetwork that adapts the decoder of a learned KKL observer, backed by fading-memory theory and error bounds. Alongside it we built HyperKKL-Bench 2.0, a benchmark of 13 input-driven plants under realistic conditions (imperfect model, 30% parameter mismatch, coloured heavy-tailed noise), 7 autonomous systems and real-data tracks (the v1 data is public on Hugging Face). On equal data, HyperKKL is statistically tied with corrected grey-box filters (UDE + gated EKF/UKF) in most driven settings, is best on 5 of 13, and outperforms published learned KKL observers and a GRU in most settings; EKF and UKF on the imperfect model are an order of magnitude worse.",
     tags: ["Dynamical Systems", "Observers", "Hypernetworks", "Benchmarks"],
     link: "https://github.com/yehias21/HyperKKL/tree/tmlr",
     comment: "In preparation"
