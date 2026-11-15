@@ -114,8 +114,8 @@ export const EXPERIENCE: Experience[] = [
     location: "Remote",
     description: [
       "HyperKKL: hypernetwork-conditioned KKL observers for non-autonomous nonlinear systems. Published at ICLR 2026 Workshop on AI and PDE.",
-      "Extended version (TMLR, in preparation): injecting the input history into the observer's weights beats latent-dynamics injection at equal parameter count on 5 of 6 held-out systems.",
-      "Pre-registered benchmark of learned observers against 8 model-based filters (EKF, UKF, particle filter, and others) on 12 nonlinear systems; on real lithium-ion battery data the learned observer beat a tuned EKF on 3 of 3 held-out cycles."
+      "Extended version (TMLR, in preparation): a fading-memory summary of the input drives a low-rank hypernetwork that adapts the observer's decoder, with error bounds for input-conditioned KKL observers.",
+      "Built HyperKKL-Bench 2.0, a pre-registered state-estimation benchmark (13 input-driven plants, 7 autonomous systems, real-data tracks). On equal data HyperKKL ties corrected grey-box filters in most driven settings, is best on 5 of 13, and beats published learned KKL observers."
     ]
   },
   {
@@ -154,13 +154,13 @@ export const EXPERIENCE: Experience[] = [
 export const PUBLICATIONS: Publication[] = [
   {
     id: "hyperkkl-tmlr",
-    title: "Where Should the Input Enter a Learned KKL Observer?",
+    title: "HyperKKL: Learning KKL Observers for Non-Autonomous Nonlinear Systems via Hypernetwork-Based Input Conditioning",
     authors: ["Yahia Salaheldin Shaaban", "Abdelrahman Sayed Sayed", "M. Umar B. Niazi", "Karl Henrik Johansson"],
     venue: "In preparation for Transactions on Machine Learning Research (TMLR)",
     year: 2026,
-    abstract: "The extended version of HyperKKL. KKL theory says a forced system needs an input-dependent observer map, but not how a learned observer should depend on the input. A controlled study shows that injecting the input history into the observer's weights through a hypernetwork outperforms latent-dynamics injection at equal parameter count on 5 of 6 held-out systems. A pre-registered benchmark against 8 model-based filters (EKF, UKF, particle filter, and others) on 12 nonlinear systems shows learned observers winning under realistic model error, including 3 of 3 held-out drive cycles of real lithium-ion battery data against a tuned EKF.",
+    abstract: "The extended version of HyperKKL. A fading-memory summary of the input history drives a low-rank (LoRA) hypernetwork that adapts the decoder of a learned KKL observer, backed by fading-memory theory and error bounds. Alongside it we built HyperKKL-Bench 2.0, a pre-registered benchmark of 13 input-driven plants under realistic conditions (imperfect model, 30% parameter mismatch, coloured heavy-tailed noise), 7 autonomous systems and real-data tracks (the v1 data is public on Hugging Face). On equal data, HyperKKL is statistically tied with corrected grey-box filters (UDE + gated EKF/UKF) in most driven settings, is best on 5 of 13, and outperforms published learned KKL observers and a GRU in most settings; EKF and UKF on the imperfect model are an order of magnitude worse.",
     tags: ["Dynamical Systems", "Observers", "Hypernetworks", "Benchmarks"],
-    link: "https://github.com/yehias21/HyperKKL",
+    link: "https://github.com/yehias21/HyperKKL/tree/tmlr",
     comment: "In preparation"
   },
   {
