@@ -115,7 +115,7 @@ export const EXPERIENCE: Experience[] = [
     description: [
       "HyperKKL: hypernetwork-conditioned KKL observers for non-autonomous nonlinear systems. Published at ICLR 2026 Workshop on AI and PDE.",
       "Extended version (TMLR, in preparation): a fading-memory summary of the input drives a low-rank hypernetwork that adapts the observer's decoder, with error bounds for input-conditioned KKL observers.",
-      "Built HyperKKL-Bench 2.0, a state-estimation benchmark (13 input-driven plants, 7 autonomous systems, real-data tracks). On equal data HyperKKL ties corrected grey-box filters in most driven settings, is best on 5 of 13, and beats published learned KKL observers."
+      "Built HyperKKL-Bench 2.0, a state-estimation benchmark (13 input-driven plants, 7 autonomous systems, real-data tracks)."
     ]
   },
   {
