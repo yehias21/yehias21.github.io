@@ -21,7 +21,6 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => (
       as="h1"
       label="The artist's notebook"
       title="My research story"
-      sub="A year by year walk through how I got here, what I built, and what I learned."
     />
 
     <div className="g-placard p-6 sm:p-10 max-w-3xl">
