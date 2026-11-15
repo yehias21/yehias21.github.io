@@ -110,7 +110,7 @@ export const EXPERIENCE: Experience[] = [
     id: "ex3",
     company: "Fatima Fellowship",
     role: "Predoctoral Research Fellow",
-    period: "Jul 2023 – Sept 2024",
+    period: "May 2023 – Aug 2024",
     location: "Remote",
     description: [
       "HyperKKL: hypernetwork-conditioned KKL observers for non-autonomous nonlinear systems. Published at ICLR 2026 Workshop on AI and PDE.",
