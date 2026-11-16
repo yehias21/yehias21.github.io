@@ -2,7 +2,7 @@
 
 Source for [yehias21.github.io](https://yehias21.github.io). Built with Vite + React + TypeScript. Content lives in [src/data/content.ts](src/data/content.ts) and blog posts in [src/blog/](src/blog/).
 
-## 🧭 Research Background
+## Research Background
 
 A year by year walk through how I got here, what I built, and what I learned.
 
@@ -36,33 +36,21 @@ We extended **neural KKL observers to non autonomous systems**: a hypernetwork g
 
 ### 2025. MBZUAI
 
-- 🥇 **1st place** at the InSilico hackathon for drug discovery.
-- 🥇 Collaborated with **Dr. Nils Lukas**'s team and won both tracks of the **NeurIPS 2024 *Erasing the Invisible*** watermark removal challenge (published at ICLR 2025 workshop).
-- 🏅 At the **Rotman International Trading Competition** in Toronto, our team placed in the **top 10** of the Liquidity Case.
-- 🎓 Ranked **1st in my cohort** after the first semester, graduating with **Honored Distinction**.
-- 📄 Co authored **SVRPBench**, accepted at **NeurIPS 2025 Datasets & Benchmarks** (main conference).
+- **1st place** at the InSilico hackathon for drug discovery.
+- Collaborated with **Dr. Nils Lukas**'s team and won both tracks of the **NeurIPS 2024 *Erasing the Invisible*** watermark removal challenge (published at ICLR 2025 workshop).
+- At the **Rotman International Trading Competition** in Toronto, our team placed in the **top 10** of the Liquidity Case.
+- Ranked **1st in my cohort** after the first semester, graduating with **Honored Distinction**.
+- Co authored **SVRPBench**, accepted at **NeurIPS 2025 Datasets & Benchmarks** (main conference).
 
 ### 2026. Thesis, benchmarks and agentic search
 
-- 🛢️ **M.Sc. thesis (IndusTSLM)** with **AIQ Intelligence (G42 × ADNOC)** on multimodal time series + text: teaching a language model to read raw drilling sensor streams and write the operator's daily report. I started by extending the team's existing CLIP style alignment (DriMM) with hard negative mining, then proposed and implemented an encoder to decoder architecture (LiveDrill + Flamingo variant). The new pipeline yields an average **+30% improvement** over the CLIP baseline and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.
-- 🧪 **DrillBench**, the first comprehensive benchmark for time series language models in drilling: seven task types across classification, generation, physical reasoning and forecasting, **~150K instances** from the public Volve and Utah FORGE data, with a knowledge decoupling test that checks whether a model actually reads the signal or just recalls drilling facts.
-- 📄 **TMLR extension of HyperKKL** with Dr. Muhamed Umar Niazi and Prof. Karl Henrik Johansson (KTH): a low rank hypernetwork observer with error bounds, plus **HyperKKL-Bench 2.0**.
-- 🔎 **Agentic search as a POMDP**: framing an agent's search over information as a partially observable decision problem, so what to look at next becomes a decision under uncertainty rather than a fixed pipeline.
-- 🛠️ **Open source for Open Design** *(in progress)*.
+- **M.Sc. thesis (IndusTSLM)** with **AIQ Intelligence (G42 × ADNOC)**: teaching a language model to read raw drilling sensor streams and write the operator's daily report. Moving from CLIP style alignment to an encoder to decoder design (LiveDrill + Flamingo variant) gave an average **+30% improvement** and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.
+- **DrillBench**, the first comprehensive benchmark for time series language models in drilling, with seven task types and **~150K instances** from the public Volve and Utah FORGE data. Its knowledge decoupling test checks whether a model actually reads the sensor signal or just recalls drilling facts.
+- **TMLR extension of HyperKKL** with Dr. Muhamed Umar Niazi and Prof. Karl Henrik Johansson (KTH): a low rank hypernetwork conditions the observer on a fading memory summary of the input, with error bounds to match. It ships with **HyperKKL-Bench 2.0**, covering 13 input driven plants, 7 autonomous systems and real data tracks.
+- **Agentic search as a POMDP** *(in progress)*: framing an agent's search over information as a partially observable decision problem. What to look at next becomes a decision under uncertainty instead of a fixed retrieval pipeline.
+- **Open source for Open Design** *(in progress)*: contributing to the Open Design open source project. More details once the first contributions land.
 
-## 🎯 Where I'm Heading: PhD
-
-My core methods are **search, diffusion and reinforcement learning**, and how to build systems around them. I want to apply them to hardware architecture design, biology and chemistry. This direction came out of exploring diffusion for AI hardware (diffusion LLM systems, fault resilience, chip placement); work like *LLM-to-Flow Distillation* from the Krause group at ETH is a good example of what excites me.
-
-Groups I'm most drawn to right now:
-
-1. **LMU Munich**: Stefan Feuerriegel's Institute of AI in Management
-2. **Max Planck Institute for Intelligent Systems, Tübingen**: Lancelot Da Costa's ATOM group
-3. **ETH Zurich**, together with Aionic Labs
-4. **Charlotte Bunne's lab** (machine learning for multi-omics)
-5. **Mila** and **MBZUAI**
-
-## 🧪 Research Questions I Care About
+## Research Questions I Care About
 
 1. **Cross modal attention.** How do you let a model attend to information from a modality different from the one it was trained on?
 2. **Human in the loop.** How do agents decide what information to surface, and when to ask a human? Active selection, composability, uncertainty.
