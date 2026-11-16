@@ -86,7 +86,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: "ex1",
     company: "AIQ Intelligence (G42 / ADNOC)",
-    role: "Research Scientist",
+    role: "Research Intern",
     period: "May 2025 – Apr 2026",
     location: "Abu Dhabi, UAE",
     description: [
@@ -131,7 +131,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: "ex5",
     company: "DELL Technologies",
-    role: "Software Engineer (Research)",
+    role: "Research Intern (Software Engineering)",
     period: "Sept 2022 – Aug 2023",
     location: "Cairo, Egypt",
     description: [
@@ -745,7 +745,7 @@ export const NEWS: NewsItem[] = [
   {
     id: "n-aiq-intern-2025",
     date: "2025-05-01",
-    title: "Joined AIQ Intelligence as a research scientist",
+    title: "Joined AIQ Intelligence as a research intern",
     body: "Worked on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis, through April 2026.",
     tag: "Career"
   }

@@ -8,7 +8,7 @@ Separately, I worked on a dark channel prior approach to preprocess the video in
 
 ### 2022. Scale graph research at DELL Technologies
 
-I spent a full year at DELL Technologies on a pre LLM era internal research project: a deep research agent whose goal was to forecast the next financial trend and serve as an alpha signal for financial analysis. We designed a multi graph that mixed information signals across Twitter, Yahoo News, and a large citation authorship graph.
+I spent a full year at DELL Technologies as a research intern on a pre LLM era internal research project: a deep research agent whose goal was to forecast the next financial trend and serve as an alpha signal for financial analysis. We designed a multi graph that mixed information signals across Twitter, Yahoo News, and a large citation authorship graph.
 
 Because of the scale, I owned the citation graph: **10M nodes and 100M edges**, reproducing and extending the MIT Delphi work. I added signals from clusters, motifs, and communities, weighted each citation by where in the citing paper it appeared, and introduced a **temporal centrality** that mirrors PageRank with an extra *information diffusion factor* I coined: it captures the tree of citations up to a chosen depth. Papers were normalized by community and year to remove publication volume bias.
 
