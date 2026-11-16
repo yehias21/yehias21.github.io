@@ -10,6 +10,7 @@ export interface Publication {
   pdf?: string;
   bibtex?: string;
   comment?: string; // e.g., "Spotlight", "Oral Presentation"
+  earlierVersion?: { label: string; url: string }; // e.g. a workshop version of the same work
 }
 
 export interface Project {

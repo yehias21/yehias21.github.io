@@ -89,6 +89,9 @@ const Publications: React.FC<PublicationsProps> = ({ theme }) => {
                     <p className="g-label">{pub.venue}</p>
                     <h3 className="g-placard-title text-[1.25rem] md:text-[1.35rem] mt-2">{pub.title}</h3>
                     {pub.comment && <span className="g-chip mt-2">{pub.comment}</span>}
+                    {pub.earlierVersion && (
+                  <p className="g-muted text-sm mt-2">Earlier version: <a href={pub.earlierVersion.url} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-[var(--gold)]">{pub.earlierVersion.label}</a></p>
+                )}
                     <p className="g-muted text-sm leading-relaxed mt-2"><Authors authors={pub.authors} /></p>
                     {open && (
                       <p className="g-serif g-soft leading-relaxed mt-4 border-l-2 pl-4 border-[var(--gold)]">{pub.abstract}</p>
