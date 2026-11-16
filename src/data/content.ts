@@ -85,7 +85,7 @@ export const EXPERIENCE: Experience[] = [
   },
   {
     id: "ex1",
-    company: "AIQ Intelligence (G42 / ADNOC)",
+    company: "AIQ Intelligence (G42 × ADNOC)",
     role: "Research Intern",
     period: "May 2025 – Apr 2026",
     location: "Abu Dhabi, UAE",

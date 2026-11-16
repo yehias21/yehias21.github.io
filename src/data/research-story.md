@@ -24,11 +24,9 @@ My own focus was implementation and *personalization*. I implemented cPCA, then 
 
 At AIC, Egypt's national applied AI lab, I led the geospatial crop segmentation pipeline end to end: data annotation orchestration, training dataset and benchmark construction, and model training. The best model reached **~80% IoU** on our held out benchmark and was deployed internally.
 
-### 2024–2026. Learned observers for non autonomous systems (HyperKKL)
+### 2024–2025. Learned observers for non autonomous systems (HyperKKL)
 
 We extended **neural KKL observers to non autonomous systems**: a hypernetwork generates the observer weights as a function of the exogenous input signal, producing genuinely time varying transformation maps. A workshop paper was accepted at the **ICLR 2026 Workshop on AI and PDE**.
-
-The extended version, now **in preparation for TMLR** with Dr. Muhamed Umar Niazi and Prof. Karl Henrik Johansson (KTH), conditions the observer's decoder on a fading-memory summary of the input through a low-rank hypernetwork, with error bounds to match. Alongside it I built **HyperKKL-Bench 2.0**, a benchmark (the v1 data is [public on Hugging Face](https://huggingface.co/datasets/Yahias21/HyperKKL-benchmark)): 13 input-driven plants under realistic conditions (imperfect model, 30% parameter mismatch, coloured heavy-tailed noise), 7 autonomous systems and real-data tracks.
 
 ### 2025. MBZUAI
 
@@ -37,7 +35,26 @@ The extended version, now **in preparation for TMLR** with Dr. Muhamed Umar Niaz
 - 🏅 At the **Rotman International Trading Competition** in Toronto, our team placed in the **top 10** of the Liquidity Case.
 - 🎓 Ranked **1st in my cohort** after the first semester, graduating with **Honored Distinction**.
 - 📄 Co authored **SVRPBench**, accepted at **NeurIPS 2025 Datasets & Benchmarks** (main conference).
-- 🛢️ Thesis with **AIQ Intelligence (G42 / ADNOC)** on multimodal time series + text. I started by extending the team's existing CLIP style alignment (DriMM) with hard negative mining, then proposed and implemented an encoder to decoder architecture (LiveDrill + Flamingo variant). The new pipeline yields an average **+30% improvement** over the CLIP baseline and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.
+
+### 2026. Thesis, benchmarks and agentic search
+
+- 🛢️ **M.Sc. thesis (IndusTSLM)** with **AIQ Intelligence (G42 × ADNOC)** on multimodal time series + text: teaching a language model to read raw drilling sensor streams and write the operator's daily report. I started by extending the team's existing CLIP style alignment (DriMM) with hard negative mining, then proposed and implemented an encoder to decoder architecture (LiveDrill + Flamingo variant). The new pipeline yields an average **+30% improvement** over the CLIP baseline and led to **two NeurIPS 2025 workshop papers** plus an IEEE Big Data 2025 paper.
+- 🧪 **DrillBench**, the first comprehensive benchmark for time series language models in drilling: seven task types across classification, generation, physical reasoning and forecasting, **~150K instances** from the public Volve and Utah FORGE data, with a knowledge decoupling test that checks whether a model actually reads the signal or just recalls drilling facts.
+- 📄 **TMLR extension of HyperKKL** with Dr. Muhamed Umar Niazi and Prof. Karl Henrik Johansson (KTH): a low rank hypernetwork observer with error bounds, plus **HyperKKL-Bench 2.0**.
+- 🔎 **Agentic search as a POMDP**: framing an agent's search over information as a partially observable decision problem, so what to look at next becomes a decision under uncertainty rather than a fixed pipeline.
+- 🛠️ **Open source for Open Design** *(in progress)*.
+
+## 🎯 Where I'm Heading: PhD
+
+My core methods are **search, diffusion and reinforcement learning**, and how to build systems around them. I want to apply them to hardware architecture design, biology and chemistry. This direction came out of exploring diffusion for AI hardware (diffusion LLM systems, fault resilience, chip placement); work like *LLM-to-Flow Distillation* from the Krause group at ETH is a good example of what excites me.
+
+Groups I'm most drawn to right now:
+
+1. **LMU Munich**: Stefan Feuerriegel's Institute of AI in Management
+2. **Max Planck Institute for Intelligent Systems, Tübingen**: Lancelot Da Costa's ATOM group
+3. **ETH Zurich**, together with Aionic Labs
+4. **Charlotte Bunne's lab** (machine learning for multi-omics)
+5. **Mila** and **MBZUAI**
 
 ## 🧪 Research Questions I Care About
 

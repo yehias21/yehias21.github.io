@@ -306,3 +306,45 @@
   background: var(--blog-ink);
   color: var(--blog-paper, #faf9f5);
 }
+
+/* ---- Research story: chapters on a vertical timeline -------------- */
+.story-timeline { list-style: none; margin: 0; padding: 0; }
+.story-chapter {
+  position: relative;
+  padding: 0 0 2.25rem 1.75rem;
+  border-left: 1px solid var(--blog-rule);
+}
+.story-chapter:last-child { padding-bottom: 0.5rem; }
+.story-dot {
+  position: absolute;
+  left: -5px;
+  top: 0.3rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--blog-paper);
+  border: 2px solid var(--blog-ink);
+}
+.story-year {
+  font-family: var(--blog-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--blog-faint);
+  margin: 0 0 0.35rem;
+  line-height: 1;
+}
+.story-title {
+  font-family: var(--blog-sans);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--blog-ink);
+  margin: 0 0 1rem;
+}
+.story-chapter .prose p:last-child { margin-bottom: 0; }
+.story-chapter .prose ul { margin-top: 0; }
+@media (max-width: 640px) {
+  .story-chapter { padding-left: 1.25rem; }
+  .story-title { font-size: 1.15rem; }
+}
