@@ -75,13 +75,29 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
             <Link to="/home" className="blog-meta inline-flex items-center gap-1.5 hover:underline underline-offset-4">
               <ArrowLeft className="w-3.5 h-3.5" /> Home
             </Link>
-            <span className="blog-meta">The artist's notebook</span>
+            <span className="blog-meta hidden sm:inline">The artist's notebook</span>
           </div>
           <h1 className="blog-title text-[1.85rem] sm:text-[2.05rem] max-w-[46rem] mx-auto mt-5">My research story</h1>
           {intro && <p className="blog-serif blog-muted text-[1.05rem] max-w-[34rem] mx-auto mt-4">{intro}</p>}
         </header>
 
-        <div className="blog-grid mt-10 xl:mt-14">
+        {/* Phones and tablets: a scrollable strip of years in place of the side index */}
+        <nav className="xl:hidden mt-8 -mx-1 overflow-x-auto" aria-label="Years">
+          <ul className="flex gap-2 px-1 pb-1 w-max">
+            {chapters.map(c => (
+              <li key={c.id}>
+                <a
+                  href={`#${c.id}`}
+                  className={`story-chip ${active === c.id ? 'is-active' : ''}`}
+                >
+                  {c.year}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="story-grid mt-8 xl:mt-14">
           <aside className="hidden xl:block">
             <nav className="sticky top-24" aria-label="Years">
               <ul>
@@ -100,7 +116,7 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
             </nav>
           </aside>
 
-          <div className="min-w-0">
+          <div className="story-main min-w-0">
             <ol className="story-timeline">
               {chapters.map(c => (
                 <li key={c.id} id={c.id} className="story-chapter scroll-mt-28">
@@ -130,7 +146,6 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
             </div>
           </div>
 
-          <aside className="hidden xl:block" />
         </div>
       </article>
     </div>

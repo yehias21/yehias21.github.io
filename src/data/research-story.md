@@ -44,10 +44,12 @@ We extended **neural KKL observers to non autonomous systems**: a hypernetwork g
 - **Agentic search as a POMDP** *(in progress)*: framing an agent's search over information as a partially observable decision problem. What to look at next becomes a decision under uncertainty instead of a fixed retrieval pipeline.
 - **Open source for Open Design** *(in progress)*: contributing to the Open Design open source project. More details once the first contributions land.
 
-## Research Questions I Care About
+## Research Interests
 
-1. **Cross modal attention.** How do you let a model attend to information from a modality different from the one it was trained on?
-2. **Human in the loop.** How do agents decide what information to surface, and when to ask a human? Active selection, composability, uncertainty.
-3. **System modeling.** Modeling the dynamics of a system and modeling the *decision making* inside that system as two linked problems.
-4. **Cross scale information extraction.** Pulling signal out of data that lives at very different temporal or physical scales.
-5. **Building big systems.** End to end pipelines from sensors to language, from training to deployment.
+My core methods are **search, diffusion and reinforcement learning**, and I care about how systems built from them actually work end to end. I want to apply them to problems where decisions are expensive and the search space is huge: hardware architecture design, biology and chemistry.
+
+1. **Search, diffusion and RL as one toolbox.** Treating generation as sequential decision making, as in GFlowNet style samplers and work like *LLM-to-Flow Distillation*. How do you get a model to explore a huge space well instead of collapsing onto one mode?
+2. **Generative design for hardware and science.** This direction came out of exploring diffusion for AI hardware: diffusion LLM systems, fault resilience and chip placement. The same ideas carry over to designing molecules and biological systems.
+3. **Decision modeling.** Modeling the dynamics of a system and the *decision making* inside that system as two linked problems. Agentic search, framed as a POMDP, is my current testbed.
+4. **Information across scales.** Aggregating signal hierarchically across very different temporal or physical scales. Multi scale structure is where a lot of real world data hides its meaning.
+5. **Information composability.** Deciding what to query and what to append, for both agents and humans in the loop. Good systems choose their next piece of information, they don't just retrieve it.
