@@ -356,3 +356,19 @@
   .story-grid { grid-template-columns: 13rem minmax(0, 1fr); column-gap: 3.5rem; }
   .story-main { max-width: 52rem; margin: 0; }
 }
+.story-chip {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--blog-mono);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--blog-rule);
+  border-radius: 999px;
+  color: var(--blog-muted);
+}
+.story-chip.is-active,
+.story-chip:hover { color: var(--blog-ink); border-color: var(--blog-ink); }
+@media (min-width: 2000px) {
+  .story-main { max-width: 56rem; }
+  .story-main .prose { font-size: 1.1rem; }
+}
