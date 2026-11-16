@@ -211,6 +211,9 @@ const Homepage: React.FC<HomepageProps> = ({ theme }) => {
                 <p className="g-label">No. {String(i + 1).padStart(2, '0')} · {pub.year}</p>
                 <h3 className="g-placard-title text-[1.12rem] mt-3">{pub.title}</h3>
                 <p className="g-serif italic g-soft text-sm mt-2">{pub.venue}</p>
+                {pub.earlierVersion && (
+                  <p className="g-muted text-xs mt-2">Earlier version: <a href={pub.earlierVersion.url} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-[var(--gold)]">{pub.earlierVersion.label}</a></p>
+                )}
                 <p className="g-muted text-xs leading-relaxed mt-3"><Authors authors={pub.authors} /></p>
                 {isExpanded && <p className="g-serif g-soft text-sm leading-relaxed mt-4 border-l-2 pl-3 border-[var(--gold)]">{pub.abstract}</p>}
                 <div className="flex flex-wrap gap-2 mt-auto pt-5">

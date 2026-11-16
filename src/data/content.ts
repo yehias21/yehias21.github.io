@@ -85,8 +85,8 @@ export const EXPERIENCE: Experience[] = [
   },
   {
     id: "ex1",
-    company: "AIQ Intelligence (G42 / ADNOC)",
-    role: "Research Scientist",
+    company: "AIQ Intelligence (G42 × ADNOC)",
+    role: "Research Intern",
     period: "May 2025 – Apr 2026",
     location: "Abu Dhabi, UAE",
     description: [
@@ -131,7 +131,7 @@ export const EXPERIENCE: Experience[] = [
   {
     id: "ex5",
     company: "DELL Technologies",
-    role: "Software Engineer (Research)",
+    role: "Research Intern (Software Engineering)",
     period: "Sept 2022 – Aug 2023",
     location: "Cairo, Egypt",
     description: [
@@ -161,21 +161,13 @@ export const PUBLICATIONS: Publication[] = [
     abstract: "The extended version of HyperKKL. A fading-memory summary of the input history drives a low-rank (LoRA) hypernetwork that adapts the decoder of a learned KKL observer, backed by fading-memory theory and error bounds. Alongside it we built HyperKKL-Bench 2.0, a state-estimation benchmark of 13 input-driven plants with model mismatch and heavy-tailed noise, 7 autonomous systems and real-data tracks (the v1 data is public on Hugging Face).",
     tags: ["Dynamical Systems", "Observers", "Hypernetworks", "Benchmarks"],
     link: "https://github.com/yehias21/HyperKKL/tree/tmlr",
-    comment: "In preparation"
-  },
-  {
-    id: "hyperkkl",
-    title: "HyperKKL: Enabling Non-Autonomous State Estimation through Dynamic Weight Conditioning",
-    authors: ["Yahia Salaheldin Shaaban", "Salem Lahlou", "Abdelrahman Sayed Sayed"],
-    venue: "ICLR 2026 Workshop on AI and PDE",
-    year: 2026,
-    abstract: "Extends learning-based KKL observers to controlled non-autonomous nonlinear systems via hypernetwork-based input conditioning, producing time-varying transformation maps that track the attractor geometry under forcing.",
-    tags: ["Dynamical Systems", "Observers", "Hypernetworks"],
-    link: "https://github.com/yehias21/HyperKKL",
-    bibtex: `@inproceedings{shaaban2026hyperkkl,
-  title={HyperKKL: Enabling Non-Autonomous State Estimation through Dynamic Weight Conditioning},
-  author={Shaaban, Yahia Salaheldin and Lahlou, Salem and Sayed, Abdelrahman Sayed},
-  booktitle={ICLR 2026 Workshop on AI and PDE},
+    pdf: "https://arxiv.org/abs/2603.29744",
+    comment: "In preparation",
+    earlierVersion: { label: "ICLR 2026 Workshop on AI and PDE", url: "https://arxiv.org/abs/2602.22630" },
+    bibtex: `@article{shaaban2026hyperkkltmlr,
+  title={HyperKKL: Learning KKL Observers for Non-Autonomous Nonlinear Systems via Hypernetwork-Based Input Conditioning},
+  author={Shaaban, Yahia Salaheldin and Sayed, Abdelrahman Sayed and Niazi, M. Umar B. and Johansson, Karl Henrik},
+  journal={arXiv preprint arXiv:2603.29744},
   year={2026}
 }`
   },
@@ -745,7 +737,7 @@ export const NEWS: NewsItem[] = [
   {
     id: "n-aiq-intern-2025",
     date: "2025-05-01",
-    title: "Joined AIQ Intelligence as a research scientist",
+    title: "Joined AIQ Intelligence as a research intern",
     body: "Worked on time-series foundation models for oil-well drilling sensor data as part of my M.Sc. thesis, through April 2026.",
     tag: "Career"
   }
