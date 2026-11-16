@@ -81,7 +81,7 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
           {intro && <p className="blog-serif blog-muted text-[1.05rem] max-w-[34rem] mx-auto mt-4">{intro}</p>}
         </header>
 
-        <div className="blog-grid mt-10 xl:mt-14">
+        <div className="story-grid mt-10 xl:mt-14">
           <aside className="hidden xl:block">
             <nav className="sticky top-24" aria-label="Years">
               <ul>
@@ -100,7 +100,7 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
             </nav>
           </aside>
 
-          <div className="min-w-0">
+          <div className="story-main min-w-0">
             <ol className="story-timeline">
               {chapters.map(c => (
                 <li key={c.id} id={c.id} className="story-chapter scroll-mt-28">
@@ -130,7 +130,6 @@ const ResearchStory: React.FC<ResearchStoryProps> = ({ theme }) => {
             </div>
           </div>
 
-          <aside className="hidden xl:block" />
         </div>
       </article>
     </div>

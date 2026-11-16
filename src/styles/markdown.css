@@ -348,3 +348,11 @@
   .story-chapter { padding-left: 1.25rem; }
   .story-title { font-size: 1.15rem; }
 }
+
+/* Research story: wider reading column than blog posts (index | text). */
+.story-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.story-main { max-width: 50rem; width: 100%; margin: 0 auto; }
+@media (min-width: 1280px) {
+  .story-grid { grid-template-columns: 13rem minmax(0, 1fr); column-gap: 3.5rem; }
+  .story-main { max-width: 52rem; margin: 0; }
+}
